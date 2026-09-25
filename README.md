@@ -6,7 +6,7 @@
 - Nothing leaves your computer
 - No signup
 
-**Try it:** https://labfile0-eng.github.io/ai-spend-doctor/
+**Try it:** https://aispenddoctor.com/
 
 ## What it checks
 
