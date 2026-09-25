@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta property="og:title" content="Is your AI bill healthy?">
+<meta property="og:description" content="Drop your Claude or OpenAI usage file and find out in 30 seconds. Runs entirely in your browser. Nothing leaves your computer.">
+<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style>
+<title>AI Spend Doctor</title>
+<meta name="description" content="Is your AI bill healthy? Drop your Claude or OpenAI usage file and find out in 30 seconds. Private, no signup, runs in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
+  --accent:#0b7185; --accent-ink:#ffffff;
+  --bad:#b3401f; --bad-soft:#fbe7e1; --warn:#8a5a00; --warn-soft:#f8eed4; --good:#1d6b45; --good-soft:#e1f1e8;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --body:"IBM Plex Sans","Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
+  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
+  --good:#6fd39e; --good-soft:#12301f;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
+  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
+  --good:#6fd39e; --good-soft:#12301f;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-inline:16px;padding-block:40px 72px}
+.wrap{max-width:760px;margin:0 auto;display:grid;gap:28px}
+.hero{display:grid;gap:12px;text-align:left}
+h1{font:800 clamp(34px,6.5vw,58px)/1.02 var(--display);margin:0;letter-spacing:-.015em;text-wrap:balance}
+.sub{margin:0;font-size:18px;color:var(--muted);max-width:52ch}
+.brand{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.private{list-style:none;margin:0;padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:15px;color:var(--muted);background:var(--good-soft);border-radius:10px}
+.private b{color:var(--good);font-weight:600}
+.private li{color:var(--ink);font-weight:500}
+.private li::before{content:"\2713";color:var(--good);font-weight:700;margin-right:7px}
+details#where summary{cursor:pointer;font-weight:600;font-size:15px}
+.where{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:10px;font-size:14px}
+.where ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.where a{color:var(--accent);font-weight:600}
+@media (max-width:560px){.where{grid-template-columns:1fr}}
+.share{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.share button.main{font:600 15px var(--body);border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;cursor:pointer}
+.share button.main:hover{border-color:var(--accent)}
+.trust{display:flex}
+.trust b{color:var(--ink);font-weight:600}
+.trust a{color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:18px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:600 14px var(--body);padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab small{font:500 11px var(--mono);opacity:.75;margin-left:4px}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font:600 14px var(--mono);color:var(--ink)}
+ol.steps li div{padding-top:4px}
+ol.steps a{color:var(--accent);font-weight:600}
+kbd{font:500 13px var(--mono);background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.drop{border:2px dashed var(--accent);border-radius:12px;padding:26px 16px;text-align:center;display:grid;gap:6px;cursor:pointer;background:var(--sunk);transition:background .15s}
+.drop:hover,.drop.over,.drop:focus-visible{background:var(--surface);outline:none}
+.drop strong{font:700 18px var(--display)}
+.drop span{font-size:14px;color:var(--muted)}
+.status{font-size:14px;color:var(--muted);margin:0}
+#status:empty{display:none}
+.status.err{color:var(--bad)}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:600 14px var(--body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+button:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* result */
+.verdict{border-radius:14px;padding:22px;display:grid;gap:8px;border:1px solid var(--line)}
+.verdict.bad{background:var(--bad-soft);border-color:transparent}
+.verdict.warn{background:var(--warn-soft);border-color:transparent}
+.verdict.good{background:var(--good-soft);border-color:transparent}
+.verdict .label{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.verdict.bad .label{color:var(--bad)} .verdict.warn .label{color:var(--warn)} .verdict.good .label{color:var(--good)}
+.verdict h2{font:800 clamp(26px,4.6vw,40px)/1.08 var(--display);margin:0;text-wrap:balance}
+.verdict p{margin:0;color:var(--ink)}
+.verdict .per{font:500 15px var(--mono);color:var(--muted)}
+.example-tag{justify-self:start;display:inline-block;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--sunk);color:var(--muted)}
+h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.finds{display:grid;gap:10px}
+.find{display:grid;grid-template-columns:5px 1fr auto;gap:0 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.find .bar{background:var(--bad)} .find.check .bar{background:var(--warn)}
+.find .t{padding:13px 0;display:grid;gap:3px;min-width:0}
+.find .t b{font-weight:600}
+.find .t span{font-size:14px;color:var(--muted)}
+.find .m{padding:13px 16px 13px 0;text-align:right;font:600 18px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.find .m small{display:block;font:400 12px var(--mono);color:var(--muted)}
+.find:not(.check) .m{color:var(--bad)}
+@media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
+.chart svg{width:100%;height:auto;display:block}
+.premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
+.premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
+.premium p{margin:0;opacity:.88;max-width:56ch}
+.premium .price{font:600 15px var(--mono)}
+.premium button{font:600 15px var(--body);border-radius:10px;border:0;background:var(--bg);color:var(--ink);padding:11px 18px;cursor:pointer;justify-self:start}
+.premium .addr{font:500 15px var(--mono);background:rgba(127,127,127,.2);padding:8px 10px;border-radius:6px;user-select:all;word-break:break-all}
+.again{display:flex;gap:16px;flex-wrap:wrap}
+.foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
+.foot p{margin:0}
+details summary{cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="brand">AI Spend Doctor</div>
+    <h1>Is your AI bill healthy?</h1>
+    <p class="sub">Find out in 30 seconds.</p>
+    <ul class="private" aria-label="Privacy">
+      <li>Runs entirely in your browser</li><li>Nothing leaves your computer</li><li>No signup</li>
+    </ul>
+  </section>
+
+  <section class="card" id="start" aria-label="Check your usage file">
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose your usage CSV file">
+      <strong>Drag your usage file here</strong>
+      <span>or click to choose it</span>
+      <input type="file" id="file" accept=".csv,text/csv" hidden>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+    <details id="where">
+      <summary>Where do I find this file?</summary>
+      <div class="where">
+        <div><b>Claude</b>
+          <ol><li>Open <a href="https://platform.claude.com" target="_blank" rel="noopener">platform.claude.com</a></li><li>Click <kbd>Cost</kbd>, pick last month</li><li>Click the export button</li></ol></div>
+        <div><b>OpenAI</b>
+          <ol><li>Open <a href="https://platform.openai.com/usage" target="_blank" rel="noopener">platform.openai.com/usage</a></li><li>Pick last month, click <kbd>Export</kbd></li><li>Choose cost data, download</li></ol></div>
+      </div>
+    </details>
+    <p class="status">No file handy? <button class="linkbtn" type="button" id="sample">See an example result</button></p>
+  </section>
+
+  <section id="result" hidden style="display:grid;gap:18px" aria-live="polite">
+    <div class="verdict" id="verdict"></div>
+    <div id="findsWrap" style="display:grid;gap:10px"><h3 id="findsTitle">Confirmed</h3><div class="finds" id="finds"></div></div>
+    <div id="checkWrap" style="display:grid;gap:10px"><h3>Worth checking</h3><div class="finds" id="checks"></div></div>
+    <div class="chart" id="chart"></div>
+    <div class="share"><button class="main" type="button" id="share">Copy this result for a colleague</button><button class="linkbtn" type="button" id="again">Check another file</button><span id="shared" class="status" aria-live="polite"></span></div>
+  </section>
+
+  <section class="premium" aria-label="Notify me">
+    <h2>Want us to tell you when your AI spend becomes unhealthy?</h2>
+    <p>A runaway agent or a retry loop can burn a month of budget overnight. We are building a daily check that warns you the same day.</p>
+    <button type="button" id="wait">I want this</button>
+    <p id="waitbox" hidden>Great. Tell the person who sent you this page, and you will be first in line.</p>
+  </section>
+
+  <footer class="foot">
+    <p>How it works: the page reads your file with JavaScript on your own machine. It makes no network requests with your data. Confirmed problems (red) come straight from your file and today's list prices. Problems to check (yellow) show how much money a pattern touches, not a promise of savings.</p>
+    <p>Prices checked 25 September 2026: Claude Opus 4 and 4.1 cost $15 input and $75 output per million tokens, Opus 5.5 costs $4 and $20. Opus 4.5 to 5 cost $5 and $25. Sonnet 4.x costs $3 and $15, Sonnet 5 costs $2 and $10. Cached input costs a tenth of normal input or less. Batch requests cost half. Test quality before switching models.</p>
+    <p>We never upload your AI usage file, and this page has no analytics.</p>
+    <p>© 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs. <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">View source</a></p>
+  </footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+const PUBLIC_URL = "https://labfile0-eng.github.io/ai-spend-doctor/";
+const $ = id => document.getElementById(id);
+const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+const pct = n => Math.round(n * 100) + "%";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+
+
+// ---------------------------------------------------------------- CSV
+function parseCSV(text) {
+  const rows = []; let row = [], cell = "", q = false;
+  const sep = (text.split("\n")[0].match(/;/g) || []).length > (text.split("\n")[0].match(/,/g) || []).length ? ";" : ",";
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === sep || c === "\t") { row.push(cell); cell = ""; }
+    else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += c;
+  }
+  if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim() !== ""));
+}
+const num = v => { const s = String(v ?? "").replace(/[$,\s]/g, ""); return s === "" ? NaN : Number(s); };
+const ROLES = {
+  date:   [/^(date|day|usage_date|start_time|bucket|start|period|time|timestamp|starting_at)$/i, /date|day|time|bucket|period/i],
+  model:  [/^(model|model_name|model_id|line_item|line item|description|product|sku)$/i, /model|line.?item|description|product|sku/i],
+  cost:   [/^(cost|cost_usd|amount|amount_usd|usd|spend|total_cost|cost \(usd\)|amount \(usd\))$/i, /^(?!.*(type|currency|unit))(?=.*(cost|amount|usd|spend|charge))/i],
+  input:  [/^(input_tokens|prompt_tokens|uncached_input_tokens|input_uncached_tokens|input)$/i, /^(?!.*(cach|audio|image))(?=.*(input|prompt))/i],
+  cached: [/^(cached_input_tokens|input_cached_tokens|cache_read_input_tokens|cache_read_tokens|cached_tokens)$/i, /cache.?read|cached/i],
+  cwrite: [/^(cache_creation_input_tokens|cache_write_tokens)$/i, /cache.?(creation|write)/i],
+  output: [/^(output_tokens|completion_tokens|output)$/i, /output|completion/i],
+  batch:  [/^(batch|is_batch|service_tier)$/i, /batch|tier/i],
+};
+function detect(header) {
+  const used = new Set(), m = {};
+  for (const pass of [0, 1]) for (const role of Object.keys(ROLES)) {
+    if (m[role] != null) continue;
+    const i = header.findIndex((h, j) => !used.has(j) && ROLES[role][pass].test(h.trim()));
+    if (i >= 0) { m[role] = i; used.add(i); }
+  }
+  return m;
+}
+
+// ---------------------------------------------------------------- prices (per million tokens, checked 25 Sep 2026)
+const norm = s => String(s).toLowerCase().replace(/[\s._]+/g, "-");
+const PRICES = [
+  {re: /opus-4-1|opus-4(-20\d\d|$)/, i: 15, o: 75}, {re: /opus-5-5/, i: 4, o: 20}, {re: /opus-4-[5-8]|opus-5(-20\d\d|$)/, i: 5, o: 25},
+  {re: /fable|mythos/, i: 10, o: 50}, {re: /sonnet-5/, i: 2, o: 10}, {re: /sonnet-4/, i: 3, o: 15}, {re: /haiku-4-5/, i: 1, o: 5},
+  {re: /haiku-3-5/, i: 0.8, o: 4}, {re: /gpt-6-astra/, i: 10, o: 50}, {re: /gpt-6-sol/, i: 2, o: 10}, {re: /gpt-6-luna/, i: 0.1, o: 0.5},
+];
+const LEGACY = [
+  {re: /opus-4-1|opus-4(-20\d\d|$)/, now: "Claude Opus 5.5", keep: 4 / 15},
+  {re: /opus-4-[5-8]|opus-5(-20\d\d|$)/, now: "Claude Opus 5.5", keep: 4 / 5},
+  {re: /sonnet-4/, now: "Claude Sonnet 5", keep: 2 / 3},
+];
+const PREMIUM = /opus|fable|mythos|astra|cyber/;
+const guess = m => (PRICES.find(p => p.re.test(norm(m))) || {i: 3, o: 15});
+
+// ---------------------------------------------------------------- normalizers for real exports
+// "Claude Sonnet 5 Usage - Input Tokens", "gpt-6-sol, cached input" -> the model name only
+function cleanModel(raw) {
+  let s = String(raw).split(/,|\||\s[-–]\s/)[0].trim();
+  s = s.replace(/\s+(usage|input|output|cached?|cache\s+(read|write|creation)|tokens?|batch)\b.*$/i, "").trim();
+  return s || "unknown";
+}
+// "2026-09-01", "2026-09-01T00:00:00Z", Unix seconds or milliseconds, "09/01/2026", "Sep 1, 2026" -> "2026-09-01"
+function toDay(v) {
+  const s = String(v ?? "").trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+  if (/^\d{10}(\.\d+)?$/.test(s)) return new Date(Number(s) * 1000).toISOString().slice(0, 10);
+  if (/^\d{13}$/.test(s)) return new Date(Number(s)).toISOString().slice(0, 10);
+  const t = Date.parse(s);
+  return isNaN(t) ? "" : new Date(t - new Date(t).getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+}
+
+// ---------------------------------------------------------------- read file into a profile
+function profile(header, rows) {
+  const map = detect(header), byModel = {}, byDay = {}, byDayModel = {};
+  let batchSpend = 0, tokens = false, costSeen = false;
+  const cachedSeparate = map.cached != null && (/cache_read/i.test(header[map.cached]) || (map.input != null && /uncached/i.test(header[map.input])));
+  const cents = map.cost != null && /cent/i.test(header[map.cost]);
+  for (const r of rows) {
+    const raw = (map.model != null ? r[map.model] : "") || "all models", low = raw.toLowerCase();
+    const model = cleanModel(raw);
+    const kind = /cached|cache read/.test(low) ? "cached" : /output|completion/.test(low) ? "output" : /input|prompt/.test(low) ? "input" : null;
+    const m = byModel[model] ??= {model, spend: 0, input: 0, cached: 0, output: 0, ci: 0, cc: 0, co: 0};
+    const t = k => map[k] != null ? num(r[map[k]]) : NaN;
+    const inp = t("input"), cac = t("cached"), out = t("output"), cw = t("cwrite");
+    if (!isNaN(inp)) { m.input += inp; tokens = true; } if (!isNaN(cac)) { m.cached += cac; tokens = true; }
+    if (!isNaN(out)) { m.output += out; tokens = true; } if (!isNaN(cw)) m.input += cw;
+    let cost = t("cost"); if (cents && !isNaN(cost)) cost /= 100;
+    if (isNaN(cost) && tokens) { const p = guess(model); cost = ((isNaN(inp) ? 0 : inp) * p.i + (isNaN(cac) ? 0 : cac) * p.i * 0.1 + (isNaN(out) ? 0 : out) * p.o + (isNaN(cw) ? 0 : cw) * p.i * 1.25) / 1e6; }
+    else if (!isNaN(cost)) costSeen = true;
+    if (isNaN(cost)) continue;
+    m.spend += cost;
+    if (kind === "input") m.ci += cost; else if (kind === "cached") m.cc += cost; else if (kind === "output") m.co += cost;
+    const b = map.batch != null ? String(r[map.batch]).toLowerCase() : low;
+    if (b === "true" || b === "1" || b.includes("batch")) batchSpend += cost;
+    if (map.date != null) {
+      const d = toDay(r[map.date]);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) { byDay[d] = (byDay[d] || 0) + cost; (byDayModel[d] ??= {})[model] = (byDayModel[d][model] || 0) + cost; }
+    }
+  }
+  const days = Object.keys(byDay).sort();
+  const span = days.length ? Math.round((Date.parse(days.at(-1)) - Date.parse(days[0])) / 864e5) + 1 : 30;
+  return {models: Object.values(byModel).filter(m => m.spend > 0), byDay, byDayModel, days, span, batchSpend, tokens, cachedSeparate, priced: !costSeen};
+}
+
+// ---------------------------------------------------------------- the check
+function check(P) {
+  const total = P.models.reduce((s, m) => s + m.spend, 0);
+  const finds = [], checks = [];
+  let over = 0, lastDayOver = 0;
+  const last = P.days.at(-1);
+  for (const m of P.models) {
+    const L = LEGACY.find(x => x.re.test(norm(m.model)));
+    if (!L) continue;
+    const extra = m.spend * (1 - L.keep); over += extra;
+    if (last) lastDayOver += ((P.byDayModel[last] || {})[m.model] || 0) * (1 - L.keep);
+    finds.push({title: `You paid ${fmt(extra)} extra for ${m.model}`,
+      note: `${L.now} is the current model of the same tier and costs ${pct(1 - L.keep)} less at list price. You spent ${fmt(m.spend)} on the older one.`,
+      amt: extra});
+  }
+  // days that jumped (factual, not counted as overpaid)
+  const vals = P.days.map(d => P.byDay[d]);
+  if (vals.length >= 7) {
+    const med = [...vals].sort((a, b) => a - b)[Math.floor(vals.length / 2)];
+    for (const d of P.days) if (P.byDay[d] > 3 * med && P.byDay[d] - med > 5)
+      checks.push({title: `${d}: spend jumped to ${fmt(P.byDay[d])}`, note: `A normal day in this file is ${fmt(med)}. Retry loops and runaway agents look like this.`, amt: P.byDay[d] - med, unit: "above normal"});
+    P.spike = new Set(checks.map(c => c.title.slice(0, 10)));
+  }
+  // input paid at full price
+  let fullInput = null, cacheShare = null;
+  const ci = P.models.reduce((s, m) => s + m.ci, 0), cc = P.models.reduce((s, m) => s + m.cc, 0);
+  if (ci + cc > 0) { fullInput = ci; cacheShare = (cc / 0.1) / (cc / 0.1 + ci); }
+  else if (P.tokens) {
+    let fullI = 0, spendI = 0, tokIn = 0, tokC = 0;
+    for (const m of P.models) {
+      const p = guess(m.model), uncached = P.cachedSeparate ? m.input : Math.max(0, m.input - m.cached);
+      const listIn = uncached * p.i / 1e6, listAll = listIn + m.cached * p.i * 0.1 / 1e6 + m.output * p.o / 1e6;
+      if (listAll > 0) { fullI += m.spend * listIn / listAll; }
+      tokIn += uncached; tokC += m.cached;
+    }
+    fullInput = fullI; cacheShare = tokC / Math.max(1, tokIn + tokC);
+  }
+  if (fullInput != null && cacheShare < 0.5 && fullInput > 0.1 * total)
+    checks.push({title: `Only ${pct(cacheShare)} of your input came from cache`, note: `You paid ${fmt(fullInput)} for input at full price. Repeated input (system prompts, tools, shared documents) can be cached and costs a tenth.`, amt: fullInput, unit: "input at full price"});
+  const batchShare = total ? P.batchSpend / total : 0;
+  if (batchShare < 0.05 && total > 50)
+    checks.push({title: `${pct(batchShare)} of your spend used batch pricing`, note: "Jobs that can wait a few hours (evals, backfills, nightly runs) cost half through the Batch API.", amt: total * (1 - batchShare), unit: "at real-time prices"});
+  const prem = P.models.filter(m => PREMIUM.test(norm(m.model))).reduce((s, m) => s + m.spend, 0);
+  if (total && prem / total > 0.6)
+    checks.push({title: `${pct(prem / total)} of your spend went to top-tier models`, note: "Simple calls such as classification, extraction and short rewrites usually run fine on a smaller model.", amt: prem, unit: "on top-tier models"});
+  return {total, over, lastDayOver, last, finds, checks};
+}
+
+// ---------------------------------------------------------------- render
+function show(P, isExample) {
+  const R = check(P);
+  const share = R.total ? R.over / R.total : 0;
+  const cls = R.over > 0.5 ? "bad" : R.checks.length ? "warn" : "good";
+  const period = P.days.length ? `${P.days[0]} to ${P.days.at(-1)}` : "this file";
+  const unknown = P.models.filter(m => !PRICES.some(p => p.re.test(norm(m.model)))).map(m => m.model);
+  const tag = isExample ? '<span class="example-tag">Example result, made-up company</span>' : "";
+  const nConf = R.finds.length, nCheck = R.checks.length, n = nConf + nCheck;
+  const probs = k => `${k} problem${k === 1 ? "" : "s"}`;
+  let h;
+  if (cls === "bad") h = `<span class="label">Unhealthy</span>${tag}<h2>Your AI bill has ${probs(n)}.</h2>
+      <p>${nConf} confirmed${nCheck ? `, ${nCheck} to check` : ""}. The confirmed ${nConf === 1 ? "one costs" : "ones cost"} you <b>${fmt(R.over)}</b>, ${pct(share)} of the ${fmt(R.total)} you spent from ${period}.</p>` +
+      (R.last && R.lastDayOver > 0.5 ? `<p class="per">On ${R.last} alone: ${fmt(R.lastDayOver)}. At this rate: ${fmt(R.over / P.span * 365)} a year.</p>` : "");
+  else if (cls === "warn") h = `<span class="label">Needs attention</span>${tag}<h2>No confirmed problems. ${probs(nCheck)} to check.</h2>
+      <p>You spent ${fmt(R.total)} from ${period}.${unknown.length ? "" : " You already use current model versions."}</p>`;
+  else h = `<span class="label">Healthy</span>${tag}<h2>Your AI bill looks healthy.</h2><p>You spent ${fmt(R.total)} from ${period} and we found nothing wrong.</p>`;
+  if (unknown.length) h += `<p class="per">No price data yet for: ${esc(unknown.slice(0, 4).join(", "))}${unknown.length > 4 ? "…" : ""}. We checked the rest.</p>`;
+  $("verdict").className = "verdict " + cls; $("verdict").innerHTML = h;
+  const item = (f, check) => `<div class="find${check ? " check" : ""}"><div class="bar"></div><div class="t"><b>${esc(f.title)}</b><span>${esc(f.note)}</span></div>
+      <div class="m">${fmt(f.amt)}<small>${esc(f.unit || "extra paid")}</small></div></div>`;
+  $("finds").innerHTML = R.finds.map(f => item(f)).join(""); $("findsWrap").hidden = !R.finds.length;
+  $("checks").innerHTML = R.checks.map(f => item(f, true)).join(""); $("checkWrap").hidden = !R.checks.length;
+  chart(P);
+  LAST_TEXT = [`I ran our AI bill through AI Spend Doctor (it runs in the browser, nothing is uploaded).`,
+    n ? `It found ${probs(n)}${nConf ? `, ${nConf} confirmed, costing ${fmt(R.over)} from ${period}` : ""}:` : `It says the bill looks healthy.`,
+    ...R.finds.map(f => `- ${f.title}`), ...R.checks.map(f => `- To check: ${f.title}`),
+    isExample ? "(This is the example result, not our data.)" : "", `Check yours: ${PUBLIC_URL}`].filter(Boolean).join("\n");
+  $("shared").textContent = "";
+  $("result").hidden = false; $("start").hidden = true;
+  $("result").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start"});
+}
+function chart(P) {
+  const box = $("chart");
+  if (P.days.length < 3) { box.hidden = true; return; } box.hidden = false;
+  const W = 640, H = 150, pl = 46, pr = 8, pt = 22, pb = 22, vals = P.days.map(d => P.byDay[d]), max = Math.max(...vals) || 1;
+  const p = 10 ** Math.floor(Math.log10(max)), step = [0.1, 0.2, 0.25, 0.5, 1, 2, 2.5, 5, 10].map(x => x * p).find(x => x >= max / 4), top = Math.ceil(max / step) * step;
+  const bw = (W - pl - pr) / vals.length, mono = 'font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)"';
+  let g = `<text x="0" y="12" ${mono}>Spend per day</text>`;
+  for (let v = 0; v <= top + 1e-9; v += step) { const y = pt + (H - pt - pb) * (1 - v / top);
+    g += `<line x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl - 6}" y="${y + 4}" text-anchor="end" ${mono}>$${v >= 1000 ? +(v / 1000).toFixed(1) + "k" : +v.toFixed(2)}</text>`; }
+  vals.forEach((v, i) => { const h = (H - pt - pb) * v / top, sp = P.spike && P.spike.has(P.days[i]);
+    g += `<rect x="${(pl + i * bw + bw * 0.15).toFixed(1)}" y="${(H - pb - h).toFixed(1)}" width="${(bw * 0.7).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${sp ? "var(--bad)" : "var(--accent)"}" opacity="${sp ? 1 : 0.7}"><title>${P.days[i]}: ${fmt(v)}</title></rect>`; });
+  g += `<text x="${pl}" y="${H - 5}" ${mono}>${P.days[0]}</text><text x="${W - pr}" y="${H - 5}" text-anchor="end" ${mono}>${P.days.at(-1)}</text>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Spend per day">${g}</svg>`;
+}
+function setStatus(msg, err) { $("status").textContent = msg; $("status").classList.toggle("err", !!err); }
+function load(text, name, isExample) {
+  const rows = parseCSV(text);
+  if (rows.length < 2) return setStatus("This file looks empty. Export at least a few days of usage.", true);
+  const P = profile(rows[0].map(h => h.trim()), rows.slice(1));
+  if (!P.models.length) return setStatus("We could not find costs or token counts in this file. Is it the usage or cost export? Try the steps above again.", true);
+  show(P, isExample);
+}
+
+// ---------------------------------------------------------------- example
+function exampleCSV() {
+  let s = "date,model,input_tokens,cache_read_input_tokens,output_tokens,cost_usd\n", seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, start = Date.UTC(2026, 7, 1);
+  const models = [["claude-opus-4-1", 15, 75, 8.4e6, 0.6e6, 0.8e6], ["claude-sonnet-5", 2, 10, 51e6, 9e6, 5e6], ["claude-haiku-4-5", 1, 5, 40e6, 12e6, 3e6]];
+  for (let d = 0; d < 30; d++) {
+    const t = start + d * 864e5, day = new Date(t).toISOString().slice(0, 10), wk = [0, 6].includes(new Date(t).getUTCDay()) ? 0.55 : 1;
+    for (const [m, pi, po, i0, c0, o0] of models) {
+      const k = wk * (d === 17 ? 4.2 : 1) * (0.85 + rnd() * 0.3), i = Math.round(i0 * k), c = Math.round(c0 * k), o = Math.round(o0 * k);
+      s += `${day},${m},${i},${c},${o},${((i * pi + c * pi * 0.1 + o * po) / 1e6).toFixed(2)}\n`;
+    }
+  }
+  return s;
+}
+
+// ---------------------------------------------------------------- events
+const drop = $("drop"), file = $("file");
+drop.onclick = () => file.click();
+drop.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); file.click(); } };
+["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => { const f = e.dataTransfer.files[0]; if (f) read(f); });
+file.onchange = () => { if (file.files[0]) read(file.files[0]); };
+function read(f) {
+  if (f.size > 50e6) return setStatus("That file is over 50 MB. Export one month at a time.", true);
+  const r = new FileReader(); r.onload = () => load(String(r.result), f.name, false);
+  r.onerror = () => setStatus("We could not read that file. Export it again as CSV.", true); r.readAsText(f);
+}
+$("sample").onclick = () => load(exampleCSV(), "example", true);
+$("again").onclick = () => { $("result").hidden = true; $("start").hidden = false; file.value = ""; setStatus(""); };
+let LAST_TEXT = "";
+$("share").onclick = async () => {
+  try { await navigator.clipboard.writeText(LAST_TEXT); $("shared").textContent = "Copied. Paste it into Slack or email."; }
+  catch { $("shared").textContent = "Copy did not work here. Select the result above and copy it by hand."; }
+};
+$("wait").onclick = () => { $("waitbox").hidden = false; $("wait").hidden = true; };
+})();
+</script>
+
+</body>
+</html>
