@@ -265,18 +265,21 @@ function profile(header, rows) {
   const map = detect(header), byModel = {}, byDay = {}, byDayModel = {};
   let batchSpend = 0, tokens = false, costSeen = false;
   const cachedSeparate = map.cached != null && (/cache_read/i.test(header[map.cached]) || (map.input != null && /uncached/i.test(header[map.input])));
-  const cents = map.cost != null && /cent/i.test(header[map.cost]);
+  // Anthropic Cost API / cost_report exports give amounts as decimal strings in cents
+  const cents = map.cost != null && (/cent/i.test(header[map.cost]) || header.some(h => /^(cost_type|token_type)$/i.test(h.trim())));
+  const cwCols = header.map((h, i) => /cache.?(creation|write)/i.test(h) ? i : -1).filter(i => i >= 0);
   for (const r of rows) {
     const raw = (map.model != null ? r[map.model] : "") || "all models", low = raw.toLowerCase();
     const model = cleanModel(raw);
     const kind = /cached|cache read/.test(low) ? "cached" : /output|completion/.test(low) ? "output" : /input|prompt/.test(low) ? "input" : null;
     const m = byModel[model] ??= {model, spend: 0, input: 0, cached: 0, output: 0, ci: 0, cc: 0, co: 0};
     const t = k => map[k] != null ? num(r[map[k]]) : NaN;
-    const inp = t("input"), cac = t("cached"), out = t("output"), cw = t("cwrite");
+    const inp = t("input"), cac = t("cached"), out = t("output");
+    const cwVals = cwCols.map(i => num(r[i])).filter(v => !isNaN(v)), cw = cwVals.length ? cwVals.reduce((a, b) => a + b, 0) : NaN;
     if (!isNaN(inp)) { m.input += inp; tokens = true; } if (!isNaN(cac)) { m.cached += cac; tokens = true; }
-    if (!isNaN(out)) { m.output += out; tokens = true; } if (!isNaN(cw)) m.input += cw;
+    if (!isNaN(out)) { m.output += out; tokens = true; } if (!isNaN(cw) && cachedSeparate) m.input += cw;
     let cost = t("cost"); if (cents && !isNaN(cost)) cost /= 100;
-    if (isNaN(cost) && tokens) { const p = guess(model); cost = ((isNaN(inp) ? 0 : inp) * p.i + (isNaN(cac) ? 0 : cac) * p.i * 0.1 + (isNaN(out) ? 0 : out) * p.o + (isNaN(cw) ? 0 : cw) * p.i * 1.25) / 1e6; }
+    if (isNaN(cost) && tokens) { const p = guess(model); cost = ((isNaN(inp) ? 0 : (cachedSeparate ? inp : Math.max(0, inp - (isNaN(cac) ? 0 : cac)))) * p.i + (isNaN(cac) ? 0 : cac) * p.i * 0.1 + (isNaN(out) ? 0 : out) * p.o + (isNaN(cw) ? 0 : cw) * p.i * 1.25) / 1e6; }
     else if (!isNaN(cost)) costSeen = true;
     if (isNaN(cost)) continue;
     m.spend += cost;
