@@ -93,6 +93,16 @@ h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color
 @media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
 .chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
 .chart svg{width:100%;height:auto;display:block}
+.plans{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:stretch}
+@media (max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start}
+.plan .pname{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.plan.pro .pname{color:var(--bg);opacity:.8}
+.plan .pprice{font:800 36px/1 var(--display)}
+.plan .pprice small{font:500 15px var(--body);opacity:.75}
+.plan ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:15px}
+.plan .pbtn{justify-self:start;font:600 15px var(--body);border-radius:10px;padding:10px 16px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
+.plan .pnote{font-size:13px;opacity:.75}
 .premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
 .premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
 .premium p{margin:0;opacity:.88;max-width:56ch}
@@ -145,11 +155,21 @@ details summary{cursor:pointer}
     <div class="share"><button class="main" type="button" id="share">Copy this result for a colleague</button><button class="linkbtn" type="button" id="again">Check another file</button><span id="shared" class="status" aria-live="polite"></span></div>
   </section>
 
-  <section class="premium" aria-label="Notify me">
-    <h2>Want us to tell you when your AI spend becomes unhealthy?</h2>
-    <p>A runaway agent or a retry loop can burn a month of budget overnight. We are building a daily check that warns you the same day.</p>
-    <button type="button" id="wait">I want this</button>
-    <p id="waitbox" hidden>Great. Tell the person who sent you this page, and you will be first in line.</p>
+  <section class="plans" aria-label="Plans">
+    <div class="plan">
+      <div class="pname">Checkup</div>
+      <div class="pprice">Free</div>
+      <ul><li>One-time diagnosis of your usage file</li><li>Confirmed problems and things to check</li><li>Runs in your browser, no signup</li></ul>
+      <a class="pbtn ghost" href="#start">Check a file now</a>
+    </div>
+    <div class="plan pro premium">
+      <div class="pname">Daily Watch</div>
+      <div class="pprice">$29<small> / month</small></div>
+      <ul><li>A check of your Claude and OpenAI spend every day</li><li>Same-day alert when spend jumps or a pricier model shows up</li><li>Always-current price database</li><li>Runs in your own GitHub account, your data stays with you</li></ul>
+      <button type="button" id="wait">Start 14-day free trial</button>
+      <p id="waitbox" hidden>Trials open in October. Tell the person who sent you this page, and you will get one of the first invites.</p>
+      <p class="pnote">A runaway agent or a retry loop can burn a month of budget overnight. Daily Watch tells you the same day.</p>
+    </div>
   </section>
 
   <footer class="foot">
@@ -157,13 +177,14 @@ details summary{cursor:pointer}
     <p>Prices checked 25 September 2026: Claude Opus 4 and 4.1 cost $15 input and $75 output per million tokens, Opus 5.5 costs $4 and $20. Opus 4.5 to 5 cost $5 and $25. Sonnet 4.x costs $3 and $15, Sonnet 5 costs $2 and $10. Cached input costs a tenth of normal input or less. Batch requests cost half. Test quality before switching models.</p>
     <p>We never upload your AI usage file, and this page has no analytics.</p>
     <p>© 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs. <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">View source</a></p>
+    <p>Guides: <a href="/claude-opus-4-1-vs-opus-5-5/" style="color:var(--accent)">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/" style="color:var(--accent)">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/" style="color:var(--accent)">Caching and Batch API savings</a></p>
   </footer>
 </div>
 
 <script>
 (() => {
 "use strict";
-const PUBLIC_URL = "https://labfile0-eng.github.io/ai-spend-doctor/";
+const PUBLIC_URL = "https://aispenddoctor.com/";
 const $ = id => document.getElementById(id);
 const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
 const pct = n => Math.round(n * 100) + "%";
