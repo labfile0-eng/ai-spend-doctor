@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Claude Sonnet 4 vs Sonnet 5: the older one costs 1.5× more</title>
-<meta name="description" content="Claude Sonnet 4.x costs $3 input and $15 output per million tokens. Sonnet 5 costs $2 and $10. Here is what that means for your bill.">
+<title>Claude Sonnet 4 vs Sonnet 5 price: cheaper per token, closer per task</title>
+<meta name="description" content="Claude Sonnet 4.x costs $3 input and $15 output per million tokens, Sonnet 5 costs $2 and $10. With the newer tokenizer the difference for the same work is about 13% at list prices.">
 <link rel="canonical" href="https://aispenddoctor.com/claude-sonnet-4-vs-sonnet-5-price/">
-<meta property="og:title" content="Claude Sonnet 4 vs Sonnet 5: the older one costs 1.5× more"><meta property="og:description" content="Claude Sonnet 4.x costs $3 input and $15 output per million tokens. Sonnet 5 costs $2 and $10. Here is what that means for your bill.">
+<meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/claude-sonnet-4-vs-sonnet-5-price/">
+<meta property="og:title" content="Claude Sonnet 4 vs Sonnet 5 price: cheaper per token, closer per task"><meta property="og:description" content="Claude Sonnet 4.x costs $3 input and $15 output per million tokens, Sonnet 5 costs $2 and $10. With the newer tokenizer the difference for the same work is about 13% at list prices.">
+<meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>:root{
@@ -88,6 +90,16 @@ h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color
 @media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
 .chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
 .chart svg{width:100%;height:auto;display:block}
+.plans{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:stretch}
+@media (max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start}
+.plan .pname{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.plan.pro .pname{color:var(--bg);opacity:.8}
+.plan .pprice{font:800 36px/1 var(--display)}
+.plan .pprice small{font:500 15px var(--body);opacity:.75}
+.plan ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:15px}
+.plan .pbtn{justify-self:start;font:600 15px var(--body);border-radius:10px;padding:10px 16px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
+.plan .pnote{font-size:13px;opacity:.75}
 .premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
 .premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
 .premium p{margin:0;opacity:.88;max-width:56ch}
@@ -111,23 +123,26 @@ td.n{font:500 15px var(--mono);font-variant-numeric:tabular-nums}
 .lead{font-size:19px}
 a{color:var(--accent)}
 .back{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
-</style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much cheaper is Claude Sonnet 5 than Sonnet 4?","acceptedAnswer":{"@type":"Answer","text":"Sonnet 5 is a third cheaper: $2 versus $3 per million input tokens and $10 versus $15 per million output tokens. Put the other way, Sonnet 4 costs 1.5 times more."}},{"@type":"Question","name":"Should I switch from Sonnet 4 to Sonnet 5?","acceptedAnswer":{"@type":"Answer","text":"Usually yes on price. Run your own evaluation set first to confirm output quality for your tasks."}}]}</script>
+table{display:block;overflow-x:auto}.note{background:var(--warn-soft);border-radius:10px;padding:12px 14px}.src{font-size:14px;color:var(--muted)}code{font:500 14px var(--mono);background:var(--sunk);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much cheaper is Claude Sonnet 5 than Sonnet 4?", "acceptedAnswer": {"@type": "Answer", "text": "Per token, a third cheaper: $2 versus $3 per million input tokens and $10 versus $15 per million output tokens. Sonnet 5 uses a newer tokenizer that produces about 30% more tokens for the same text, so for the same work the list-price difference is about 13%."}}, {"@type": "Question", "name": "Should I switch from Sonnet 4 to Sonnet 5?", "acceptedAnswer": {"@type": "Answer", "text": "Decide on your own evaluation: compare quality and token counts on a sample of real prompts. The price difference per task is smaller than the per-token prices suggest."}}]}</script>
 </head><body><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
-<h1>Claude Sonnet 4 vs Sonnet 5: the older one costs 1.5× more</h1>
-<p class="lead">Short answer: Claude Sonnet 4.x costs $3 per million input tokens and $15 per million output tokens. Claude Sonnet 5 costs $2 and $10. Staying on Sonnet 4 means paying 50% more for the same number of tokens.</p>
-<table><thead><tr><th>Model</th><th>Input, per 1M</th><th>Output, per 1M</th><th>vs Sonnet 5</th></tr></thead><tbody>
-<tr><td>Claude Sonnet 4.x</td><td class="n">$3</td><td class="n">$15</td><td class="n">1.5×</td></tr>
-<tr><td>Claude Sonnet 5</td><td class="n">$2</td><td class="n">$10</td><td class="n">1×</td></tr>
+<h1>Claude Sonnet 4 vs Sonnet 5 price: cheaper per token, closer per task</h1>
+<p class="lead">Short answer: Claude Sonnet 4, 4.5 and 4.6 cost $3 per million input tokens and $15 per million output tokens. Claude Sonnet 5 costs $2 and $10, a third less per token. Sonnet 5 uses a newer tokenizer that produces about 30% more tokens for the same text, so for the same work the list-price difference is about 13%, not 33%.</p>
+<table><thead><tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Cache write 5m / 1h</th><th>Tokenizer</th></tr></thead><tbody>
+<tr><td>Claude Sonnet 4 / 4.5 / 4.6</td><td class="n">$3</td><td class="n">$15</td><td class="n">$0.30</td><td class="n">$3.75 / $6</td><td>previous</td></tr>
+<tr><td>Claude Sonnet 5</td><td class="n">$2</td><td class="n">$10</td><td class="n">$0.20</td><td class="n">$2.50 / $4</td><td>newer</td></tr>
 </tbody></table>
-<h2>What it means in dollars</h2>
-<p>At $6,000 a month on Sonnet 4.x, the same tokens on Sonnet 5 would cost about $4,000. That is $2,000 a month, or $24,000 a year, for changing one model name.</p>
-<h2>How to check your own bill</h2>
-<ol><li>Export last month's cost file from the Claude Console.</li><li>Drop it on <a href="/">AI Spend Doctor</a>. Nothing is uploaded.</li><li>You will see how much went to Sonnet 4.x and what it would cost on Sonnet 5.</li></ol>
-<p><a class="cta" href="/">Check your own bill in 30 seconds</a></p>
-<h2>Questions</h2>
-<h3>How much cheaper is Claude Sonnet 5 than Sonnet 4?</h3><p>Sonnet 5 is a third cheaper: $2 versus $3 per million input tokens and $10 versus $15 per million output tokens. Put the other way, Sonnet 4 costs 1.5 times more.</p><h3>Should I switch from Sonnet 4 to Sonnet 5?</h3><p>Usually yes on price. Run your own evaluation set first to confirm output quality for your tasks.</p>
-<p class="foot" style="font-size:13px;color:var(--muted)">List prices checked 25 September 2026 on the official Anthropic pricing page. Test quality on your own tasks before switching models. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
+<p class="src">USD per million tokens, standard tier, global routing.</p>
+<p class="note"><b>Price per token is not price per task.</b> Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, depending on the content (<a href="https://platform.claude.com/docs/en/about-claude/pricing">pricing page</a>). Output length and quality on your own tasks also change the result, so treat the numbers below as a scenario and test on your own prompts.</p>
+<h2>A worked scenario</h2>
+<p>At $6,000 a month on Sonnet 4.x, the same work at Sonnet 5 list prices with 30% more tokens would be about $6,000 × 2/3 × 1.3 ≈ $5,200. The difference, around $800 a month, depends on your content and output length, so measure it on your own prompts.</p>
+<h2>What to do before switching</h2>
+<ol><li>Run a sample of real prompts on both models and compare quality and token counts.</li><li>Check whether your prompts are cached; cache reads are also cheaper on Sonnet 5 ($0.20 versus $0.30).</li><li>Switch one service first and compare the next week's bill.</li></ol>
+<h2>Check your own bill</h2>
+<p>Open your usage or cost CSV in the <a href="/">free checkup</a>. It shows spend per model and, for Sonnet 4.x, a price scenario at Sonnet 5 prices with the tokenizer assumption spelled out.</p>
+<p><a class="cta" href="/">Check your own CSV for free</a></p>
+<h2>Questions</h2><h3>How much cheaper is Claude Sonnet 5 than Sonnet 4?</h3><p>Per token, a third cheaper: $2 versus $3 per million input tokens and $10 versus $15 per million output tokens. Sonnet 5 uses a newer tokenizer that produces about 30% more tokens for the same text, so for the same work the list-price difference is about 13%.</p><h3>Should I switch from Sonnet 4 to Sonnet 5?</h3><p>Decide on your own evaluation: compare quality and token counts on a sample of real prompts. The price difference per task is smaller than the per-token prices suggest.</p>
+<p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
 </article></div></body></html>
