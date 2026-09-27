@@ -1,0 +1,57 @@
+{
+  "schema_version": "0.1-draft",
+  "mode": "synthetic_example",
+  "description": "Fictional data illustrating a proposed contract. Not fetched from a real vendor and not a live API response.",
+  "status": "partial",
+  "vendor": "Northstar Example",
+  "plan": "Team",
+  "source": {
+    "url": "https://example.com/pricing",
+    "observed_at": null,
+    "content_sha256": null,
+    "locale": "en-US",
+    "currency": "USD",
+    "billing_selection": "annual",
+    "access_method": "synthetic_fixture"
+  },
+  "fields": {
+    "monthly_equivalent_usd": {
+      "value": "20.00",
+      "status": "observed",
+      "evidence_id": "e1"
+    },
+    "billing_period": {
+      "value": "year",
+      "status": "observed",
+      "evidence_id": "e1"
+    },
+    "price_unit": {
+      "value": "seat",
+      "status": "observed",
+      "evidence_id": "e1"
+    },
+    "minimum_seats": {
+      "value": null,
+      "status": "not_found",
+      "evidence_id": null
+    },
+    "annual_equivalent_per_seat_usd": {
+      "value": "240.00",
+      "status": "derived",
+      "derivation": "monthly_equivalent_usd * 12; excludes taxes, minimum seats and add-ons",
+      "evidence_id": "e1"
+    }
+  },
+  "evidence": [
+    {
+      "id": "e1",
+      "text": "$20 per seat/month, billed annually",
+      "location": "Team plan, annual billing selection",
+      "synthetic": true
+    }
+  ],
+  "freshness": { "status": "not_applicable", "reason": "synthetic_example" },
+  "validation": { "scope": "contract_illustration_only", "vendor_verified": false },
+  "billable": false,
+  "charge_usd": "0.00"
+}
