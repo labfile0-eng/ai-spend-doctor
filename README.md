@@ -1,30 +1,25 @@
 # AI Spend Doctor
 
-**Is your AI bill healthy?** Drop the usage export from your Claude or OpenAI dashboard and find out in 30 seconds.
+**Check your Claude and OpenAI API costs.** Open your API usage or cost CSV and see spend spikes and cost patterns worth investigating. Free, no signup, no API key. The file stays on your device.
 
-- Runs entirely in your browser
-- Nothing leaves your computer
-- No signup
+**Try it:** https://aispenddoctor.com/ · **Demo:** https://aispenddoctor.com/#demo
 
-**Try it:** https://aispenddoctor.com/
+## What it shows
 
-## What it checks
+- **Daily spikes:** days when spend was more than 3 times a typical day in the file. An observation with a next step, not a diagnosis.
+- **Cache share:** how much input was read from the prompt cache, when the file has cache data.
+- **Batch share:** how much spend used batch or flex prices, when the file has a batch or service tier column.
+- **Top-tier share:** how much went to the most expensive models.
+- **Model price scenarios:** what an older Claude model's spend would be at the current model's list prices, including about 30% more tokens on Claude's newer tokenizer. Estimates, not confirmed savings.
 
-- Older model versions that cost more than their current successor of the same tier
-- Days when spend jumped far above a normal day
-- How much of your input was paid at full price instead of cached
-- How much of your spend used batch pricing
-- How much of your spend went to top-tier models
+Every check is marked Checked, Partly checked or Not available. Missing data is never shown as 0%. Reported costs (from your file) and estimated costs (from tokens and list prices) are kept apart, and unknown models are never given a made-up price.
 
-Confirmed problems come straight from your file and official list prices. Problems to check show how much money a pattern touches, not a promise of savings.
+Supported columns, the method and the price list with sources: https://aispenddoctor.com/csv-formats/
 
-## Where to get your file
-
-- **Claude:** platform.claude.com, open Cost, pick last month, click export
-- **OpenAI:** platform.openai.com/usage, pick last month, click Export, choose cost data
+Tested on synthetic files that follow the official Anthropic and OpenAI usage and cost API formats. Real dashboard exports have not been verified yet; if yours is misread, please send the header row only to hello@aispenddoctor.com.
 
 ## Privacy
 
-The page is a single HTML file. It reads your file with JavaScript on your own machine and makes no network requests with your data. You can read every line in `index.html`.
+The page reads your file with JavaScript on your own machine. It sends nothing about the file anywhere, stores nothing and has no analytics. The source is available for inspection in `index.html`.
 
 © 2026 Valeriy Danilov. All rights reserved. See LICENSE.

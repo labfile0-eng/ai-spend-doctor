@@ -3,11 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta property="og:title" content="Is your AI bill healthy?">
-<meta property="og:description" content="Drop your Claude or OpenAI usage file and find out in 30 seconds. Runs entirely in your browser. Nothing leaves your computer.">
+<title>Free Claude &amp; OpenAI API Cost Check | AI Spend Doctor</title>
+<meta name="description" content="Open your Claude or OpenAI API usage CSV and see spend spikes, cache and batch use and model price scenarios. Free, no signup, the file stays on your device.">
+<link rel="canonical" href="https://aispenddoctor.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aispenddoctor.com/">
+<meta property="og:site_name" content="AI Spend Doctor">
+<meta property="og:title" content="Free Claude &amp; OpenAI API cost check">
+<meta property="og:description" content="Open your API usage CSV and see spend spikes and cost patterns worth investigating. The file stays on your device.">
+<meta property="og:image" content="https://aispenddoctor.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI Spend Doctor: check your Claude and OpenAI API costs">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b7185'/%3E%3Cpath d='M6 17h5l3-7 4 13 3-6h5' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style>
-<title>AI Spend Doctor</title>
-<meta name="description" content="Is your AI bill healthy? Drop your Claude or OpenAI usage file and find out in 30 seconds. Private, no signup, runs in your browser.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -114,330 +124,729 @@ h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color
 .foot p{margin:0}
 details summary{cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.btn{display:inline-block;font:600 15px var(--body);border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 18px;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.drop:focus-visible{outline:3px solid var(--accent)!important;outline-offset:2px}
+.btn:focus-visible,a:focus-visible,.linkbtn:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.scope{margin:0;font-size:14px;color:var(--muted);max-width:60ch}
+.how{font-size:14px;margin-top:10px}.how ol{margin:0;padding-left:20px;display:grid;gap:4px}.how p{margin:8px 0 0;color:var(--muted)}
+.how a,.need a,.status a,.feedback a,.foot a,.coverage a,.units a{color:var(--accent);font-weight:600}
+.need{font-size:14px;margin:12px 0 0}
+#where .tabs{margin-top:10px}
+#result{display:grid;gap:18px}
+.group{display:grid;gap:10px}
+.verdict.neutral{background:var(--surface)}
+.verdict.neutral .label{color:var(--muted)}
+.demo-tag{justify-self:start;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:var(--ink);color:var(--bg)}
+.units{font-size:14px;background:var(--warn-soft);border-radius:10px;padding:10px 14px}
+.coverage{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:14px}
+.coverage summary{font-weight:600;font-size:15px}
+.coverage ul{margin:10px 0;padding-left:18px;display:grid;gap:4px}
+table.checks{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}
+table.checks th,table.checks td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chip{font:600 11px var(--mono);padding:2px 8px;border-radius:99px;white-space:nowrap}
+.chip.checked{background:var(--good-soft);color:var(--good)}
+.chip.partially_checked{background:var(--warn-soft);color:var(--warn)}
+.chip.not_available{background:var(--sunk);color:var(--muted)}
+.find.scen .bar{background:var(--accent)} .find.scen .m{color:var(--ink)}
+.find .next{color:var(--ink)!important}
+.find .next b{font-weight:600}
+.method{margin:0;font-size:13px;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.copybox{display:grid;gap:8px;font-size:14px}
+.copybox p{margin:0;color:var(--muted)}
+.copybox textarea{width:100%;font:13px/1.5 var(--mono);background:var(--sunk);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
+.copybox .btn{justify-self:start}
+.feedback{margin:0;font-size:14px;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.soon{font:600 10px var(--mono);letter-spacing:.08em;background:var(--bg);color:var(--ink);padding:2px 7px;border-radius:99px;margin-left:6px;opacity:1}
+.premium .wbtn{font:600 15px var(--body);border-radius:10px;background:var(--bg);color:var(--ink);padding:11px 18px;justify-self:start;text-decoration:none}
+.premium .early{font-size:14px}
+.foot a{font-weight:500}
+@media (max-width:560px){table.checks td:nth-child(3){font-size:12px}}
 </style>
 </head>
 <body>
-
 <div class="wrap">
   <section class="hero">
     <div class="brand">AI Spend Doctor</div>
-    <h1>Is your AI bill healthy?</h1>
-    <p class="sub">Find out in 30 seconds.</p>
+    <h1>Check your Claude and OpenAI API costs.</h1>
+    <p class="sub">Find spend spikes and cost patterns worth investigating. Open your usage CSV for a free check, or try the demo first.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#start" data-start>Check my CSV for free</a>
+      <a class="btn" href="#demo" data-demo>Try the demo</a>
+    </div>
+    <p class="scope">For API usage and cost exports in US dollars. ChatGPT and Claude chat subscriptions are billed separately and are not covered.</p>
     <ul class="private" aria-label="Privacy">
-      <li>Runs entirely in your browser</li><li>Nothing leaves your computer</li><li>No signup</li>
+      <li>Your CSV stays on this device</li><li>No signup</li><li>No API key</li>
     </ul>
   </section>
 
   <section class="card" id="start" aria-label="Check your usage file">
-    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose your usage CSV file">
-      <strong>Drag your usage file here</strong>
-      <span>or click to choose it</span>
-      <input type="file" id="file" accept=".csv,text/csv" hidden>
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose your usage CSV file" aria-describedby="dropHint">
+      <strong>Open your usage CSV</strong>
+      <span id="dropHint">Drag the file here or press to choose it. Up to 50 MB.</span>
+      <input type="file" id="file" accept=".csv,text/csv,text/plain" hidden>
     </div>
-    <div class="status" id="status" aria-live="polite"></div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
     <details id="where">
-      <summary>Where do I find this file?</summary>
-      <div class="where">
-        <div><b>Claude</b>
-          <ol><li>Open <a href="https://platform.claude.com" target="_blank" rel="noopener">platform.claude.com</a></li><li>Click <kbd>Cost</kbd>, pick last month</li><li>Click the export button</li></ol></div>
-        <div><b>OpenAI</b>
-          <ol><li>Open <a href="https://platform.openai.com/usage" target="_blank" rel="noopener">platform.openai.com/usage</a></li><li>Pick last month, click <kbd>Export</kbd></li><li>Choose cost data, download</li></ol></div>
+      <summary>Where do I get this file?</summary>
+      <div class="tabs" role="tablist" aria-label="Provider">
+        <button class="tab" role="tab" type="button" id="tabA" aria-selected="true" aria-controls="howA">Claude</button>
+        <button class="tab" role="tab" type="button" id="tabO" aria-selected="false" aria-controls="howO">OpenAI</button>
       </div>
+      <div class="how" id="howA" role="tabpanel" aria-labelledby="tabA">
+        <ol><li>Sign in to the <a href="https://platform.claude.com" target="_blank" rel="noopener">Claude Console</a> and open the usage or cost page.</li>
+        <li>Choose the previous full month.</li><li>Use the export option to download a CSV.</li></ol>
+        <p>Cost and usage pages need an admin or billing role in the organization. If you do not see them, ask the person who pays the bill.</p>
+      </div>
+      <div class="how" id="howO" role="tabpanel" aria-labelledby="tabO" hidden>
+        <ol><li>Open the <a href="https://platform.openai.com/usage" target="_blank" rel="noopener">Usage page</a> of the OpenAI platform.</li>
+        <li>Choose the previous full month. Dates are in UTC.</li><li>Export the data as CSV.</li></ol>
+        <p>OpenAI explains roles, filters and export in <a href="https://help.openai.com/en/articles/10478918-reviewing-api-usage-and-costs" target="_blank" rel="noopener">Reviewing API usage and costs</a>.</p>
+      </div>
+      <p class="need"><b>What the file needs.</b> A cost column, or token counts with a model name. Dates enable the spike check. Cache and batch columns enable those checks. <a href="/csv-formats/">Supported formats</a></p>
     </details>
-    <p class="status">No file handy? <button class="linkbtn" type="button" id="sample">See an example result</button></p>
+    <p class="status">No file handy? <a href="#demo" data-demo>Try the demo</a> or <button class="linkbtn" type="button" id="dl">download the demo CSV</button>.</p>
   </section>
 
-  <section id="result" hidden style="display:grid;gap:18px" aria-live="polite">
+  <section id="result" hidden aria-live="polite">
     <div class="verdict" id="verdict"></div>
-    <div id="findsWrap" style="display:grid;gap:10px"><h3 id="findsTitle">Confirmed</h3><div class="finds" id="finds"></div></div>
-    <div id="checkWrap" style="display:grid;gap:10px"><h3>Worth checking</h3><div class="finds" id="checks"></div></div>
+    <div class="units" id="units" hidden></div>
+    <details class="coverage" id="coverage"><summary>What we read and checked</summary><div id="coverageBody"></div></details>
+    <div id="findsWrap" class="group"><h3>Items to investigate</h3><div class="finds" id="finds"></div></div>
+    <div id="scenWrap" class="group"><h3>Model price scenarios</h3>
+      <p class="method">Estimates from list prices, not money already lost. They assume the same work and token mix, plus about 30% more tokens on Claude's newer tokenizer.</p>
+      <div class="finds" id="scens"></div></div>
     <div class="chart" id="chart"></div>
-    <div class="share"><button class="main" type="button" id="share">Copy this result for a colleague</button><button class="linkbtn" type="button" id="again">Check another file</button><span id="shared" class="status" aria-live="polite"></span></div>
+    <div class="actions">
+      <a class="btn primary" href="#start" data-start id="own">Check my own CSV</a>
+      <button class="btn" type="button" id="copyOpen" aria-expanded="false" aria-controls="copyBox">Copy the result</button>
+      <button class="btn" type="button" id="shareTool">Share the tool</button>
+    </div>
+    <div class="copybox" id="copyBox" hidden>
+      <p>This is exactly what will be copied. It contains totals, model names and dates from your file, so check it before sharing.</p>
+      <label for="copyText" class="sr">Result text</label>
+      <textarea id="copyText" readonly rows="9"></textarea>
+      <button class="btn primary" type="button" id="copyGo">Copy</button>
+    </div>
+    <p class="status" id="shared" role="status" aria-live="polite"></p>
+    <p class="feedback">Was this useful? <a href="mailto:hello@aispenddoctor.com?subject=Feedback%20on%20AI%20Spend%20Doctor">Tell us what was useful or confusing.</a> Please do not attach your file.</p>
   </section>
 
   <section class="plans" aria-label="Plans">
     <div class="plan">
       <div class="pname">Checkup</div>
       <div class="pprice">Free</div>
-      <ul><li>One-time diagnosis of your usage file</li><li>Confirmed problems and things to check</li><li>Runs in your browser, no signup</li></ul>
-      <a class="pbtn ghost" href="#start">Check a file now</a>
+      <ul><li>Reads your usage or cost CSV on this device</li><li>Spend spikes, cache and batch use, model price scenarios</li><li>Shows what it could and could not check</li></ul>
+      <a class="pbtn" href="#start" data-start>Check a file now</a>
     </div>
     <div class="plan pro premium">
-      <div class="pname">Daily Watch</div>
-      <div class="pprice">$29<small> / month</small></div>
-      <ul><li>A check of your Claude and OpenAI spend every day</li><li>Same-day alert when spend jumps or a pricier model shows up</li><li>Always-current price database</li><li>Runs in your own GitHub account, your data stays with you</li></ul>
-      <button type="button" id="wait">Start 14-day free trial</button>
-      <p id="waitbox" hidden>Trials open in October. Tell the person who sent you this page, and you will get one of the first invites.</p>
-      <p class="pnote">A runaway agent or a retry loop can burn a month of budget overnight. Daily Watch tells you the same day.</p>
+      <div class="pname">Daily Watch <span class="soon">Coming soon</span></div>
+      <div class="pprice">$29<small> / month, planned</small></div>
+      <ul><li>A check of your Claude and OpenAI spend every day</li><li>An alert the same day when spend jumps or a pricier model shows up</li><li>Runs in your own GitHub account with your own key</li></ul>
+      <p class="early">Not available yet. Want early access? Write to us and we will tell you when it opens.</p>
+      <a class="wbtn" href="mailto:hello@aispenddoctor.com?subject=Daily%20Watch%20early%20access">Ask for early access</a>
     </div>
   </section>
 
   <footer class="foot">
-    <p>How it works: the page reads your file with JavaScript on your own machine. It makes no network requests with your data. Confirmed problems (red) come straight from your file and today's list prices. Problems to check (yellow) show how much money a pattern touches, not a promise of savings.</p>
-    <p>Prices checked 25 September 2026: Claude Opus 4 and 4.1 cost $15 input and $75 output per million tokens, Opus 5.5 costs $4 and $20. Opus 4.5 to 5 cost $5 and $25. Sonnet 4.x costs $3 and $15, Sonnet 5 costs $2 and $10. Cached input costs a tenth of normal input or less. Batch requests cost half. Test quality before switching models.</p>
-    <p>We never upload your AI usage file, and this page has no analytics.</p>
-    <p>© 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs. <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">View source</a></p>
-    <p>Guides: <a href="/claude-opus-4-1-vs-opus-5-5/" style="color:var(--accent)">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/" style="color:var(--accent)">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/" style="color:var(--accent)">Caching and Batch API savings</a></p>
-    <p>Contact: <a href="mailto:hello@aispenddoctor.com" style="color:var(--accent)">hello@aispenddoctor.com</a></p>
-    <p><a href="/terms/" style="color:var(--accent)">Terms</a> · <a href="/privacy/" style="color:var(--accent)">Privacy</a> · <a href="/refunds/" style="color:var(--accent)">Refunds</a></p>
+    <p><b>How it works.</b> The page reads your file with JavaScript on this device. It sends nothing about the file anywhere, stores nothing, and has no analytics. The source is available for inspection on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</p>
+    <p><b>What the numbers mean.</b> Reported cost comes from the amounts in your file. Estimated cost is calculated from token counts and list prices, only for models in our price list. Checks that need data your file does not have are marked as not available rather than counted as zero. <a href="/csv-formats/#method">How we calculate</a></p>
+    <p>Prices checked <span id="checked"></span> from the <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing" target="_blank" rel="noopener">OpenAI</a> price pages. Not affiliated with Anthropic or OpenAI.</p>
+    <p>Guides: <a href="/what-your-api-usage-csv-can-tell-you/">Reading your usage CSV</a> · <a href="/csv-formats/">Supported CSV formats</a> · <a href="/claude-opus-4-1-vs-opus-5-5/">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/">Caching and Batch API</a></p>
+    <p>Contact: <a href="mailto:hello@aispenddoctor.com">hello@aispenddoctor.com</a> · <a href="/pricing/">Pricing</a> · <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a> · <a href="/refunds/">Refunds</a></p>
+    <p>© 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
   </footer>
 </div>
 
 <script>
-(() => {
+// AI Spend Doctor engine: CSV parsing, price list, cost reading and checks.
+// Pure functions, no DOM and no network. Used by the page (window.ASD) and by the tests (require).
+(function (root) {
 "use strict";
-const PUBLIC_URL = "https://aispenddoctor.com/";
-const $ = id => document.getElementById(id);
-const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
-const pct = n => Math.round(n * 100) + "%";
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 
+// ---------------------------------------------------------------- price list
+const PRICES_CHECKED = "27 September 2026";
+const SOURCES = {
+  anthropic: "https://platform.claude.com/docs/en/about-claude/pricing",
+  openai: "https://developers.openai.com/api/docs/pricing",
+};
+// USD per million tokens, standard tier, short context.
+// i input, o output, cr cache read, cw5/cw1h Claude cache writes, cw OpenAI cache write,
+// tok: "new" for Claude models on the newer tokenizer (Claude 4.7 and later), which the
+// pricing page says produces about 30% more tokens for the same text.
+const A = (id, label, i, o, cr, cw5, cw1h, tok, alias) => ({id, label, provider: "anthropic", i, o, cr, cw5, cw1h, tok, alias: alias || []});
+const O = (id, label, i, o, cr, cw) => ({id, label, provider: "openai", i, o, cr, cw: cw ?? i, alias: []});
+const PRICE_LIST = [
+  A("fable-5-1", "Claude Fable 5.1", 10, 50, 0.25, 12.5, 20, "new", ["mythos-5-1"]),
+  A("fable-5", "Claude Fable 5", 10, 50, 1, 12.5, 20, "new", ["mythos-5"]),
+  A("opus-5-5", "Claude Opus 5.5", 4, 20, 0.2, 5, 8, "new"),
+  A("opus-5", "Claude Opus 5", 5, 25, 0.5, 6.25, 10, "new"),
+  A("opus-4-8", "Claude Opus 4.8", 5, 25, 0.5, 6.25, 10, "new"),
+  A("opus-4-7", "Claude Opus 4.7", 5, 25, 0.5, 6.25, 10, "new"),
+  A("opus-4-6", "Claude Opus 4.6", 5, 25, 0.5, 6.25, 10, "old"),
+  A("opus-4-5", "Claude Opus 4.5", 5, 25, 0.5, 6.25, 10, "old"),
+  A("opus-4-1", "Claude Opus 4.1", 15, 75, 1.5, 18.75, 30, "old"),
+  A("opus-4", "Claude Opus 4", 15, 75, 1.5, 18.75, 30, "old"),
+  A("sonnet-5", "Claude Sonnet 5", 2, 10, 0.2, 2.5, 4, "new"),
+  A("sonnet-4-6", "Claude Sonnet 4.6", 3, 15, 0.3, 3.75, 6, "old"),
+  A("sonnet-4-5", "Claude Sonnet 4.5", 3, 15, 0.3, 3.75, 6, "old"),
+  A("sonnet-4", "Claude Sonnet 4", 3, 15, 0.3, 3.75, 6, "old"),
+  A("haiku-4-5", "Claude Haiku 4.5", 1, 5, 0.1, 1.25, 2, "old"),
+  A("haiku-3-5", "Claude Haiku 3.5", 0.8, 4, 0.08, 1, 1.6, "old", ["3-5-haiku"]),
+  O("gpt-6-astra", "GPT-6 Astra", 10, 50, 1, 12.5),
+  O("gpt-6-sol", "GPT-6 Sol", 2, 10, 0.2, 2.5),
+  O("gpt-6-luna", "GPT-6 Luna", 0.1, 0.5, 0.01, 0.125),
+  O("gpt-5-6-sol", "GPT-5.6 Sol", 4, 20, 0.4),
+  O("gpt-5-6-terra", "GPT-5.6 Terra", 2, 12, 0.2),
+  O("gpt-5-6-luna", "GPT-5.6 Luna", 0.2, 1.2, 0.02),
+  O("gpt-5-5", "GPT-5.5", 5, 30, 0.5),
+  O("gpt-5-4-mini", "GPT-5.4 mini", 0.75, 4.5, 0.075),
+  O("gpt-5-4-nano", "GPT-5.4 nano", 0.2, 1.25, 0.02),
+  O("gpt-5-4", "GPT-5.4", 2.5, 15, 0.25),
+  O("gpt-5-2", "GPT-5.2", 1.75, 14, 0.175),
+  O("gpt-5-1", "GPT-5.1", 1.25, 10, 0.125),
+  O("gpt-5-mini", "GPT-5 mini", 0.25, 2, 0.025),
+  O("gpt-5-nano", "GPT-5 nano", 0.05, 0.4, 0.005),
+  O("gpt-5", "GPT-5", 1.25, 10, 0.125),
+  O("gpt-4-1-mini", "GPT-4.1 mini", 0.4, 1.6, 0.1),
+  O("gpt-4-1", "GPT-4.1", 2, 8, 0.5),
+  O("gpt-4o-mini", "GPT-4o mini", 0.15, 0.6, 0.075),
+  O("gpt-4o", "GPT-4o", 2.5, 10, 1.25),
+  O("o4-mini", "o4-mini", 1.1, 4.4, 0.275),
+  O("o3", "o3", 2, 8, 0.5),
+];
+// Older model -> current model of the same tier (Claude only; OpenAI tiers do not map one to one).
+const SUCCESSOR = {"opus-4": "opus-5-5", "opus-4-1": "opus-5-5", "opus-4-7": "opus-5-5", "opus-4-8": "opus-5-5", "opus-5": "opus-5-5",
+  "opus-4-5": "opus-5-5", "opus-4-6": "opus-5-5", "sonnet-4": "sonnet-5", "sonnet-4-5": "sonnet-5", "sonnet-4-6": "sonnet-5"};
+const TOKENIZER_FACTOR = 1.3;
+const PREMIUM = /opus|fable|mythos|astra/;
+
+const norm = s => String(s ?? "").toLowerCase().trim().replace(/[\s._:]+/g, "-").replace(/-+/g, "-");
+const stripDate = s => s.replace(/-(\d{8}|20\d\d-\d\d-\d\d|latest)$/, "");
+function findPrice(model) {
+  if (!model) return null;
+  const k = stripDate(norm(model));
+  for (const p of PRICE_LIST) for (const id of [p.id, ...p.alias])
+    if (k === id || k.endsWith("-" + id) || k.endsWith("/" + id)) return p;
+  return null;
+}
+const byId = id => PRICE_LIST.find(p => p.id === id);
 
 // ---------------------------------------------------------------- CSV
 function parseCSV(text) {
+  text = String(text).replace(/^﻿/, "");
+  const first = text.slice(0, text.search(/\r?\n|$/));
+  const count = ch => (first.match(new RegExp("\\" + ch, "g")) || []).length;
+  const sep = [",", ";", "\t"].sort((a, b) => count(b) - count(a))[0];
   const rows = []; let row = [], cell = "", q = false;
-  const sep = (text.split("\n")[0].match(/;/g) || []).length > (text.split("\n")[0].match(/,/g) || []).length ? ";" : ",";
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
     else if (c === '"') q = true;
-    else if (c === sep || c === "\t") { row.push(cell); cell = ""; }
+    else if (c === sep) { row.push(cell); cell = ""; }
     else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
     else cell += c;
   }
   if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
-  return rows.filter(r => r.some(x => x.trim() !== ""));
+  return {sep, rows: rows.filter(r => r.some(x => String(x).trim() !== ""))};
 }
-const num = v => { const s = String(v ?? "").replace(/[$,\s]/g, ""); return s === "" ? NaN : Number(s); };
-const ROLES = {
-  date:   [/^(date|day|usage_date|start_time|bucket|start|period|time|timestamp|starting_at)$/i, /date|day|time|bucket|period/i],
-  model:  [/^(model|model_name|model_id|line_item|line item|description|product|sku)$/i, /model|line.?item|description|product|sku/i],
-  cost:   [/^(cost|cost_usd|amount|amount_usd|usd|spend|total_cost|cost \(usd\)|amount \(usd\))$/i, /^(?!.*(type|currency|unit))(?=.*(cost|amount|usd|spend|charge))/i],
-  input:  [/^(input_tokens|prompt_tokens|uncached_input_tokens|input_uncached_tokens|input)$/i, /^(?!.*(cach|audio|image))(?=.*(input|prompt))/i],
-  cached: [/^(cached_input_tokens|input_cached_tokens|cache_read_input_tokens|cache_read_tokens|cached_tokens)$/i, /cache.?read|cached/i],
-  cwrite: [/^(cache_creation_input_tokens|cache_write_tokens)$/i, /cache.?(creation|write)/i],
-  output: [/^(output_tokens|completion_tokens|output)$/i, /output|completion/i],
-  batch:  [/^(batch|is_batch|service_tier)$/i, /batch|tier/i],
-};
+function makeNum(sep) {
+  return v => {
+    let s = String(v ?? "").trim().replace(/^\$|\s|USD$/gi, "");
+    if (s === "") return NaN;
+    if (sep === ";" && /^-?\d+,\d+$/.test(s)) s = s.replace(",", ".");
+    else s = s.replace(/,/g, "");
+    if (!/^-?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(s)) return NaN;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : NaN;
+  };
+}
+// "2026-09-01", "2026-09-01T00:00:00Z", Unix seconds or ms, "09/01/2026", "Sep 1, 2026" -> "2026-09-01" (UTC), or ""
+function toDay(v) {
+  const s = String(v ?? "").trim();
+  let t;
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) t = Date.parse(s.length === 10 ? s + "T00:00:00Z" : s);
+  else if (/^\d{10}(\.\d+)?$/.test(s)) t = Number(s) * 1000;
+  else if (/^\d{13}$/.test(s)) t = Number(s);
+  else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) { const [m, d, y] = s.split("/").map(Number); t = Date.UTC(y, m - 1, d); }
+  else if (/[a-z]{3}/i.test(s) && /\d{4}/.test(s)) t = Date.parse(s + " UTC");
+  if (!Number.isFinite(t)) return "";
+  const d = new Date(t);
+  if (d.getUTCFullYear() < 2020 || d.getUTCFullYear() > 2100) return "";
+  return d.toISOString().slice(0, 10);
+}
+// "Claude Sonnet 5 Usage - Input Tokens", "gpt-6-sol, cached input" -> the model part
+function cleanModel(raw) {
+  let s = String(raw ?? "").split(/,|\||\s[-–]\s/)[0].trim();
+  s = s.replace(/\s+(usage|input|output|cached?|cache\s+(read|write|creation)|tokens?|batch)\b.*$/i, "").trim();
+  return s;
+}
+function kindOf(s) {
+  const t = String(s ?? "").toLowerCase();
+  if (/uncached/.test(t)) return "input";
+  if (/cache.?read|cached/.test(t)) return "cached";
+  if (/cache.?(creation|write)/.test(t)) return /1h/.test(t) ? "cw1h" : "cw";
+  if (/output|completion/.test(t)) return "output";
+  if (/input|prompt/.test(t)) return "input";
+  return "";
+}
+
+// ---------------------------------------------------------------- columns
+const H = s => norm(s).replace(/[()]/g, "");
 function detect(header) {
-  const used = new Set(), m = {};
-  for (const pass of [0, 1]) for (const role of Object.keys(ROLES)) {
-    if (m[role] != null) continue;
-    const i = header.findIndex((h, j) => !used.has(j) && ROLES[role][pass].test(h.trim()));
-    if (i >= 0) { m[role] = i; used.add(i); }
-  }
+  const h = header.map(H), used = new Set();
+  const exact = (names, re) => {
+    let i = h.findIndex((x, j) => !used.has(j) && names.includes(x));
+    if (i < 0 && re) i = h.findIndex((x, j) => !used.has(j) && re.test(x));
+    if (i >= 0) used.add(i);
+    return i >= 0 ? i : null;
+  };
+  const m = {};
+  m.currency = exact(["currency", "amount-currency", "cost-currency"]);
+  m.costType = exact(["cost-type"]); m.tokenType = exact(["token-type"]);
+  m.tier = exact(["service-tier"]); m.batch = exact(["batch", "is-batch"]); m.geo = exact(["inference-geo"]);
+  // money
+  const usdNames = ["cost-usd", "amount-usd", "usd", "cost-usd-", "total-cost-usd", "spend-usd", "cost-in-usd"];
+  const centNames = ["cost-cents", "amount-cents", "cents", "cost-usd-cents"];
+  m.cost = exact(usdNames); m.unit = m.cost != null ? "usd" : null;
+  if (m.cost == null) { m.cost = exact(centNames, /cent/); if (m.cost != null) m.unit = "cents"; }
+  if (m.cost == null) { m.cost = exact(["amount", "cost", "spend", "total-cost", "total", "charge", "cost-amount", "price"],
+    /^(?!.*(type|currency|unit|quantity|per))(?=.*(cost|amount|spend|charge))/); if (m.cost != null) m.unit = "ambiguous"; }
+  if (m.unit === "usd" && /cent/.test(h[m.cost])) m.unit = "cents";
+  // tokens
+  m.uncached = exact(["uncached-input-tokens", "input-uncached-tokens"]);
+  m.cached = exact(["cache-read-input-tokens", "input-cached-tokens", "cached-input-tokens", "cached-tokens", "cache-read-tokens"]);
+  m.cw5 = exact([], /cache.*5m/); m.cw1h = exact([], /cache.*1h/);
+  m.cwAgg = exact(["cache-creation-input-tokens", "cache-write-tokens", "input-cache-write-tokens", "cache-creation-tokens"]);
+  m.input = exact(["input-tokens", "prompt-tokens", "input", "n-context-tokens-total"], /^(?!.*(cach|audio|image))(?=.*(input|prompt)).*tokens?$/);
+  m.output = exact(["output-tokens", "completion-tokens", "output", "n-generated-tokens-total"], /^(?!.*(audio|image))(?=.*(output|completion)).*tokens?$/);
+  // context
+  m.date = exact(["date", "day", "usage-date", "start-time", "starting-at", "bucket-start-time", "start", "period", "timestamp", "time", "start-date"],
+    /^(?!.*end)(date|day|time|bucket|period)/);
+  m.model = exact(["model", "model-name", "model-id"], null);
+  m.desc = exact(["line-item", "description", "product", "sku", "line-item-name"], /line.?item|description/);
+  m.hasTokens = [m.uncached, m.cached, m.cw5, m.cw1h, m.cwAgg, m.input, m.output].some(x => x != null);
+  // input semantics: "separate" (Claude: input excludes cache reads/writes) or "inclusive" (OpenAI: input includes cached and cache-write)
+  const has = re => h.some(x => re.test(x));
+  m.inputSemantics = m.uncached != null || has(/^cache-read-input-tokens$/) || has(/cache-creation/) ? "separate"
+    : has(/^input-cached-tokens$/) ? "inclusive" : "by-provider";
+  // Anthropic Cost API shape: amount in cents as a decimal string, with cost_type / token_type columns
+  m.anthropicCostApi = m.unit === "ambiguous" && H(header[m.cost]) === "amount" && m.costType != null && m.tokenType != null;
   return m;
 }
 
-// ---------------------------------------------------------------- prices (per million tokens, checked 25 Sep 2026)
-const norm = s => String(s).toLowerCase().replace(/[\s._]+/g, "-");
-const PRICES = [
-  {re: /opus-4-1|opus-4(-20\d\d|$)/, i: 15, o: 75}, {re: /opus-5-5/, i: 4, o: 20}, {re: /opus-4-[5-8]|opus-5(-20\d\d|$)/, i: 5, o: 25},
-  {re: /fable|mythos/, i: 10, o: 50}, {re: /sonnet-5/, i: 2, o: 10}, {re: /sonnet-4/, i: 3, o: 15}, {re: /haiku-4-5/, i: 1, o: 5},
-  {re: /haiku-3-5/, i: 0.8, o: 4}, {re: /gpt-6-astra/, i: 10, o: 50}, {re: /gpt-6-sol/, i: 2, o: 10}, {re: /gpt-6-luna/, i: 0.1, o: 0.5},
-];
-const LEGACY = [
-  {re: /opus-4-1|opus-4(-20\d\d|$)/, now: "Claude Opus 5.5", keep: 4 / 15},
-  {re: /opus-4-[5-8]|opus-5(-20\d\d|$)/, now: "Claude Opus 5.5", keep: 4 / 5},
-  {re: /sonnet-4/, now: "Claude Sonnet 5", keep: 2 / 3},
-];
-const PREMIUM = /opus|fable|mythos|astra|cyber/;
-const guess = m => (PRICES.find(p => p.re.test(norm(m))) || {i: 3, o: 15});
+// ---------------------------------------------------------------- read the file
+const TOTAL_ROW = /^(total|grand-total|subtotal|sum)$/;
+function analyse(text, opts) {
+  opts = opts || {};
+  const {sep, rows} = parseCSV(text);
+  const out = {rows: Math.max(0, rows.length - 1), header: rows[0] || [], problems: []};
+  if (rows.length < 2) { out.error = rows.length ? "header-only" : "empty"; return out; }
+  const header = rows[0].map(x => String(x).trim()), map = detect(header), num = makeNum(sep);
+  out.map = map;
+  if (map.cost == null && !map.hasTokens) { out.error = "no-columns"; return out; }
+  // unit for the cost column
+  let unit = map.unit, unitReason;
+  if (map.cost != null) {
+    if (unit === "ambiguous") {
+      if (map.anthropicCostApi) { unit = "cents"; unitReason = "anthropic-cost-api"; }
+      else if (H(header[map.cost]) === "amount-value") { unit = "usd"; unitReason = "openai-costs"; }
+      else { unit = "usd"; unitReason = "assumed"; }
+    } else unitReason = "header";
+    if (opts.unit === "usd" || opts.unit === "cents") { unit = opts.unit; unitReason = "user"; }
+  }
+  out.unit = unit; out.unitReason = unitReason; out.unitHeader = map.cost != null ? header[map.cost] : "";
 
-// ---------------------------------------------------------------- normalizers for real exports
-// "Claude Sonnet 5 Usage - Input Tokens", "gpt-6-sol, cached input" -> the model name only
-function cleanModel(raw) {
-  let s = String(raw).split(/,|\||\s[-–]\s/)[0].trim();
-  s = s.replace(/\s+(usage|input|output|cached?|cache\s+(read|write|creation)|tokens?|batch)\b.*$/i, "").trim();
-  return s || "unknown";
-}
-// "2026-09-01", "2026-09-01T00:00:00Z", Unix seconds or milliseconds, "09/01/2026", "Sep 1, 2026" -> "2026-09-01"
-function toDay(v) {
-  const s = String(v ?? "").trim();
-  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
-  if (/^\d{10}(\.\d+)?$/.test(s)) return new Date(Number(s) * 1000).toISOString().slice(0, 10);
-  if (/^\d{13}$/.test(s)) return new Date(Number(s)).toISOString().slice(0, 10);
-  const t = Date.parse(s);
-  return isNaN(t) ? "" : new Date(t - new Date(t).getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  const C = {used: 0, reported: 0, estimated: 0, unpriced: 0, noData: 0, total: 0, currency: 0, credit: 0, badDate: 0, zero: 0};
+  let reported = 0, estimated = 0, credits = 0;
+  const currencies = new Map(), unpricedModels = new Map(), assumptions = new Set();
+  const items = []; // normalized rows
+  for (let r = 1; r < rows.length; r++) {
+    const row = rows[r], cell = i => i == null ? "" : String(row[i] ?? "").trim();
+    const rawModel = cleanModel(cell(map.model)) || cleanModel(cell(map.desc));
+    const kindText = [cell(map.tokenType), cell(map.desc), cell(map.model).includes(",") ? cell(map.model) : ""].join(" ");
+    if ([rawModel, cell(map.desc), cell(map.date)].some(x => TOTAL_ROW.test(norm(x)))) { C.total++; continue; }
+    const price = findPrice(rawModel);
+    const cur = cell(map.currency).toLowerCase();
+    if (cur && cur !== "usd" && cur !== "$") { C.currency++; currencies.set(cur.toUpperCase(), (currencies.get(cur.toUpperCase()) || 0) + 1); continue; }
+    const day = map.date != null ? toDay(cell(map.date)) : "";
+    if (map.date != null && !day) C.badDate++;
+    // tier
+    const tierText = (cell(map.tier) + " " + cell(map.batch) + " " + cell(map.desc)).toLowerCase();
+    let tier = null;
+    if (/batch/.test(tierText) || /^(true|1|yes)$/.test(cell(map.batch).toLowerCase())) tier = "batch";
+    else if (/flex/.test(tierText)) tier = "flex";
+    else if (/priority|fast/.test(tierText)) tier = "priority";
+    else if (/standard|default|auto|scale/.test(tierText) || /^(false|0|no)$/.test(cell(map.batch).toLowerCase())) tier = "standard";
+    // tokens
+    const t = k => map[k] != null ? num(cell(map[k])) : NaN;
+    const tok = {input: t("input"), uncached: t("uncached"), cached: t("cached"), cw5: t("cw5"), cw1h: t("cw1h"), cwAgg: t("cwAgg"), output: t("output")};
+    const provider = price ? price.provider : /^(gpt|o\d|chatgpt|text-|davinci|whisper|tts|dall)/.test(norm(rawModel)) ? "openai" : /claude|opus|sonnet|haiku|fable|mythos/.test(norm(rawModel)) ? "anthropic" : null;
+    const sem = map.inputSemantics !== "by-provider" ? map.inputSemantics : provider === "openai" ? "inclusive" : provider === "anthropic" ? "separate" : null;
+    const nz = v => Number.isFinite(v) ? v : 0;
+    // cache writes: detail (5m/1h) has priority over the aggregate
+    const hasDetail = Number.isFinite(tok.cw5) || Number.isFinite(tok.cw1h);
+    const cw5 = hasDetail ? nz(tok.cw5) : nz(tok.cwAgg), cw1h = hasDetail ? nz(tok.cw1h) : 0;
+    if (!hasDetail && nz(tok.cwAgg) > 0) assumptions.add("cw5");
+    let uncached = NaN;
+    if (Number.isFinite(tok.uncached)) uncached = tok.uncached;
+    else if (Number.isFinite(tok.input)) uncached = sem === "separate" ? tok.input : sem === "inclusive" ? Math.max(0, tok.input - nz(tok.cached) - cw5 - cw1h) : NaN;
+    const T = {uncached, cached: tok.cached, cw5, cw1h, output: tok.output, anyTokens: Object.values(tok).some(Number.isFinite)};
+    // money
+    let cost = map.cost != null ? num(cell(map.cost)) : NaN, source = null;
+    if (Number.isFinite(cost)) {
+      if (unit === "cents") cost /= 100;
+      if (cost < 0) { C.credit++; credits += cost; continue; }
+      source = "reported";
+    } else if (T.anyTokens && price && Number.isFinite(T.uncached) && tier !== "priority") {
+      const mult = tier === "batch" || tier === "flex" ? 0.5 : 1;
+      if (!tier) assumptions.add("tier-standard");
+      const geo = price.provider === "anthropic" && (price.tok === "new" || /-4-6$/.test(price.id)) && /^us$/i.test(cell(map.geo)) ? 1.1 : 1;
+      const cwPrice = price.provider === "anthropic" ? [price.cw5, price.cw1h] : [price.cw, price.cw];
+      cost = (T.uncached * price.i + nz(T.cached) * price.cr + cw5 * cwPrice[0] + cw1h * cwPrice[1] + nz(T.output) * price.o) / 1e6 * mult * geo;
+      source = "estimated";
+    } else if (T.anyTokens) {
+      C.unpriced++; const k = rawModel || "(no model name)"; unpricedModels.set(k, (unpricedModels.get(k) || 0) + 1);
+      if (tier === "priority") assumptions.add("priority-unpriced");
+      continue;
+    } else { C.noData++; continue; }
+    if (cost === 0) C.zero++;
+    C.used++; C[source]++;
+    if (source === "reported") reported += cost; else estimated += cost;
+    items.push({day, model: rawModel, price, provider, tier, cost, source, kind: kindOf(kindText), T, sem});
+  }
+  Object.assign(out, {counts: C, reported, estimated, credits, total: reported + estimated, items,
+    currencies: [...currencies], unpricedModels: [...unpricedModels], assumptions: [...assumptions]});
+  if (!items.length) out.error = C.unpriced ? "all-unpriced" : C.currency ? "other-currency" : C.credit ? "only-credits" : "no-values";
+  const days = [...new Set(items.map(x => x.day).filter(Boolean))].sort();
+  out.days = days; out.datedShare = items.length ? items.filter(x => x.day).length / items.length : 0;
+  out.checks = runChecks(out);
+  return out;
 }
 
-// ---------------------------------------------------------------- read file into a profile
-function profile(header, rows) {
-  const map = detect(header), byModel = {}, byDay = {}, byDayModel = {};
-  let batchSpend = 0, tokens = false, costSeen = false;
-  const cachedSeparate = map.cached != null && (/cache_read/i.test(header[map.cached]) || (map.input != null && /uncached/i.test(header[map.input])));
-  // Anthropic Cost API / cost_report exports give amounts as decimal strings in cents
-  const cents = map.cost != null && (/cent/i.test(header[map.cost]) || header.some(h => /^(cost_type|token_type)$/i.test(h.trim())));
-  const cwCols = header.map((h, i) => /cache.?(creation|write)/i.test(h) ? i : -1).filter(i => i >= 0);
-  for (const r of rows) {
-    const raw = (map.model != null ? r[map.model] : "") || "all models", low = raw.toLowerCase();
-    const model = cleanModel(raw);
-    const kind = /cached|cache read/.test(low) ? "cached" : /output|completion/.test(low) ? "output" : /input|prompt/.test(low) ? "input" : null;
-    const m = byModel[model] ??= {model, spend: 0, input: 0, cached: 0, output: 0, ci: 0, cc: 0, co: 0};
-    const t = k => map[k] != null ? num(r[map[k]]) : NaN;
-    const inp = t("input"), cac = t("cached"), out = t("output");
-    const cwVals = cwCols.map(i => num(r[i])).filter(v => !isNaN(v)), cw = cwVals.length ? cwVals.reduce((a, b) => a + b, 0) : NaN;
-    if (!isNaN(inp)) { m.input += inp; tokens = true; } if (!isNaN(cac)) { m.cached += cac; tokens = true; }
-    if (!isNaN(out)) { m.output += out; tokens = true; } if (!isNaN(cw) && cachedSeparate) m.input += cw;
-    let cost = t("cost"); if (cents && !isNaN(cost)) cost /= 100;
-    if (isNaN(cost) && tokens) { const p = guess(model); cost = ((isNaN(inp) ? 0 : (cachedSeparate ? inp : Math.max(0, inp - (isNaN(cac) ? 0 : cac)))) * p.i + (isNaN(cac) ? 0 : cac) * p.i * 0.1 + (isNaN(out) ? 0 : out) * p.o + (isNaN(cw) ? 0 : cw) * p.i * 1.25) / 1e6; }
-    else if (!isNaN(cost)) costSeen = true;
-    if (isNaN(cost)) continue;
-    m.spend += cost;
-    if (kind === "input") m.ci += cost; else if (kind === "cached") m.cc += cost; else if (kind === "output") m.co += cost;
-    const b = map.batch != null ? String(r[map.batch]).toLowerCase() : low;
-    if (b === "true" || b === "1" || b.includes("batch")) batchSpend += cost;
-    if (map.date != null) {
-      const d = toDay(r[map.date]);
-      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) { byDay[d] = (byDay[d] || 0) + cost; (byDayModel[d] ??= {})[model] = (byDayModel[d][model] || 0) + cost; }
+// ---------------------------------------------------------------- checks
+function status(coverage) { return coverage >= 0.95 ? "checked" : coverage > 0 ? "partially_checked" : "not_available"; }
+function runChecks(P) {
+  const items = P.items || [], total = P.total, findings = [], scenarios = [], checks = [];
+  const sumBy = (arr, f) => arr.reduce((s, x) => s + f(x), 0);
+  if (!items.length) return {findings, scenarios, checks};
+  const costOf = arr => sumBy(arr, x => x.cost);
+  const share = arr => total > 0 ? costOf(arr) / total : 0;
+
+  // 1. spend by day
+  const byDay = new Map(), byDayModel = new Map();
+  for (const x of items) if (x.day) {
+    byDay.set(x.day, (byDay.get(x.day) || 0) + x.cost);
+    const m = byDayModel.get(x.day) || new Map(); m.set(x.model, (m.get(x.model) || 0) + x.cost); byDayModel.set(x.day, m);
+  }
+  const days = [...byDay.keys()].sort();
+  P.byDay = days.map(d => [d, byDay.get(d)]);
+  if (days.length >= 7) {
+    const vals = days.map(d => byDay.get(d)).sort((a, b) => a - b), n = vals.length;
+    const median = n % 2 ? vals[(n - 1) / 2] : (vals[n / 2 - 1] + vals[n / 2]) / 2;
+    const span = Math.round((Date.parse(days[n - 1]) - Date.parse(days[0])) / 864e5) + 1;
+    const spikes = days.filter(d => byDay.get(d) > 3 * median && byDay.get(d) - median > 5);
+    for (const d of spikes) {
+      const top = [...byDayModel.get(d)].sort((a, b) => b[1] - a[1])[0];
+      findings.push({type: "spike", day: d, amt: byDay.get(d) - median, unit: "above a typical day",
+        title: `${d}: spend was ${(byDay.get(d) / Math.max(median, 0.01)).toFixed(1)}× a typical day`,
+        note: `${fmt(byDay.get(d))} that day, a typical day in this file is ${fmt(median)}. The largest part was ${top[0] || "unnamed"} (${fmt(top[1])}). Traffic growth, a backfill, retries or a runaway agent can all look like this.`,
+        next: `Check request counts and logs for ${d}.`});
+    }
+    checks.push({name: "Daily spikes", status: status(P.datedShare), detail: `${days.length} days with data` + (span > days.length ? `, ${span - days.length} calendar days have no rows and are not counted as zero` : "") + (P.datedShare < 0.95 ? `, ${pct(1 - P.datedShare)} of rows have no valid date` : "")});
+    P.spikes = spikes;
+  } else checks.push({name: "Daily spikes", status: "not_available", detail: days.length ? `needs at least 7 days, the file has ${days.length}` : "no valid dates in the file"});
+
+  // 2. model price scenarios (Claude older versions)
+  const named = items.filter(x => x.price);
+  const modelCover = share(named);
+  const byModel = new Map();
+  for (const x of named) { const e = byModel.get(x.price.id) || {p: x.price, cost: 0, byKind: {}}; e.cost += x.cost; e.byKind[x.kind || "all"] = (e.byKind[x.kind || "all"] || 0) + x.cost; byModel.set(x.price.id, e); }
+  for (const [id, e] of byModel) {
+    const to = SUCCESSOR[id] && byId(SUCCESSOR[id]); if (!to) continue;
+    const tf = e.p.tok === "old" && to.tok === "new" ? TOKENIZER_FACTOR : 1;
+    const ratio = {input: to.i / e.p.i, output: to.o / e.p.o, cached: to.cr / e.p.cr, cw: to.cw5 / e.p.cw5, cw1h: to.cw1h / e.p.cw1h, all: (to.i / e.p.i + to.o / e.p.o) / 2};
+    let after = 0; for (const [k, v] of Object.entries(e.byKind)) after += v * (ratio[k] ?? ratio.all) * tf;
+    const diff = e.cost - after;
+    if (diff / e.cost < 0.05 || diff < 1) continue;
+    scenarios.push({type: "scenario", amt: diff, unit: "lower at list prices, estimate",
+      title: `${e.p.label} at ${to.label} prices: about ${fmt(diff)} less`,
+      note: `You spent ${fmt(e.cost)} on ${e.p.label} in this file. The same work at ${to.label} list prices would cost about ${fmt(after)}` +
+        (tf > 1 ? `, assuming ${to.label} uses about 30% more tokens for the same text (Anthropic's note on its newer tokenizer).` : ".") +
+        ` Output length, cache use and quality on your tasks can change this either way.`,
+      next: `Run a sample of your real prompts on ${to.label} and compare quality and token counts before switching.`});
+  }
+  checks.push({name: "Model price scenarios", status: status(modelCover), detail: modelCover < 0.95 ? `${pct(modelCover)} of spend is on models in our price list` : "all spend is on models in our price list"});
+
+  // 3. cache share (tokens where known; otherwise cost converted to tokens with each model's own rates)
+  let full = 0, fromCache = 0, fullCost = 0, cacheCovered = [];
+  for (const x of items) {
+    const mult0 = x.tier === "batch" || x.tier === "flex" ? 0.5 : 1;
+    if (Number.isFinite(x.T.uncached) && Number.isFinite(x.T.cached)) {
+      full += x.T.uncached + x.T.cw5 + x.T.cw1h; fromCache += x.T.cached; cacheCovered.push(x);
+      if (x.price) fullCost += x.T.uncached * x.price.i / 1e6 * mult0;
+    }
+    else if (x.source === "reported" && x.price && (x.kind === "input" || x.kind === "cached" || x.kind === "cw" || x.kind === "cw1h" || x.kind === "output")) {
+      const p = x.price, mult = x.tier === "batch" || x.tier === "flex" ? 0.5 : 1;
+      if (x.kind === "input") { full += x.cost / mult / p.i * 1e6; fullCost += x.cost; }
+      else if (x.kind === "cw") full += x.cost / mult / (p.cw5 ?? p.cw) * 1e6;
+      else if (x.kind === "cw1h") full += x.cost / mult / (p.cw1h ?? p.cw) * 1e6;
+      else if (x.kind === "cached") fromCache += x.cost / mult / p.cr * 1e6;
+      cacheCovered.push(x);
     }
   }
-  const days = Object.keys(byDay).sort();
-  const span = days.length ? Math.round((Date.parse(days.at(-1)) - Date.parse(days[0])) / 864e5) + 1 : 30;
-  return {models: Object.values(byModel).filter(m => m.spend > 0), byDay, byDayModel, days, span, batchSpend, tokens, cachedSeparate, priced: !costSeen};
+  // a cost export only covers cache if it breaks spend down by token type
+  const breakdown = items.some(x => x.kind === "cached" || x.kind === "input");
+  const cacheCover = breakdown || items.some(x => Number.isFinite(x.T.cached)) ? share(cacheCovered) : 0;
+  if (cacheCover > 0 && full + fromCache > 0) {
+    const cs = fromCache / (full + fromCache);
+    const inputCost = fullCost;
+    P.cacheShare = cs;
+    checks.push({name: "Cache share", status: status(cacheCover), detail: `${pct(cs)} of input tokens were read from cache` + (cacheCover < 0.95 ? `, based on ${pct(cacheCover)} of spend` : "")});
+    if (cs < 0.5 && cacheCover >= 0.5) findings.push({type: "cache", amt: inputCost || null, unit: inputCost ? "uncached input at list prices" : "",
+      title: `${pct(cs)} of input tokens came from cache`,
+      note: `Cached input is billed at a fraction of the normal input rate (for example $0.20 instead of $4 per million for Claude Opus 5.5).` + (cacheCover < 0.95 ? ` Based on ${pct(cacheCover)} of spend.` : ""),
+      next: "Check whether your requests repeat a long prefix such as a system prompt, tool definitions or shared documents. If they do, prompt caching can bill it at the cache rate."});
+  } else checks.push({name: "Cache share", status: "not_available", detail: "not available in this export (no cache token or cost breakdown)"});
+
+  // 4. batch share
+  const tiered = items.filter(x => x.tier);
+  const tierCover = share(tiered);
+  if (tierCover > 0) {
+    const bs = costOf(tiered.filter(x => x.tier === "batch" || x.tier === "flex")) / Math.max(costOf(tiered), 1e-9);
+    P.batchShare = bs;
+    checks.push({name: "Batch share", status: status(tierCover), detail: `${pct(bs)} of spend at batch or flex prices` + (tierCover < 0.95 ? `, based on ${pct(tierCover)} of spend` : "")});
+    if (bs < 0.05 && total > 50 && tierCover >= 0.5) findings.push({type: "batch", amt: null, unit: "",
+      title: `${pct(bs)} of spend used batch pricing`,
+      note: "The Batch API bills requests at half price when results can wait up to 24 hours." + (tierCover < 0.95 ? ` Based on ${pct(tierCover)} of spend.` : ""),
+      next: "List jobs that do not need an instant answer, such as evals, backfills and nightly runs, and check whether they can go through the Batch API."});
+  } else checks.push({name: "Batch share", status: "not_available", detail: "not available in this export (no batch or service tier column)"});
+
+  // 5. top-tier share
+  if (modelCover > 0) {
+    const prem = costOf(named.filter(x => PREMIUM.test(x.price.id))) / Math.max(costOf(named), 1e-9);
+    checks.push({name: "Top-tier model share", status: status(modelCover), detail: `${pct(prem)} of priced spend on top-tier models`});
+    if (prem > 0.6 && modelCover >= 0.5) findings.push({type: "premium", amt: costOf(named.filter(x => PREMIUM.test(x.price.id))), unit: "on top-tier models",
+      title: `${pct(prem)} of spend went to top-tier models`,
+      note: "Top-tier models cost several times more than smaller ones of the same family.",
+      next: "Pick a few simple call types, such as classification, extraction or short rewrites, and test them on a smaller model."});
+  } else checks.push({name: "Top-tier model share", status: "not_available", detail: "no model names we can price"});
+  return {findings, scenarios, checks};
 }
 
-// ---------------------------------------------------------------- the check
-function check(P) {
-  const total = P.models.reduce((s, m) => s + m.spend, 0);
-  const finds = [], checks = [];
-  let over = 0, lastDayOver = 0;
-  const last = P.days.at(-1);
-  for (const m of P.models) {
-    const L = LEGACY.find(x => x.re.test(norm(m.model)));
-    if (!L) continue;
-    const extra = m.spend * (1 - L.keep); over += extra;
-    if (last) lastDayOver += ((P.byDayModel[last] || {})[m.model] || 0) * (1 - L.keep);
-    finds.push({title: `You paid ${fmt(extra)} extra for ${m.model}`,
-      note: `${L.now} is the current model of the same tier and costs ${pct(1 - L.keep)} less at list price. You spent ${fmt(m.spend)} on the older one.`,
-      amt: extra});
-  }
-  // days that jumped (factual, not counted as overpaid)
-  const vals = P.days.map(d => P.byDay[d]);
-  if (vals.length >= 7) {
-    const med = [...vals].sort((a, b) => a - b)[Math.floor(vals.length / 2)];
-    for (const d of P.days) if (P.byDay[d] > 3 * med && P.byDay[d] - med > 5)
-      checks.push({title: `${d}: spend jumped to ${fmt(P.byDay[d])}`, note: `A normal day in this file is ${fmt(med)}. Retry loops and runaway agents look like this.`, amt: P.byDay[d] - med, unit: "above normal"});
-    P.spike = new Set(checks.map(c => c.title.slice(0, 10)));
-  }
-  // input paid at full price
-  let fullInput = null, cacheShare = null;
-  const ci = P.models.reduce((s, m) => s + m.ci, 0), cc = P.models.reduce((s, m) => s + m.cc, 0);
-  if (ci + cc > 0) { fullInput = ci; cacheShare = (cc / 0.1) / (cc / 0.1 + ci); }
-  else if (P.tokens) {
-    let fullI = 0, spendI = 0, tokIn = 0, tokC = 0;
-    for (const m of P.models) {
-      const p = guess(m.model), uncached = P.cachedSeparate ? m.input : Math.max(0, m.input - m.cached);
-      const listIn = uncached * p.i / 1e6, listAll = listIn + m.cached * p.i * 0.1 / 1e6 + m.output * p.o / 1e6;
-      if (listAll > 0) { fullI += m.spend * listIn / listAll; }
-      tokIn += uncached; tokC += m.cached;
-    }
-    fullInput = fullI; cacheShare = tokC / Math.max(1, tokIn + tokC);
-  }
-  if (fullInput != null && cacheShare < 0.5 && fullInput > 0.1 * total)
-    checks.push({title: `Only ${pct(cacheShare)} of your input came from cache`, note: `You paid ${fmt(fullInput)} for input at full price. Repeated input (system prompts, tools, shared documents) can be cached and costs a tenth.`, amt: fullInput, unit: "input at full price"});
-  const batchShare = total ? P.batchSpend / total : 0;
-  if (batchShare < 0.05 && total > 50)
-    checks.push({title: `${pct(batchShare)} of your spend used batch pricing`, note: "Jobs that can wait a few hours (evals, backfills, nightly runs) cost half through the Batch API.", amt: total * (1 - batchShare), unit: "at real-time prices"});
-  const prem = P.models.filter(m => PREMIUM.test(norm(m.model))).reduce((s, m) => s + m.spend, 0);
-  if (total && prem / total > 0.6)
-    checks.push({title: `${pct(prem / total)} of your spend went to top-tier models`, note: "Simple calls such as classification, extraction and short rewrites usually run fine on a smaller model.", amt: prem, unit: "on top-tier models"});
-  return {total, over, lastDayOver, last, finds, checks};
+// ---------------------------------------------------------------- formatting
+function fmt(n) {
+  if (!Number.isFinite(n)) return "unknown";
+  const a = Math.abs(n), s = n < 0 ? "-$" : "$";
+  if (a >= 100) return s + Math.round(a).toLocaleString("en-US");
+  if (a > 0 && a < 0.01) return (n < 0 ? "-" : "") + "<$0.01";
+  return s + a.toFixed(2);
 }
+function pct(n) { if (n > 0 && n < 0.01) return "<1%"; if (n < 1 && n > 0.99) return ">99%"; return Math.round(n * 100) + "%"; }
 
-// ---------------------------------------------------------------- render
-function show(P, isExample) {
-  const R = check(P);
-  const share = R.total ? R.over / R.total : 0;
-  const cls = R.over > 0.5 ? "bad" : R.checks.length ? "warn" : "good";
-  const period = P.days.length ? `${P.days[0]} to ${P.days.at(-1)}` : "this file";
-  const unknown = P.models.filter(m => !PRICES.some(p => p.re.test(norm(m.model)))).map(m => m.model);
-  const tag = isExample ? '<span class="example-tag">Example result, made-up company</span>' : "";
-  const nConf = R.finds.length, nCheck = R.checks.length, n = nConf + nCheck;
-  const probs = k => `${k} problem${k === 1 ? "" : "s"}`;
-  let h;
-  if (cls === "bad") h = `<span class="label">Unhealthy</span>${tag}<h2>Your AI bill has ${probs(n)}.</h2>
-      <p>${nConf} confirmed${nCheck ? `, ${nCheck} to check` : ""}. The confirmed ${nConf === 1 ? "one costs" : "ones cost"} you <b>${fmt(R.over)}</b>, ${pct(share)} of the ${fmt(R.total)} you spent from ${period}.</p>` +
-      (R.last && R.lastDayOver > 0.5 ? `<p class="per">On ${R.last} alone: ${fmt(R.lastDayOver)}. At this rate: ${fmt(R.over / P.span * 365)} a year.</p>` : "");
-  else if (cls === "warn") h = `<span class="label">Needs attention</span>${tag}<h2>No confirmed problems. ${probs(nCheck)} to check.</h2>
-      <p>You spent ${fmt(R.total)} from ${period}.${unknown.length ? "" : " You already use current model versions."}</p>`;
-  else h = `<span class="label">Healthy</span>${tag}<h2>Your AI bill looks healthy.</h2><p>You spent ${fmt(R.total)} from ${period} and we found nothing wrong.</p>`;
-  if (unknown.length) h += `<p class="per">No price data yet for: ${esc(unknown.slice(0, 4).join(", "))}${unknown.length > 4 ? "…" : ""}. We checked the rest.</p>`;
-  $("verdict").className = "verdict " + cls; $("verdict").innerHTML = h;
-  const item = (f, check) => `<div class="find${check ? " check" : ""}"><div class="bar"></div><div class="t"><b>${esc(f.title)}</b><span>${esc(f.note)}</span></div>
-      <div class="m">${fmt(f.amt)}<small>${esc(f.unit || "extra paid")}</small></div></div>`;
-  $("finds").innerHTML = R.finds.map(f => item(f)).join(""); $("findsWrap").hidden = !R.finds.length;
-  $("checks").innerHTML = R.checks.map(f => item(f, true)).join(""); $("checkWrap").hidden = !R.checks.length;
-  chart(P);
-  LAST_TEXT = [`I ran our AI bill through AI Spend Doctor (it runs in the browser, nothing is uploaded).`,
-    n ? `It found ${probs(n)}${nConf ? `, ${nConf} confirmed, costing ${fmt(R.over)} from ${period}` : ""}:` : `It says the bill looks healthy.`,
-    ...R.finds.map(f => `- ${f.title}`), ...R.checks.map(f => `- To check: ${f.title}`),
-    isExample ? "(This is the example result, not our data.)" : "", `Check yours: ${PUBLIC_URL}`].filter(Boolean).join("\n");
-  $("shared").textContent = "";
-  $("result").hidden = false; $("start").hidden = true;
-  $("result").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start"});
-}
-function chart(P) {
-  const box = $("chart");
-  if (P.days.length < 3) { box.hidden = true; return; } box.hidden = false;
-  const W = 640, H = 150, pl = 46, pr = 8, pt = 22, pb = 22, vals = P.days.map(d => P.byDay[d]), max = Math.max(...vals) || 1;
-  const p = 10 ** Math.floor(Math.log10(max)), step = [0.1, 0.2, 0.25, 0.5, 1, 2, 2.5, 5, 10].map(x => x * p).find(x => x >= max / 4), top = Math.ceil(max / step) * step;
-  const bw = (W - pl - pr) / vals.length, mono = 'font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)"';
-  let g = `<text x="0" y="12" ${mono}>Spend per day</text>`;
-  for (let v = 0; v <= top + 1e-9; v += step) { const y = pt + (H - pt - pb) * (1 - v / top);
-    g += `<line x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl - 6}" y="${y + 4}" text-anchor="end" ${mono}>$${v >= 1000 ? +(v / 1000).toFixed(1) + "k" : +v.toFixed(2)}</text>`; }
-  vals.forEach((v, i) => { const h = (H - pt - pb) * v / top, sp = P.spike && P.spike.has(P.days[i]);
-    g += `<rect x="${(pl + i * bw + bw * 0.15).toFixed(1)}" y="${(H - pb - h).toFixed(1)}" width="${(bw * 0.7).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${sp ? "var(--bad)" : "var(--accent)"}" opacity="${sp ? 1 : 0.7}"><title>${P.days[i]}: ${fmt(v)}</title></rect>`; });
-  g += `<text x="${pl}" y="${H - 5}" ${mono}>${P.days[0]}</text><text x="${W - pr}" y="${H - 5}" text-anchor="end" ${mono}>${P.days.at(-1)}</text>`;
-  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Spend per day">${g}</svg>`;
-}
-function setStatus(msg, err) { $("status").textContent = msg; $("status").classList.toggle("err", !!err); }
-function load(text, name, isExample) {
-  const rows = parseCSV(text);
-  if (rows.length < 2) return setStatus("This file looks empty. Export at least a few days of usage.", true);
-  const P = profile(rows[0].map(h => h.trim()), rows.slice(1));
-  if (!P.models.length) return setStatus("We could not find costs or token counts in this file. Is it the usage or cost export? Try the steps above again.", true);
-  show(P, isExample);
-}
-
-// ---------------------------------------------------------------- example
-function exampleCSV() {
-  let s = "date,model,input_tokens,cache_read_input_tokens,output_tokens,cost_usd\n", seed = 7;
+// ---------------------------------------------------------------- demo data (also the downloadable sample CSV)
+function demoCSV() {
+  let s = "date,model,service_tier,uncached_input_tokens,cache_read_input_tokens,output_tokens,cost_usd\n", seed = 7;
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, start = Date.UTC(2026, 7, 1);
-  const models = [["claude-opus-4-1", 15, 75, 8.4e6, 0.6e6, 0.8e6], ["claude-sonnet-5", 2, 10, 51e6, 9e6, 5e6], ["claude-haiku-4-5", 1, 5, 40e6, 12e6, 3e6]];
-  for (let d = 0; d < 30; d++) {
+  const models = [["claude-opus-4-1", 8.4e6, 0.6e6, 0.8e6], ["claude-sonnet-5", 51e6, 9e6, 5e6], ["claude-haiku-4-5", 40e6, 12e6, 3e6]];
+  for (let d = 0; d < 31; d++) {
     const t = start + d * 864e5, day = new Date(t).toISOString().slice(0, 10), wk = [0, 6].includes(new Date(t).getUTCDay()) ? 0.55 : 1;
-    for (const [m, pi, po, i0, c0, o0] of models) {
-      const k = wk * (d === 17 ? 4.2 : 1) * (0.85 + rnd() * 0.3), i = Math.round(i0 * k), c = Math.round(c0 * k), o = Math.round(o0 * k);
-      s += `${day},${m},${i},${c},${o},${((i * pi + c * pi * 0.1 + o * po) / 1e6).toFixed(2)}\n`;
+    for (const [m, i0, c0, o0] of models) {
+      const p = findPrice(m), k = wk * (d === 17 && m === "claude-sonnet-5" ? 8 : 1) * (0.85 + rnd() * 0.3);
+      const i = Math.round(i0 * k), c = Math.round(c0 * k), o = Math.round(o0 * k);
+      s += `${day},${m},standard,${i},${c},${o},${((i * p.i + c * p.cr + o * p.o) / 1e6).toFixed(2)}\n`;
     }
   }
   return s;
 }
 
-// ---------------------------------------------------------------- events
+const API = {PRICES_CHECKED, SOURCES, PRICE_LIST, SUCCESSOR, TOKENIZER_FACTOR, findPrice, parseCSV, toDay, cleanModel, detect, analyse, fmt, pct, demoCSV};
+if (typeof module !== "undefined" && module.exports) module.exports = API; else root.ASD = API;
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+(() => {
+"use strict";
+const {analyse, fmt, pct, demoCSV, PRICES_CHECKED} = window.ASD;
+const PUBLIC_URL = "https://aispenddoctor.com/";
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+$("checked").textContent = PRICES_CHECKED;
+let LAST = null; // {text, name, demo, unit}
+
+// ---------------------------------------------------------------- views
+function showStart(focus) {
+  $("result").hidden = true; $("start").hidden = false;
+  if (focus) { $("start").scrollIntoView({behavior: smooth(), block: "start"}); $("drop").focus({preventScroll: true}); }
+}
+const smooth = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+function route() {
+  const h = location.hash;
+  if (h === "#demo") run(demoCSV(), "demo", true);
+  else if (h === "#result" && LAST) run(LAST.text, LAST.name, LAST.demo, LAST.unit);
+  else if (h === "#start") showStart(true);
+  else if (!h) showStart(false);
+}
+window.addEventListener("hashchange", route);
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-start], a[data-demo]");
+  if (!a) return;
+  const want = a.hasAttribute("data-demo") ? "#demo" : "#start";
+  if (location.hash === want) { e.preventDefault(); route(); } // same hash: hashchange would not fire
+});
+
+// ---------------------------------------------------------------- file input
 const drop = $("drop"), file = $("file");
 drop.onclick = () => file.click();
 drop.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); file.click(); } };
 ["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
 ["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
 drop.addEventListener("drop", e => { const f = e.dataTransfer.files[0]; if (f) read(f); });
-file.onchange = () => { if (file.files[0]) read(file.files[0]); };
+file.onchange = () => { if (file.files[0]) read(file.files[0]); file.value = ""; };
 function read(f) {
-  if (f.size > 50e6) return setStatus("That file is over 50 MB. Export one month at a time.", true);
-  const r = new FileReader(); r.onload = () => load(String(r.result), f.name, false);
-  r.onerror = () => setStatus("We could not read that file. Export it again as CSV.", true); r.readAsText(f);
+  if (f.size > 50e6) return setStatus("This file is over 50 MB. Export one month at a time.", true);
+  setStatus("Reading " + f.name + "…");
+  const r = new FileReader();
+  r.onload = () => { if (run(String(r.result), f.name, false)) history.pushState(null, "", "#result"); };
+  r.onerror = () => setStatus("The browser could not read this file. Export it again as CSV and try once more.", true);
+  r.readAsText(f);
 }
-$("sample").onclick = () => load(exampleCSV(), "example", true);
-$("again").onclick = () => { $("result").hidden = true; $("start").hidden = false; file.value = ""; setStatus(""); };
-let LAST_TEXT = "";
-$("share").onclick = async () => {
-  try { await navigator.clipboard.writeText(LAST_TEXT); $("shared").textContent = "Copied. Paste it into Slack or email."; }
-  catch { $("shared").textContent = "Copy did not work here. Select the result above and copy it by hand."; }
+function setStatus(msg, err) { $("status").textContent = msg; $("status").classList.toggle("err", !!err); }
+$("dl").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([demoCSV()], {type: "text/csv"}));
+  a.download = "ai-spend-doctor-demo.csv"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
-$("wait").onclick = () => { $("waitbox").hidden = false; $("wait").hidden = true; };
+const tabs = [["tabA", "howA"], ["tabO", "howO"]];
+tabs.forEach(([t, p]) => $(t).onclick = () => tabs.forEach(([t2, p2]) => { $(t2).setAttribute("aria-selected", t2 === t); $(p2).hidden = p2 !== p; }));
+
+// ---------------------------------------------------------------- errors
+function errorText(P) {
+  const cols = P.header.slice(0, 8).map(h => `"${h}"`).join(", ");
+  switch (P.error) {
+    case "empty": return "This file is empty.";
+    case "header-only": return "The file has column names but no rows. Export a period that had usage.";
+    case "no-columns": return `We found no cost column and no token counts. Columns in the file: ${cols}. The file needs a cost column (for example cost_usd or amount) or token columns (input_tokens, output_tokens) with a model name. See supported formats below.`;
+    case "all-unpriced": return `The file has token counts but no costs, and these models are not in our price list: ${P.unpricedModels.map(m => m[0]).slice(0, 4).join(", ")}. Export the cost report instead; it includes dollar amounts.`;
+    case "other-currency": return `All amounts are in ${P.currencies.map(c => c[0]).join(", ")}. This version reads US dollars only.`;
+    case "only-credits": return "The file only has credits or refunds, no spend.";
+    default: return "No row had a cost or token count we could read. Check that you exported the usage or cost report as CSV.";
+  }
+}
+
+// ---------------------------------------------------------------- result
+function run(text, name, demo, unit) {
+  const P = analyse(text, {unit});
+  if (P.error) { showStart(false); setStatus(errorText(P), true); $("where").open = P.error === "no-columns"; return false; }
+  setStatus("");
+  LAST = {text, name, demo, unit};
+  render(P, demo);
+  return true;
+}
+function render(P, demo) {
+  const R = P.checks, nF = R.findings.length;
+  const period = P.days.length ? `${P.days[0]} to ${P.days.at(-1)}` : "no dates in the file";
+  const tag = demo ? '<span class="demo-tag">Demo: synthetic data</span>' : "";
+  const cost = P.reported && P.estimated ? `Reported cost <b>${fmt(P.reported)}</b> plus <b>${fmt(P.estimated)}</b> estimated from token counts`
+    : P.reported || !P.estimated ? `Reported cost <b>${fmt(P.reported)}</b>` : `Estimated cost <b>${fmt(P.estimated)}</b>, calculated from token counts and list prices`;
+  const na = R.checks.filter(c => c.status === "not_available").length, part = R.checks.filter(c => c.status === "partially_checked").length;
+  const excluded = P.counts.unpriced + P.counts.currency;
+  let h = `${tag}<span class="label">Checkup result</span>
+    <h2>${nF ? `${nF} item${nF > 1 ? "s" : ""} to investigate` : "No patterns flagged in the available data"}</h2>
+    <p>${cost}, ${esc(period)}.</p>`;
+  if (excluded) h += `<p class="per">${excluded} row${excluded > 1 ? "s" : ""} without a usable cost ${excluded > 1 ? "are" : "is"} not in this total. See what we read.</p>`;
+  if (na || part) h += `<p class="per">${na ? `${na} of ${R.checks.length} checks could not run on this file` : ""}${na && part ? ", " : ""}${part ? `${part} ran on part of it` : ""}.</p>`;
+  $("verdict").className = "verdict " + (nF ? "warn" : "neutral"); $("verdict").innerHTML = h;
+
+  // units
+  const u = $("units");
+  if (P.unitReason && P.unitReason !== "header" && P.unitReason !== "openai-costs") {
+    const why = {"anthropic-cost-api": "in cents, as in the Anthropic Cost API", assumed: "as US dollars", user: `as ${P.unit === "cents" ? "cents" : "US dollars"}, as you chose`}[P.unitReason];
+    const other = P.unit === "cents" ? "usd" : "cents";
+    u.innerHTML = `We read the column "${esc(P.unitHeader)}" ${why}. <button class="linkbtn" type="button" id="unitSwitch">They are ${other === "usd" ? "dollars" : "cents"}</button>`;
+    u.hidden = false;
+    $("unitSwitch").onclick = () => { LAST.unit = other; run(LAST.text, LAST.name, LAST.demo, other); };
+  } else u.hidden = true;
+
+  // coverage
+  const C = P.counts, li = [];
+  li.push(`<b>${P.rows}</b> rows read, <b>${C.used}</b> used: ${C.reported} with a reported cost, ${C.estimated} estimated from tokens.`);
+  if (C.unpriced) li.push(`${C.unpriced} rows have tokens but no cost, and their models are not in our price list: ${esc(P.unpricedModels.map(m => m[0]).slice(0, 5).join(", "))}. Not counted.`);
+  if (C.currency) li.push(`${C.currency} rows in ${esc(P.currencies.map(c => c[0]).join(", "))} are not counted. This version reads US dollars only.`);
+  if (C.credit) li.push(`${C.credit} credit or refund rows (${fmt(P.credits)}) are shown separately and not subtracted.`);
+  if (C.total) li.push(`${C.total} total rows skipped so nothing is counted twice.`);
+  if (C.noData) li.push(`${C.noData} rows had neither a cost nor token counts.`);
+  if (C.badDate) li.push(`${C.badDate} rows have a date we could not read. They count in the total but not in the daily chart.`);
+  if (P.assumptions.includes("tier-standard") && C.estimated) li.push("Rows without a service tier were estimated at standard prices.");
+  if (P.assumptions.includes("cw5")) li.push("Cache writes without a 5-minute or 1-hour split were priced at the 5-minute rate.");
+  li.push(`Period: ${esc(period)}.`);
+  const label = {checked: "Checked", partially_checked: "Partly checked", not_available: "Not available"};
+  $("coverageBody").innerHTML = `<ul>${li.map(x => `<li>${x}</li>`).join("")}</ul>
+    <table class="checks"><thead><tr><th>Check</th><th>Status</th><th>Basis</th></tr></thead><tbody>${R.checks.map(c =>
+      `<tr><td>${esc(c.name)}</td><td><span class="chip ${c.status}">${label[c.status]}</span></td><td>${esc(c.detail)}</td></tr>`).join("")}</tbody></table>
+    <p class="per">Prices checked ${esc(PRICES_CHECKED)}. <a href="/csv-formats/#method">How we calculate</a></p>`;
+  $("coverage").open = !nF || na > 0;
+
+  const card = (f, kind) => `<div class="find ${kind}"><div class="bar"></div><div class="t"><b>${esc(f.title)}</b><span>${esc(f.note)}</span>
+      <span class="next"><b>Next step:</b> ${esc(f.next)}</span></div>${f.amt != null ? `<div class="m">${esc(fmt(f.amt))}<small>${esc(f.unit)}</small></div>` : ""}</div>`;
+  $("finds").innerHTML = R.findings.map(f => card(f, "check")).join(""); $("findsWrap").hidden = !nF;
+  $("scens").innerHTML = R.scenarios.map(f => card(f, "scen")).join(""); $("scenWrap").hidden = !R.scenarios.length;
+  chart(P);
+  $("own").textContent = demo ? "Check my own CSV" : "Check another file";
+  $("copyText").value = copyText(P, demo, period);
+  $("copyBox").hidden = true; $("copyOpen").setAttribute("aria-expanded", "false"); $("shared").textContent = "";
+  $("result").hidden = false; $("start").hidden = true;
+  $("result").scrollIntoView({behavior: smooth(), block: "start"});
+}
+function copyText(P, demo, period) {
+  const R = P.checks, L = [];
+  L.push("AI Spend Doctor result" + (demo ? " (Demo: synthetic data, not real spend)" : ""));
+  L.push(`Period: ${period}`);
+  if (P.reported) L.push(`Reported cost: ${fmt(P.reported)}`);
+  if (P.estimated) L.push(`Estimated from token counts: ${fmt(P.estimated)}`);
+  if (R.findings.length) { L.push("", "Items to investigate:"); R.findings.forEach(f => L.push(`- ${f.title}. Next step: ${f.next}`)); }
+  else L.push("", "No patterns flagged in the available data.");
+  if (R.scenarios.length) { L.push("", "Model price scenarios (estimates at list prices, not confirmed savings):"); R.scenarios.forEach(f => L.push(`- ${f.title}`)); }
+  const na = R.checks.filter(c => c.status === "not_available").map(c => c.name);
+  if (na.length) L.push("", `Not available in this file: ${na.join(", ")}`);
+  L.push("", `Checked in the browser, the file was not uploaded. ${PUBLIC_URL}`);
+  return L.join("\n");
+}
+function chart(P) {
+  const box = $("chart"), days = P.byDay || [];
+  if (days.length < 3) { box.hidden = true; return; } box.hidden = false;
+  const W = 640, H = 150, pl = 50, pr = 8, pt = 22, pb = 22, vals = days.map(d => d[1]), max = Math.max(...vals) || 1;
+  const p = 10 ** Math.floor(Math.log10(max)), step = [0.1, 0.2, 0.25, 0.5, 1, 2, 2.5, 5, 10].map(x => x * p).find(x => x >= max / 4), top = Math.ceil(max / step) * step;
+  const bw = (W - pl - pr) / vals.length, mono = 'font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)"';
+  const spikes = new Set(P.spikes || []);
+  let g = `<text x="0" y="12" ${mono}>Spend per day with data</text>`;
+  for (let v = 0; v <= top + 1e-9; v += step) { const y = pt + (H - pt - pb) * (1 - v / top);
+    g += `<line x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl - 6}" y="${y + 4}" text-anchor="end" ${mono}>$${v >= 1000 ? +(v / 1000).toFixed(1) + "k" : +v.toFixed(2)}</text>`; }
+  days.forEach(([d, v], i) => { const h = (H - pt - pb) * v / top, sp = spikes.has(d);
+    g += `<rect x="${(pl + i * bw + bw * 0.15).toFixed(1)}" y="${(H - pb - h).toFixed(1)}" width="${(bw * 0.7).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${sp ? "var(--warn)" : "var(--accent)"}" opacity="${sp ? 1 : 0.7}"><title>${d}: ${fmt(v)}</title></rect>`; });
+  g += `<text x="${pl}" y="${H - 5}" ${mono}>${days[0][0]}</text><text x="${W - pr}" y="${H - 5}" text-anchor="end" ${mono}>${days.at(-1)[0]}</text>`;
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Spend per day, ${days.length} days">${g}</svg>`;
+}
+
+// ---------------------------------------------------------------- copy and share
+$("copyOpen").onclick = () => { const open = $("copyBox").hidden; $("copyBox").hidden = !open; $("copyOpen").setAttribute("aria-expanded", open); if (open) $("copyText").focus(); };
+async function copy(text, done) {
+  try { await navigator.clipboard.writeText(text); $("shared").textContent = done; }
+  catch { $("shared").textContent = "Copying is blocked here. Select the text and press Ctrl+C or Cmd+C."; }
+}
+$("copyGo").onclick = () => { $("copyText").select(); copy($("copyText").value, "Copied. Paste it wherever you need it."); };
+$("shareTool").onclick = () => copy(PUBLIC_URL, "Link copied. It contains no data from your file.");
+
+route();
 })();
 </script>
-
 </body>
 </html>
