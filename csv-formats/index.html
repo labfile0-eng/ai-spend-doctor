@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supported CSV formats and how we calculate | AI Spend Doctor</title>
+<meta name="description" content="Which Claude and OpenAI usage and cost CSV columns the free checkup reads, what each check needs, how costs are calculated, and the price list with sources.">
+<link rel="canonical" href="https://aispenddoctor.com/csv-formats/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://aispenddoctor.com/csv-formats/">
+<meta property="og:title" content="Supported CSV formats and how we calculate | AI Spend Doctor"><meta property="og:description" content="Which Claude and OpenAI usage and cost CSV columns the free checkup reads, what each check needs, how costs are calculated, and the price list with sources.">
+<meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>:root{
+  --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
+  --accent:#0b7185; --accent-ink:#ffffff;
+  --bad:#b3401f; --bad-soft:#fbe7e1; --warn:#8a5a00; --warn-soft:#f8eed4; --good:#1d6b45; --good-soft:#e1f1e8;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --body:"IBM Plex Sans","Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
+  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
+  --good:#6fd39e; --good-soft:#12301f;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
+  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
+  --good:#6fd39e; --good-soft:#12301f;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-inline:16px;padding-block:40px 72px}
+.wrap{max-width:760px;margin:0 auto;display:grid;gap:28px}
+.hero{display:grid;gap:12px;text-align:left}
+h1{font:800 clamp(34px,6.5vw,58px)/1.02 var(--display);margin:0;letter-spacing:-.015em;text-wrap:balance}
+.sub{margin:0;font-size:18px;color:var(--muted);max-width:52ch}
+.brand{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.private{list-style:none;margin:0;padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:15px;color:var(--muted);background:var(--good-soft);border-radius:10px}
+.private b{color:var(--good);font-weight:600}
+.private li{color:var(--ink);font-weight:500}
+.private li::before{content:"\2713";color:var(--good);font-weight:700;margin-right:7px}
+details#where summary{cursor:pointer;font-weight:600;font-size:15px}
+.where{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:10px;font-size:14px}
+.where ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.where a{color:var(--accent);font-weight:600}
+@media (max-width:560px){.where{grid-template-columns:1fr}}
+.share{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.share button.main{font:600 15px var(--body);border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;cursor:pointer}
+.share button.main:hover{border-color:var(--accent)}
+.trust{display:flex}
+.trust b{color:var(--ink);font-weight:600}
+.trust a{color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:18px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:600 14px var(--body);padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab small{font:500 11px var(--mono);opacity:.75;margin-left:4px}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font:600 14px var(--mono);color:var(--ink)}
+ol.steps li div{padding-top:4px}
+ol.steps a{color:var(--accent);font-weight:600}
+kbd{font:500 13px var(--mono);background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.drop{border:2px dashed var(--accent);border-radius:12px;padding:26px 16px;text-align:center;display:grid;gap:6px;cursor:pointer;background:var(--sunk);transition:background .15s}
+.drop:hover,.drop.over,.drop:focus-visible{background:var(--surface);outline:none}
+.drop strong{font:700 18px var(--display)}
+.drop span{font-size:14px;color:var(--muted)}
+.status{font-size:14px;color:var(--muted);margin:0}
+#status:empty{display:none}
+.status.err{color:var(--bad)}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:600 14px var(--body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+button:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* result */
+.verdict{border-radius:14px;padding:22px;display:grid;gap:8px;border:1px solid var(--line)}
+.verdict.bad{background:var(--bad-soft);border-color:transparent}
+.verdict.warn{background:var(--warn-soft);border-color:transparent}
+.verdict.good{background:var(--good-soft);border-color:transparent}
+.verdict .label{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.verdict.bad .label{color:var(--bad)} .verdict.warn .label{color:var(--warn)} .verdict.good .label{color:var(--good)}
+.verdict h2{font:800 clamp(26px,4.6vw,40px)/1.08 var(--display);margin:0;text-wrap:balance}
+.verdict p{margin:0;color:var(--ink)}
+.verdict .per{font:500 15px var(--mono);color:var(--muted)}
+.example-tag{justify-self:start;display:inline-block;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--sunk);color:var(--muted)}
+h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.finds{display:grid;gap:10px}
+.find{display:grid;grid-template-columns:5px 1fr auto;gap:0 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.find .bar{background:var(--bad)} .find.check .bar{background:var(--warn)}
+.find .t{padding:13px 0;display:grid;gap:3px;min-width:0}
+.find .t b{font-weight:600}
+.find .t span{font-size:14px;color:var(--muted)}
+.find .m{padding:13px 16px 13px 0;text-align:right;font:600 18px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.find .m small{display:block;font:400 12px var(--mono);color:var(--muted)}
+.find:not(.check) .m{color:var(--bad)}
+@media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
+.chart svg{width:100%;height:auto;display:block}
+.plans{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:stretch}
+@media (max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start}
+.plan .pname{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.plan.pro .pname{color:var(--bg);opacity:.8}
+.plan .pprice{font:800 36px/1 var(--display)}
+.plan .pprice small{font:500 15px var(--body);opacity:.75}
+.plan ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:15px}
+.plan .pbtn{justify-self:start;font:600 15px var(--body);border-radius:10px;padding:10px 16px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
+.plan .pnote{font-size:13px;opacity:.75}
+.premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
+.premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
+.premium p{margin:0;opacity:.88;max-width:56ch}
+.premium .price{font:600 15px var(--mono)}
+.premium button{font:600 15px var(--body);border-radius:10px;border:0;background:var(--bg);color:var(--ink);padding:11px 18px;cursor:pointer;justify-self:start}
+.premium .addr{font:500 15px var(--mono);background:rgba(127,127,127,.2);padding:8px 10px;border-radius:6px;user-select:all;word-break:break-all}
+.again{display:flex;gap:16px;flex-wrap:wrap}
+.foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
+.foot p{margin:0}
+details summary{cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+article{display:grid;gap:18px}
+article h2{font:800 26px/1.15 var(--display);margin:18px 0 0}
+article p,article li{max-width:66ch}
+table{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td.n{font:500 15px var(--mono);font-variant-numeric:tabular-nums}
+.cta{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;padding:12px 18px;border-radius:10px}
+.lead{font-size:19px}
+a{color:var(--accent)}
+.back{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+table{display:block;overflow-x:auto}.note{background:var(--warn-soft);border-radius:10px;padding:12px 14px}.src{font-size:14px;color:var(--muted)}code{font:500 14px var(--mono);background:var(--sunk);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}</style>
+
+</head><body><div class="wrap">
+<a class="back brand" href="/">AI Spend Doctor</a>
+<article>
+<h1>Supported CSV formats and how we calculate</h1>
+<p class="lead">The free checkup reads usage and cost exports from Claude and OpenAI, plus any CSV with similar columns. This page lists the columns it understands, what each check needs, and how every number is calculated.</p>
+<p class="note"><b>Tested so far on synthetic files only.</b> The shapes below follow the official Anthropic Usage and Cost API and the OpenAI Usage and Costs API. Neither provider publishes a column list for the CSV you download from the dashboard, and we have not yet checked a real anonymized dashboard export. If your file is not read correctly, write to <a href="mailto:hello@aispenddoctor.com">hello@aispenddoctor.com</a> with the header row only, never the data.</p>
+
+<h2>What the file needs</h2>
+<table><thead><tr><th>To see</th><th>The file needs</th></tr></thead><tbody>
+<tr><td>Total spend</td><td>A cost column, or token counts plus a model name from our price list</td></tr>
+<tr><td>Spend per model and price scenarios</td><td>A model column (or a line item or description that contains the model name)</td></tr>
+<tr><td>Daily spikes</td><td>A date column with at least 7 different days</td></tr>
+<tr><td>Cache share</td><td>Cache read tokens, or costs split by token type</td></tr>
+<tr><td>Batch share</td><td>A batch or service tier column</td></tr>
+</tbody></table>
+<p>Export the previous full month. A shorter period works, but spikes need at least a week of days.</p>
+
+<h2>Shapes we recognize</h2>
+<h3>Claude usage (tokens)</h3>
+<p><code>starting_at, model, service_tier, uncached_input_tokens, cache_read_input_tokens, cache_creation.ephemeral_5m_input_tokens, cache_creation.ephemeral_1h_input_tokens, output_tokens</code></p>
+<p>Cost is estimated from tokens and the price list below. Input excludes cache reads and cache writes. If only <code>cache_creation_input_tokens</code> is present, writes are priced at the 5-minute rate and the result says so. If both the total and the 5m/1h split are present, the split is used and the total is not added again.</p>
+<h3>Claude cost report</h3>
+<p><code>starting_at, description, cost_type, model, token_type, service_tier, amount, currency</code></p>
+<p>The Anthropic Cost API returns <code>amount</code> in cents. When a file has exactly this shape we read <code>amount</code> as cents and show a switch in case your file uses dollars.</p>
+<h3>OpenAI usage (tokens)</h3>
+<p><code>start_time, model, batch, service_tier, input_tokens, input_cached_tokens, input_uncached_tokens, output_tokens</code></p>
+<p>In OpenAI data <code>input_tokens</code> includes cached and cache-write tokens, so uncached input is <code>input_tokens</code> minus <code>input_cached_tokens</code> and cache writes, or <code>input_uncached_tokens</code> when present. <code>start_time</code> in Unix seconds is read as a UTC date.</p>
+<h3>OpenAI costs</h3>
+<p><code>start_time, line_item, amount.value, amount.currency</code></p>
+<p><code>amount.value</code> is in US dollars. The model and token type come from <code>line_item</code>, for example <code>gpt-6-sol, cached input</code>.</p>
+<h3>Any other CSV</h3>
+<p>Columns such as <code>date</code>, <code>model</code> and <code>cost_usd</code> work. A column named only <code>amount</code> or <code>cost</code> is read as US dollars and the result says it was assumed, with a switch to cents. Comma, semicolon and tab separators, quoted values, a byte order mark and Windows line endings are handled.</p>
+<h3>Rows we do not count</h3>
+<ul><li>Amounts in another currency. This version reads US dollars only.</li><li>Negative amounts (credits and refunds). They are shown separately.</li><li>Rows named Total or Subtotal, so nothing is counted twice.</li><li>Token rows for models not in our price list, when the row has no cost. We never guess a price.</li><li>Priority or fast tier token rows without a cost, because their price differs by model.</li></ul>
+<p>The result always shows how many rows were read, used and left out, and why.</p>
+
+<h2 id="method">How we calculate</h2>
+<ul>
+<li><b>Reported cost</b> is the sum of the amounts in your file. <b>Estimated cost</b> is calculated from token counts and the list prices below, only for rows without an amount. A file with both shows both.</li>
+<li><b>Batch and flex</b> rows are estimated at half price, but only when the file marks them. Rows without a tier are estimated at standard prices and the result says so.</li>
+<li><b>Daily spikes</b>: a day is flagged when its spend is more than 3 times the median day in the file and at least $5 above it. Days with no rows are not treated as zero. A spike is an observation; retries, traffic growth, backfills or a runaway agent are possible explanations, not a diagnosis.</li>
+<li><b>Cache share</b> is cache read tokens divided by all input tokens (uncached, cache reads and cache writes). From a cost export, each row's cost is converted to tokens with that model's own rates. It is flagged below 50% when at least half of spend could be checked.</li>
+<li><b>Batch share</b> is the share of spend at batch or flex prices among rows with a known tier.</li>
+<li><b>Model price scenarios</b> compare what you spent on an older Claude model with the same work at the current model's list prices, applied to input, output and cache separately, and with 30% more tokens when the newer model uses the newer tokenizer. A scenario is shown only when it is at least 5% lower. It is an estimate, not money already lost: output length, cache use and quality on your tasks can change it. OpenAI models are not paired, because their tiers do not map one to one.</li>
+<li>Every check is marked <b>Checked</b>, <b>Partly checked</b> (with the share of spend it covers) or <b>Not available</b>. A missing column never becomes 0%.</li>
+</ul>
+
+<h2 id="prices">Price list</h2>
+<p>USD per million tokens, standard tier, short context, global routing, checked 27 September 2026. Sources: <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic pricing</a>, <a href="https://developers.openai.com/api/docs/pricing">OpenAI pricing</a>. US-only inference on Claude 4.6 and later is priced 1.1× when the file has an <code>inference_geo</code> column set to <code>us</code>.</p>
+<h3>Claude</h3><table><thead><tr><th>Model</th><th>Input</th><th>Cache read</th><th>Cache write</th><th>Output</th><th>Tokenizer</th></tr></thead><tbody><tr><td>Claude Fable 5.1</td><td class='n'>$10</td><td class='n'>$0.25</td><td class='n'>$12.5 / $20</td><td class='n'>$50</td><td>newer</td></tr><tr><td>Claude Fable 5</td><td class='n'>$10</td><td class='n'>$1</td><td class='n'>$12.5 / $20</td><td class='n'>$50</td><td>newer</td></tr><tr><td>Claude Opus 5.5</td><td class='n'>$4</td><td class='n'>$0.2</td><td class='n'>$5 / $8</td><td class='n'>$20</td><td>newer</td></tr><tr><td>Claude Opus 5</td><td class='n'>$5</td><td class='n'>$0.5</td><td class='n'>$6.25 / $10</td><td class='n'>$25</td><td>newer</td></tr><tr><td>Claude Opus 4.8</td><td class='n'>$5</td><td class='n'>$0.5</td><td class='n'>$6.25 / $10</td><td class='n'>$25</td><td>newer</td></tr><tr><td>Claude Opus 4.7</td><td class='n'>$5</td><td class='n'>$0.5</td><td class='n'>$6.25 / $10</td><td class='n'>$25</td><td>newer</td></tr><tr><td>Claude Opus 4.6</td><td class='n'>$5</td><td class='n'>$0.5</td><td class='n'>$6.25 / $10</td><td class='n'>$25</td><td>previous</td></tr><tr><td>Claude Opus 4.5</td><td class='n'>$5</td><td class='n'>$0.5</td><td class='n'>$6.25 / $10</td><td class='n'>$25</td><td>previous</td></tr><tr><td>Claude Opus 4.1</td><td class='n'>$15</td><td class='n'>$1.5</td><td class='n'>$18.75 / $30</td><td class='n'>$75</td><td>previous</td></tr><tr><td>Claude Opus 4</td><td class='n'>$15</td><td class='n'>$1.5</td><td class='n'>$18.75 / $30</td><td class='n'>$75</td><td>previous</td></tr><tr><td>Claude Sonnet 5</td><td class='n'>$2</td><td class='n'>$0.2</td><td class='n'>$2.5 / $4</td><td class='n'>$10</td><td>newer</td></tr><tr><td>Claude Sonnet 4.6</td><td class='n'>$3</td><td class='n'>$0.3</td><td class='n'>$3.75 / $6</td><td class='n'>$15</td><td>previous</td></tr><tr><td>Claude Sonnet 4.5</td><td class='n'>$3</td><td class='n'>$0.3</td><td class='n'>$3.75 / $6</td><td class='n'>$15</td><td>previous</td></tr><tr><td>Claude Sonnet 4</td><td class='n'>$3</td><td class='n'>$0.3</td><td class='n'>$3.75 / $6</td><td class='n'>$15</td><td>previous</td></tr><tr><td>Claude Haiku 4.5</td><td class='n'>$1</td><td class='n'>$0.1</td><td class='n'>$1.25 / $2</td><td class='n'>$5</td><td>previous</td></tr><tr><td>Claude Haiku 3.5</td><td class='n'>$0.8</td><td class='n'>$0.08</td><td class='n'>$1 / $1.6</td><td class='n'>$4</td><td>previous</td></tr></tbody></table>
+<p class="src">Tokenizer: Anthropic says Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text.</p>
+<h3>OpenAI</h3><table><thead><tr><th>Model</th><th>Input</th><th>Cache read</th><th>Cache write</th><th>Output</th><th>Tokenizer</th></tr></thead><tbody><tr><td>GPT-6 Astra</td><td class='n'>$10</td><td class='n'>$1</td><td class='n'>$12.5</td><td class='n'>$50</td><td></td></tr><tr><td>GPT-6 Sol</td><td class='n'>$2</td><td class='n'>$0.2</td><td class='n'>$2.5</td><td class='n'>$10</td><td></td></tr><tr><td>GPT-6 Luna</td><td class='n'>$0.1</td><td class='n'>$0.01</td><td class='n'>$0.125</td><td class='n'>$0.5</td><td></td></tr><tr><td>GPT-5.6 Sol</td><td class='n'>$4</td><td class='n'>$0.4</td><td class='n'>same as input</td><td class='n'>$20</td><td></td></tr><tr><td>GPT-5.6 Terra</td><td class='n'>$2</td><td class='n'>$0.2</td><td class='n'>same as input</td><td class='n'>$12</td><td></td></tr><tr><td>GPT-5.6 Luna</td><td class='n'>$0.2</td><td class='n'>$0.02</td><td class='n'>same as input</td><td class='n'>$1.2</td><td></td></tr><tr><td>GPT-5.5</td><td class='n'>$5</td><td class='n'>$0.5</td><td class='n'>same as input</td><td class='n'>$30</td><td></td></tr><tr><td>GPT-5.4 mini</td><td class='n'>$0.75</td><td class='n'>$0.075</td><td class='n'>same as input</td><td class='n'>$4.5</td><td></td></tr><tr><td>GPT-5.4 nano</td><td class='n'>$0.2</td><td class='n'>$0.02</td><td class='n'>same as input</td><td class='n'>$1.25</td><td></td></tr><tr><td>GPT-5.4</td><td class='n'>$2.5</td><td class='n'>$0.25</td><td class='n'>same as input</td><td class='n'>$15</td><td></td></tr><tr><td>GPT-5.2</td><td class='n'>$1.75</td><td class='n'>$0.175</td><td class='n'>same as input</td><td class='n'>$14</td><td></td></tr><tr><td>GPT-5.1</td><td class='n'>$1.25</td><td class='n'>$0.125</td><td class='n'>same as input</td><td class='n'>$10</td><td></td></tr><tr><td>GPT-5 mini</td><td class='n'>$0.25</td><td class='n'>$0.025</td><td class='n'>same as input</td><td class='n'>$2</td><td></td></tr><tr><td>GPT-5 nano</td><td class='n'>$0.05</td><td class='n'>$0.005</td><td class='n'>same as input</td><td class='n'>$0.4</td><td></td></tr><tr><td>GPT-5</td><td class='n'>$1.25</td><td class='n'>$0.125</td><td class='n'>same as input</td><td class='n'>$10</td><td></td></tr><tr><td>GPT-4.1 mini</td><td class='n'>$0.4</td><td class='n'>$0.1</td><td class='n'>same as input</td><td class='n'>$1.6</td><td></td></tr><tr><td>GPT-4.1</td><td class='n'>$2</td><td class='n'>$0.5</td><td class='n'>same as input</td><td class='n'>$8</td><td></td></tr><tr><td>GPT-4o mini</td><td class='n'>$0.15</td><td class='n'>$0.075</td><td class='n'>same as input</td><td class='n'>$0.6</td><td></td></tr><tr><td>GPT-4o</td><td class='n'>$2.5</td><td class='n'>$1.25</td><td class='n'>same as input</td><td class='n'>$10</td><td></td></tr><tr><td>o4-mini</td><td class='n'>$1.1</td><td class='n'>$0.275</td><td class='n'>same as input</td><td class='n'>$4.4</td><td></td></tr><tr><td>o3</td><td class='n'>$2</td><td class='n'>$0.5</td><td class='n'>same as input</td><td class='n'>$8</td><td></td></tr></tbody></table>
+<p class="src">GPT-5.5 and GPT-5.4 prices are for requests under 272K input tokens; longer requests cost more and are not modelled.</p>
+
+<p><a class="cta" href="/">Check your CSV for free</a> <a href="/#demo" style="margin-left:14px">Try the demo</a></p>
+
+<p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
+</article></div></body></html>
