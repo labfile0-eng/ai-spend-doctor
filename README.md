@@ -1,6 +1,6 @@
 # AI Spend Doctor
 
-**Check your Claude and OpenAI API costs.** Open your API usage or cost CSV and see spend spikes and cost patterns worth investigating. Free, no signup, no API key. The file stays on your device.
+**Check your Claude and OpenAI API bill without uploading it.** Open your API usage or cost CSV and see spend spikes and cost patterns worth investigating. The file is read on your device and never leaves it: the page's Content Security Policy (`connect-src 'none'`) blocks every network request, and the check works offline. Free, no signup, no API key.
 
 **Try it:** https://aispenddoctor.com/ · **Demo:** https://aispenddoctor.com/#demo
 

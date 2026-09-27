@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Free Claude &amp; OpenAI API Cost Check | AI Spend Doctor</title>
-<meta name="description" content="Open your Claude or OpenAI API usage CSV and see spend spikes, cache and batch use and model price scenarios. Free, no signup, the file stays on your device.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; form-action 'none'; base-uri 'none'; object-src 'none'">
+<title>Private Claude &amp; OpenAI API Cost Check | AI Spend Doctor</title>
+<meta name="description" content="Check your Claude or OpenAI API usage CSV without uploading it. The file is read on your device and never leaves it. Spend spikes, cache and batch use, model price scenarios. Free, no signup.">
 <link rel="canonical" href="https://aispenddoctor.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aispenddoctor.com/">
 <meta property="og:site_name" content="AI Spend Doctor">
-<meta property="og:title" content="Free Claude &amp; OpenAI API cost check">
-<meta property="og:description" content="Open your API usage CSV and see spend spikes and cost patterns worth investigating. The file stays on your device.">
+<meta property="og:title" content="Check your AI API bill without uploading it">
+<meta property="og:description" content="Your Claude or OpenAI usage CSV is read on your device and never leaves it. See spend spikes and cost patterns worth investigating. Free, no signup.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -168,28 +169,42 @@ table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:up
 .premium .early{font-size:14px}
 .foot a{font-weight:500}
 @media (max-width:560px){table.checks td:nth-child(3){font-size:12px}}
+.proof{background:var(--good-soft);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
+.proof h2{font:700 18px/1.3 var(--display);margin:0;color:var(--ink);text-wrap:balance}
+.proof ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:15px}
+.proof li{padding-left:24px;position:relative;max-width:68ch}
+.proof li::before{content:"\2713";position:absolute;left:0;color:var(--good);font-weight:700}
+.proof b{color:var(--good);font-weight:600}
+.proof code{font:500 13px var(--mono);background:var(--surface);padding:1px 5px;border-radius:5px;white-space:nowrap}
+.proof a{color:var(--accent);font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
     <div class="brand">AI Spend Doctor</div>
-    <h1>Check your Claude and OpenAI API costs.</h1>
-    <p class="sub">Find spend spikes and cost patterns worth investigating. Open your usage CSV for a free check, or try the demo first.</p>
+    <h1>Check your AI API bill without uploading it.</h1>
+    <p class="sub">Open your Claude or OpenAI usage CSV and see spend spikes, cache and batch use, and model price scenarios. This page reads the file on your device. Your data never leaves it.</p>
     <div class="cta-row">
       <a class="btn primary" href="#start" data-start>Check my CSV for free</a>
       <a class="btn" href="#demo" data-demo>Try the demo</a>
     </div>
     <p class="scope">For API usage and cost exports in US dollars. ChatGPT and Claude chat subscriptions are billed separately and are not covered.</p>
-    <ul class="private" aria-label="Privacy">
-      <li>Your CSV stays on this device</li><li>No signup</li><li>No API key</li>
-    </ul>
+    <section class="proof" aria-labelledby="proofTitle">
+      <h2 id="proofTitle">Your billing data stays with you. You can check that yourself.</h2>
+      <ul>
+        <li><b>Nothing is sent.</b> The page's security policy forbids it from making any network request (<code>connect-src 'none'</code>), and your browser enforces that, not us.</li>
+        <li><b>Works offline.</b> Load the page, turn off your internet, then open your file. The check still runs.</li>
+        <li><b>Nothing to hand over.</b> No account, no API key, no analytics, nothing stored after you close the tab.</li>
+        <li><b>Source available.</b> Read every line on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</li>
+      </ul>
+    </section>
   </section>
 
   <section class="card" id="start" aria-label="Check your usage file">
     <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose your usage CSV file" aria-describedby="dropHint">
       <strong>Open your usage CSV</strong>
-      <span id="dropHint">Drag the file here or press to choose it. Up to 50 MB.</span>
+      <span id="dropHint">It is read here and stays on this device. Drag the file here or press to choose it. Up to 50 MB.</span>
       <input type="file" id="file" accept=".csv,text/csv,text/plain" hidden>
     </div>
     <div class="status" id="status" role="status" aria-live="polite"></div>
@@ -255,7 +270,7 @@ table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:up
   </section>
 
   <footer class="foot">
-    <p><b>How it works.</b> The page reads your file with JavaScript on this device. It sends nothing about the file anywhere, stores nothing, and has no analytics. The source is available for inspection on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</p>
+    <p><b>How it works.</b> The page reads your file with JavaScript on this device. Its Content Security Policy blocks all network requests from the page, so the file and the results cannot be sent anywhere. It stores nothing and has no analytics. The source is available for inspection on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</p>
     <p><b>What the numbers mean.</b> Reported cost comes from the amounts in your file. Estimated cost is calculated from token counts and list prices, only for models in our price list. Checks that need data your file does not have are marked as not available rather than counted as zero. <a href="/csv-formats/#method">How we calculate</a></p>
     <p>Prices checked <span id="checked"></span> from the <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing" target="_blank" rel="noopener">OpenAI</a> price pages. Not affiliated with Anthropic or OpenAI.</p>
     <p>Guides: <a href="/what-your-api-usage-csv-can-tell-you/">Reading your usage CSV</a> · <a href="/csv-formats/">Supported CSV formats</a> · <a href="/claude-opus-4-1-vs-opus-5-5/">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/">Caching and Batch API</a></p>
