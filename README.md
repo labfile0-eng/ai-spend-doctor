@@ -22,8 +22,4 @@ Tested on synthetic files that follow the official Anthropic and OpenAI usage an
 
 The page reads your file with JavaScript on your own machine. It sends nothing about the file anywhere, stores nothing and has no analytics. The source is available for inspection: `engine.js` reads the file and does the calculations, `app.js` draws the page.
 
-## Tests
-
-Run `npm test` (Node.js 22 or newer, no dependencies). The same tests run on GitHub for every change.
-
 © 2026 Valeriy Danilov. All rights reserved. See LICENSE.
