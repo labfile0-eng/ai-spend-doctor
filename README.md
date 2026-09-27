@@ -20,26 +20,6 @@ Tested on synthetic files that follow the official Anthropic and OpenAI usage an
 
 ## Privacy
 
-The page reads your file with JavaScript on your own machine. It sends nothing about the file anywhere, stores nothing and has no analytics. Inspect `engine.js` for parsing and calculations, `app.js` for the browser interface, and `index.html` for the page.
-
-## Development and verification
-
-The site is static and has no production dependencies or build step. Use Node.js 22 or newer to run the regression suite:
-
-```sh
-npm test
-```
-
-No dependency installation is required. GitHub Actions runs the same suite on pull requests and on `main`.
-
-Preview the complete site over HTTP (including the two JavaScript files):
-
-```sh
-python3 -m http.server 8766 --bind 127.0.0.1
-```
-
-Open `http://127.0.0.1:8766/#demo`. The checks are based on synthetic fixtures; real dashboard-export compatibility still needs validation. See `docs/browser-checks.md` for manual browser checks and `launch/README.md` for the first-user pilot.
-
-Malformed numeric fields are never silently replaced by zero. Valid reported costs survive invalid token fields, but those token fields do not contribute to token-derived checks. Cost-only cache inference requires both input and cached-input line items for the same model, day and tier and is explicitly labelled as an estimate. Partial data stays partial even when coverage exceeds 95%.
+The page reads your file with JavaScript on your own machine. It sends nothing about the file anywhere, stores nothing and has no analytics. The source is available for inspection in `index.html`.
 
 © 2026 Valeriy Danilov. All rights reserved. See LICENSE.
