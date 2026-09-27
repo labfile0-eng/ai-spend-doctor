@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Still on Claude Opus 4.1? You pay 3.75× what Opus 5.5 costs</title>
-<meta name="description" content="Claude Opus 4.1 costs $15 input and $75 output per million tokens. Opus 5.5 costs $4 and $20. See what the switch saves on your own usage file.">
+<title>Claude Opus 4.1 vs Opus 5.5: price per token and per task</title>
+<meta name="description" content="Claude Opus 4.1 costs $15 input and $75 output per million tokens, Opus 5.5 costs $4 and $20. With the newer tokenizer the gap per task is closer to 2.9×. How to check your own bill.">
 <link rel="canonical" href="https://aispenddoctor.com/claude-opus-4-1-vs-opus-5-5/">
-<meta property="og:title" content="Still on Claude Opus 4.1? You pay 3.75× what Opus 5.5 costs"><meta property="og:description" content="Claude Opus 4.1 costs $15 input and $75 output per million tokens. Opus 5.5 costs $4 and $20. See what the switch saves on your own usage file.">
+<meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/claude-opus-4-1-vs-opus-5-5/">
+<meta property="og:title" content="Claude Opus 4.1 vs Opus 5.5: price per token and per task"><meta property="og:description" content="Claude Opus 4.1 costs $15 input and $75 output per million tokens, Opus 5.5 costs $4 and $20. With the newer tokenizer the gap per task is closer to 2.9×. How to check your own bill.">
+<meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>:root{
@@ -88,6 +90,16 @@ h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color
 @media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
 .chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
 .chart svg{width:100%;height:auto;display:block}
+.plans{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:stretch}
+@media (max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start}
+.plan .pname{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.plan.pro .pname{color:var(--bg);opacity:.8}
+.plan .pprice{font:800 36px/1 var(--display)}
+.plan .pprice small{font:500 15px var(--body);opacity:.75}
+.plan ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:15px}
+.plan .pbtn{justify-self:start;font:600 15px var(--body);border-radius:10px;padding:10px 16px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
+.plan .pnote{font-size:13px;opacity:.75}
 .premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
 .premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
 .premium p{margin:0;opacity:.88;max-width:56ch}
@@ -111,26 +123,29 @@ td.n{font:500 15px var(--mono);font-variant-numeric:tabular-nums}
 .lead{font-size:19px}
 a{color:var(--accent)}
 .back{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
-</style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much more does Claude Opus 4.1 cost than Opus 5.5?","acceptedAnswer":{"@type":"Answer","text":"3.75 times more at list price: $15 versus $4 per million input tokens and $75 versus $20 per million output tokens."}},{"@type":"Question","name":"Is Opus 5.5 the same tier as Opus 4.1?","acceptedAnswer":{"@type":"Answer","text":"Yes. Both are the Opus tier, Anthropic's top line. Opus 5.5 is the current version. Test quality on your own tasks before switching."}},{"@type":"Question","name":"How do I see how much I spend on Opus 4.1?","acceptedAnswer":{"@type":"Answer","text":"Export the cost file from the Claude Console and drop it on aispenddoctor.com. It shows spend per model and what you paid on top for older versions."}}]}</script>
+table{display:block;overflow-x:auto}.note{background:var(--warn-soft);border-radius:10px;padding:12px 14px}.src{font-size:14px;color:var(--muted)}code{font:500 14px var(--mono);background:var(--sunk);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much more does Claude Opus 4.1 cost than Opus 5.5?", "acceptedAnswer": {"@type": "Answer", "text": "Per token, 3.75 times more at list price: $15 versus $4 per million input tokens and $75 versus $20 per million output tokens. Because Opus 5.5 uses a newer tokenizer that produces about 30% more tokens for the same text, the gap for the same work is closer to 2.9 times at list prices."}}, {"@type": "Question", "name": "Is Opus 5.5 the same tier as Opus 4.1?", "acceptedAnswer": {"@type": "Answer", "text": "Both are in the Opus line, Anthropic's top tier, and Opus 5.5 is the current version. Test quality and token counts on your own tasks before switching."}}, {"@type": "Question", "name": "How do I see how much I spend on Opus 4.1?", "acceptedAnswer": {"@type": "Answer", "text": "Export the usage or cost CSV from the Claude Console and open it in the free checkup at aispenddoctor.com. It shows spend per model and a price scenario for older versions."}}]}</script>
 </head><body><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
-<h1>Still on Claude Opus 4.1? You pay 3.75× what Opus 5.5 costs</h1>
-<p class="lead">Short answer: Claude Opus 4 and 4.1 cost $15 per million input tokens and $75 per million output tokens. Claude Opus 5.5, the current model of the same tier, costs $4 and $20. For the same traffic, the older model costs 3.75 times more.</p>
-<table><thead><tr><th>Model</th><th>Input, per 1M</th><th>Output, per 1M</th><th>vs Opus 5.5</th></tr></thead><tbody>
-<tr><td>Claude Opus 4 / 4.1</td><td class="n">$15</td><td class="n">$75</td><td class="n">3.75×</td></tr>
-<tr><td>Claude Opus 4.5 to 5</td><td class="n">$5</td><td class="n">$25</td><td class="n">1.25×</td></tr>
-<tr><td>Claude Opus 5.5</td><td class="n">$4</td><td class="n">$20</td><td class="n">1×</td></tr>
+<h1>Claude Opus 4.1 vs Opus 5.5: price per token and per task</h1>
+<p class="lead">Short answer: at list prices Claude Opus 4 and 4.1 cost $15 per million input tokens and $75 per million output tokens. Claude Opus 5.5 costs $4 and $20, 3.75 times less per token. Opus 5.5 uses a newer tokenizer that counts about 30% more tokens for the same text, so for the same work the list-price gap is closer to 2.9 times.</p>
+<table><thead><tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Cache write 5m / 1h</th><th>Tokenizer</th></tr></thead><tbody>
+<tr><td>Claude Opus 4 / 4.1</td><td class="n">$15</td><td class="n">$75</td><td class="n">$1.50</td><td class="n">$18.75 / $30</td><td>previous</td></tr>
+<tr><td>Claude Opus 4.5 / 4.6</td><td class="n">$5</td><td class="n">$25</td><td class="n">$0.50</td><td class="n">$6.25 / $10</td><td>previous</td></tr>
+<tr><td>Claude Opus 4.7 / 4.8 / 5</td><td class="n">$5</td><td class="n">$25</td><td class="n">$0.50</td><td class="n">$6.25 / $10</td><td>newer</td></tr>
+<tr><td>Claude Opus 5.5</td><td class="n">$4</td><td class="n">$20</td><td class="n">$0.20</td><td class="n">$5 / $8</td><td>newer</td></tr>
 </tbody></table>
-<h2>What it means in dollars</h2>
-<p>A team that spends $3,000 a month on Opus 4.1 would pay about $800 for the same tokens on Opus 5.5, a difference of about $2,200 a month or $26,400 a year. The ratio holds for any volume, because both input and output prices dropped by the same factor.</p>
-<h2>Why teams stay on the old version</h2>
-<ul><li>The model name is pinned in code or in a config file nobody revisits.</li><li>A pipeline was tuned years ago and nobody wants to touch it.</li><li>Nobody looks at the bill by model, only at the total.</li></ul>
-<h2>How to check your own bill</h2>
-<ol><li>Open the Claude Console, go to Cost, pick last month and export the file.</li><li>Drop the file on <a href="/">AI Spend Doctor</a>. It runs in your browser and does not upload anything.</li><li>If you still use Opus 4 or 4.1, you will see the exact amount you paid on top.</li></ol>
-<p><a class="cta" href="/">Check your own bill in 30 seconds</a></p>
-<h2>Questions</h2>
-<h3>How much more does Claude Opus 4.1 cost than Opus 5.5?</h3><p>3.75 times more at list price: $15 versus $4 per million input tokens and $75 versus $20 per million output tokens.</p><h3>Is Opus 5.5 the same tier as Opus 4.1?</h3><p>Yes. Both are the Opus tier, Anthropic&#x27;s top line. Opus 5.5 is the current version. Test quality on your own tasks before switching.</p><h3>How do I see how much I spend on Opus 4.1?</h3><p>Export the cost file from the Claude Console and drop it on aispenddoctor.com. It shows spend per model and what you paid on top for older versions.</p>
-<p class="foot" style="font-size:13px;color:var(--muted)">List prices checked 25 September 2026 on the official Anthropic pricing page. Test quality on your own tasks before switching models. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
+<p class="src">USD per million tokens, standard tier, global routing.</p>
+<p class="note"><b>Price per token is not price per task.</b> Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, depending on the content (<a href="https://platform.claude.com/docs/en/about-claude/pricing">pricing page</a>). Output length and quality on your own tasks also change the result, so treat the numbers below as a scenario and test on your own prompts.</p>
+<h2>A worked scenario</h2>
+<p>Suppose a team spent $3,000 last month on Opus 4.1. The same work at Opus 5.5 list prices, with 30% more tokens, would be about $3,000 × 4/15 × 1.3 ≈ $1,040. That is a scenario, not a saving already made: output length, cache hit rate and quality on your tasks can move it either way.</p>
+<p>The same arithmetic shows why moving from Opus 4.5 or 4.6 to Opus 5.5 may not save anything: the per-token price drops by 20%, while the newer tokenizer can add about 30% more tokens.</p>
+<h2>What to do before switching</h2>
+<ol><li>Take a sample of real prompts and run them on both models.</li><li>Compare quality, output length and token counts, not only the per-token price.</li><li>Change the model name in one service first and watch the bill for a week.</li></ol>
+<h2>Check your own bill</h2>
+<p>Export last month's usage or cost CSV from the Claude Console and open it in the <a href="/">free checkup</a>. It shows how much went to each model and a price scenario for older versions, with the method next to the number. The file stays on your device.</p>
+<p><a class="cta" href="/">Check your own CSV for free</a></p>
+<h2>Questions</h2><h3>How much more does Claude Opus 4.1 cost than Opus 5.5?</h3><p>Per token, 3.75 times more at list price: $15 versus $4 per million input tokens and $75 versus $20 per million output tokens. Because Opus 5.5 uses a newer tokenizer that produces about 30% more tokens for the same text, the gap for the same work is closer to 2.9 times at list prices.</p><h3>Is Opus 5.5 the same tier as Opus 4.1?</h3><p>Both are in the Opus line, Anthropic&#x27;s top tier, and Opus 5.5 is the current version. Test quality and token counts on your own tasks before switching.</p><h3>How do I see how much I spend on Opus 4.1?</h3><p>Export the usage or cost CSV from the Claude Console and open it in the free checkup at aispenddoctor.com. It shows spend per model and a price scenario for older versions.</p>
+<p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
 </article></div></body></html>
