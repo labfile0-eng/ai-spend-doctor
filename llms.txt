@@ -1,0 +1,25 @@
+# AI Spend Doctor
+
+> Free, browser-only check of Claude (Anthropic) and OpenAI API usage and cost CSV exports. The file is read on the user's device and never uploaded: the page's Content Security Policy sets connect-src 'none', and the check works offline. No signup, no API key, no analytics.
+
+What it shows from a usage or cost CSV:
+- Daily spend spikes (a day over 3x the median day of the file)
+- Share of input tokens read from the prompt cache, when the export has cache data
+- Share of spend at Batch or Flex prices, when the export has a tier or batch column
+- Share of spend on top-tier models
+- Price scenarios for older Claude models at the current same-tier model's list prices, including about 30% more tokens on Claude's newer tokenizer (estimates, not confirmed savings)
+
+Checks that need data the export lacks are marked "not available", never shown as 0%. Unknown models are never given a guessed price. Reported costs and token-based estimates are kept separate.
+
+## Pages
+- [Free checkup](https://aispenddoctor.com/): open a CSV or try the demo
+- [Demo with synthetic data](https://aispenddoctor.com/#demo)
+- [Supported CSV formats, method and price list](https://aispenddoctor.com/csv-formats/)
+- [What your API usage CSV can and cannot tell you](https://aispenddoctor.com/what-your-api-usage-csv-can-tell-you/)
+- [Claude Opus 4.1 vs Opus 5.5 price per token and per task](https://aispenddoctor.com/claude-opus-4-1-vs-opus-5-5/)
+- [Claude Sonnet 4 vs Sonnet 5 price](https://aispenddoctor.com/claude-sonnet-4-vs-sonnet-5-price/)
+- [Claude prompt caching and Batch API costs](https://aispenddoctor.com/claude-prompt-caching-and-batch-api-savings/)
+
+## Source
+- [Source available for inspection on GitHub](https://github.com/labfile0-eng/ai-spend-doctor)
+- Contact: hello@aispenddoctor.com
