@@ -15,6 +15,9 @@ Checks that need data the export lacks are marked "not available", never shown a
 - [Free checkup](https://aispenddoctor.com/): open a CSV or try the demo
 - [Demo with synthetic data](https://aispenddoctor.com/#demo)
 - [Supported CSV formats, method and price list](https://aispenddoctor.com/csv-formats/)
+- [How to export Claude API usage and cost as CSV](https://aispenddoctor.com/how-to-export-claude-api-usage-csv/)
+- [How to export OpenAI API usage and cost as CSV](https://aispenddoctor.com/how-to-export-openai-api-usage-csv/)
+- [Why did my OpenAI or Claude API bill go up?](https://aispenddoctor.com/why-did-my-ai-api-bill-go-up/)
 - [What your API usage CSV can and cannot tell you](https://aispenddoctor.com/what-your-api-usage-csv-can-tell-you/)
 - [Claude Opus 4.1 vs Opus 5.5 price per token and per task](https://aispenddoctor.com/claude-opus-4-1-vs-opus-5-5/)
 - [Claude Sonnet 4 vs Sonnet 5 price](https://aispenddoctor.com/claude-sonnet-4-vs-sonnet-5-price/)
