@@ -51,7 +51,7 @@ $("dl").onclick = () => {
   a.download = "ai-spend-doctor-demo.csv"; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
-const tabs = [["tabA", "howA"], ["tabO", "howO"]];
+const tabs = [["tabA", "howA"], ["tabO", "howO"], ["tabR", "howR"]];
 tabs.forEach(([t, p]) => $(t).onclick = () => tabs.forEach(([t2, p2]) => { $(t2).setAttribute("aria-selected", t2 === t); $(p2).hidden = p2 !== p; }));
 
 // ---------------------------------------------------------------- errors
@@ -111,6 +111,7 @@ function render(P, demo) {
   if (C.invalid) li.push(`${C.invalid} row${C.invalid === 1 ? "" : "s"} excluded for invalid numeric values, inconsistent token counts or a different number of columns. Invalid data was not treated as zero.`);
   if (C.invalidTokens) li.push(`Invalid token data in ${C.invalidTokens} row${C.invalidTokens === 1 ? "" : "s"}. Explicit reported costs, when valid, are retained; token-derived checks do not use this data.`);
   if (C.currency) li.push(`${C.currency} rows in ${esc(P.currencies.map(c => c[0]).join(", "))} are not counted. This version reads US dollars only.`);
+  if (P.byok > 0) li.push(`${fmt(P.byok)} of inference ran on your own provider keys (BYOK). Providers bill that directly, so it is not in this total.`);
   if (C.credit) li.push(`${C.credit} credit or refund rows (${fmt(P.credits)}) are shown separately and not subtracted.`);
   if (C.total) li.push(`${C.total} total rows skipped so nothing is counted twice.`);
   if (C.noData) li.push(`${C.noData} rows had neither a cost nor token counts.`);

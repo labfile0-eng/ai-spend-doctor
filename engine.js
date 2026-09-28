@@ -61,7 +61,8 @@ const TOKENIZER_FACTOR = 1.3;
 const PREMIUM = /opus|fable|mythos|astra/;
 
 const norm = s => String(s ?? "").toLowerCase().trim().replace(/[\s._:]+/g, "-").replace(/-+/g, "-");
-const stripDate = s => s.replace(/-(\d{8}|20\d\d-\d\d-\d\d|latest)$/, "");
+// OpenRouter slugs put the version first ("claude-4.5-sonnet"); turn them into "claude-sonnet-4-5"
+const stripDate = s => s.replace(/-(\d{8}|20\d\d-\d\d-\d\d|latest)$/, "").replace(/claude-(\d+(?:-\d+)?)-(opus|sonnet|haiku)$/, "claude-$2-$1");
 function findPrice(model) {
   if (!model) return null;
   const k = stripDate(norm(model));
@@ -108,7 +109,8 @@ function toDay(v) {
     return d.getUTCFullYear() === y && d.getUTCMonth() === m - 1 && d.getUTCDate() === day;
   };
   let t;
-  if (/^\d{4}-\d{2}-\d{2}(?:T|$)/.test(s)) {
+  if (/^\d{4}-\d{2}-\d{2}(?:[T ]|$)/.test(s)) {
+    if (s[10] === " ") return toDay(s.slice(0, 10) + "T" + s.slice(11).trim());
     const [y, m, d] = s.slice(0, 10).split("-").map(Number);
     if (!validDate(y, m, d)) return "";
     // A timezone-free timestamp is interpreted as UTC, never the viewer's local zone.
@@ -162,7 +164,7 @@ function detect(header) {
   m.costType = exact(["cost-type"]); m.tokenType = exact(["token-type"]);
   m.tier = exact(["service-tier"]); m.batch = exact(["batch", "is-batch"]); m.geo = exact(["inference-geo"]);
   // money
-  const usdNames = ["cost-usd", "amount-usd", "usd", "cost-usd-", "total-cost-usd", "spend-usd", "cost-in-usd"];
+  const usdNames = ["cost-usd", "amount-usd", "usd", "cost-usd-", "total-cost-usd", "spend-usd", "cost-in-usd", "cost-total"];
   const centNames = ["cost-cents", "amount-cents", "cents", "cost-usd-cents"];
   m.cost = exact(usdNames); m.unit = m.cost != null ? "usd" : null;
   if (m.cost == null) { m.cost = exact(centNames, /cent/); if (m.cost != null) m.unit = "cents"; }
@@ -174,12 +176,13 @@ function detect(header) {
   m.cached = exact(["cache-read-input-tokens", "input-cached-tokens", "cached-input-tokens", "cached-tokens", "cache-read-tokens"]);
   m.cw5 = exact([], /cache.*5m/); m.cw1h = exact([], /cache.*1h/);
   m.cwAgg = exact(["cache-creation-input-tokens", "cache-write-tokens", "input-cache-write-tokens", "cache-creation-tokens"]);
-  m.input = exact(["input-tokens", "prompt-tokens", "input", "n-context-tokens-total"], /^(?!.*(cach|audio|image))(?=.*(input|prompt)).*tokens?$/);
-  m.output = exact(["output-tokens", "completion-tokens", "output", "n-generated-tokens-total"], /^(?!.*(audio|image))(?=.*(output|completion)).*tokens?$/);
+  m.input = exact(["input-tokens", "prompt-tokens", "input", "n-context-tokens-total", "tokens-prompt"], /^(?!.*(cach|audio|image))(?=.*(input|prompt)).*tokens?$/);
+  m.output = exact(["output-tokens", "completion-tokens", "output", "n-generated-tokens-total", "tokens-completion"], /^(?!.*(audio|image))(?=.*(output|completion)).*tokens?$/);
   // context
-  m.date = exact(["date", "day", "usage-date", "start-time", "starting-at", "bucket-start-time", "start", "period", "timestamp", "time", "start-date"],
+  m.date = exact(["date", "day", "usage-date", "start-time", "starting-at", "bucket-start-time", "start", "period", "timestamp", "time", "start-date", "created-at", "created"],
     /^(?!.*end)(date|day|time|bucket|period)/);
-  m.model = exact(["model", "model-name", "model-id"], null);
+  m.model = exact(["model", "model-name", "model-id", "model-permaslug", "model-slug"], null);
+  m.byok = exact(["byok-usage-inference"]);
   m.desc = exact(["line-item", "description", "product", "sku", "line-item-name"], /line.?item|description/);
   m.hasTokens = [m.uncached, m.cached, m.cw5, m.cw1h, m.cwAgg, m.input, m.output].some(x => x != null);
   // input semantics: "separate" (Claude: input excludes cache reads/writes) or "inclusive" (OpenAI: input includes cached and cache-write)
@@ -215,7 +218,7 @@ function analyse(text, opts) {
   out.unit = unit; out.unitReason = unitReason; out.unitHeader = map.cost != null ? header[map.cost] : "";
 
   const C = {used: 0, reported: 0, estimated: 0, unpriced: 0, noData: 0, total: 0, currency: 0, credit: 0, badDate: 0, zero: 0, invalid: 0, invalidTokens: 0};
-  let reported = 0, estimated = 0, credits = 0;
+  let reported = 0, estimated = 0, credits = 0, byok = 0;
   const currencies = new Map(), unpricedModels = new Map(), unpricedReasons = new Map(), assumptions = new Set();
   const items = []; // normalized rows
   for (let r = 1; r < rows.length; r++) {
@@ -228,6 +231,7 @@ function analyse(text, opts) {
     const price = findPrice(rawModel);
     const cur = cell(map.currency).toLowerCase();
     if (cur && cur !== "usd" && cur !== "$") { C.currency++; currencies.set(cur.toUpperCase(), (currencies.get(cur.toUpperCase()) || 0) + 1); continue; }
+    if (map.byok != null) { const b = num(cell(map.byok)); if (Number.isFinite(b) && b > 0) byok += b; }
     const day = map.date != null ? toDay(cell(map.date)) : "";
     // tier
     const tierText = cell(map.tier).toLowerCase(), batchText = cell(map.batch).toLowerCase();
@@ -282,7 +286,7 @@ function analyse(text, opts) {
     if (source === "reported") reported += cost; else estimated += cost;
     items.push({day, model: rawModel, price, provider, tier, cost, source, kind: kindOf(kindText), T, sem, invalidTokens});
   }
-  Object.assign(out, {counts: C, reported, estimated, credits, total: reported + estimated, items,
+  Object.assign(out, {counts: C, reported, estimated, credits, byok, total: reported + estimated, items,
     currencies: [...currencies], unpricedModels: [...unpricedModels], unpricedReasons: [...unpricedReasons], assumptions: [...assumptions]});
   if (!items.length) out.error = C.invalid ? "invalid-values" : C.unpriced ? "all-unpriced" : C.currency ? "other-currency" : C.credit ? "only-credits" : "no-values";
   const days = [...new Set(items.map(x => x.day).filter(Boolean))].sort();

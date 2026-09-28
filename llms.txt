@@ -1,6 +1,6 @@
 # AI Spend Doctor
 
-> Free, browser-only check of Claude (Anthropic) and OpenAI API usage and cost CSV exports. The file is read on the user's device and never uploaded: the page's Content Security Policy sets connect-src 'none', and the check works offline. No signup, no API key, no analytics.
+> Free, browser-only check of Claude (Anthropic), OpenAI and OpenRouter API usage and cost CSV exports. The file is read on the user's device and never uploaded: the page's Content Security Policy sets connect-src 'none', and the check works offline. No signup, no API key, no analytics.
 
 What it shows from a usage or cost CSV:
 - Daily spend spikes (a day over 3x the median day of the file)
@@ -17,6 +17,7 @@ Checks that need data the export lacks are marked "not available", never shown a
 - [Supported CSV formats, method and price list](https://aispenddoctor.com/csv-formats/)
 - [How to export Claude API usage and cost as CSV](https://aispenddoctor.com/how-to-export-claude-api-usage-csv/)
 - [How to export OpenAI API usage and cost as CSV](https://aispenddoctor.com/how-to-export-openai-api-usage-csv/)
+- [How to export OpenRouter usage as CSV](https://aispenddoctor.com/how-to-export-openrouter-activity-csv/)
 - [Why did my OpenAI or Claude API bill go up?](https://aispenddoctor.com/why-did-my-ai-api-bill-go-up/)
 - [What your API usage CSV can and cannot tell you](https://aispenddoctor.com/what-your-api-usage-csv-can-tell-you/)
 - [Claude Opus 4.1 vs Opus 5.5 price per token and per task](https://aispenddoctor.com/claude-opus-4-1-vs-opus-5-5/)

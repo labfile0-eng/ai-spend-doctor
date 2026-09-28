@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; form-action 'none'; base-uri 'none'; object-src 'none'">
 <title>Private Claude &amp; OpenAI API Cost Check | AI Spend Doctor</title>
-<meta name="description" content="Check your Claude or OpenAI API usage CSV without uploading it. The file is read on your device and never leaves it. Spend spikes, cache and batch use, model price scenarios. Free, no signup.">
+<meta name="description" content="Check your Claude, OpenAI or OpenRouter API usage CSV without uploading it. The file is read on your device and never leaves it. Spend spikes, cache and batch use, model price scenarios. Free, no signup.">
 <link rel="canonical" href="https://aispenddoctor.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aispenddoctor.com/">
 <meta property="og:site_name" content="AI Spend Doctor">
 <meta property="og:title" content="Check your AI API bill without uploading it">
-<meta property="og:description" content="Your Claude or OpenAI usage CSV is read on your device and never leaves it. See spend spikes and cost patterns worth investigating. Free, no signup.">
+<meta property="og:description" content="Your Claude, OpenAI or OpenRouter usage CSV is read on your device and never leaves it. See spend spikes and cost patterns worth investigating. Free, no signup.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -184,7 +184,7 @@ table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:up
   <section class="hero">
     <div class="brand">AI Spend Doctor</div>
     <h1>Check your AI API bill without uploading it.</h1>
-    <p class="sub">Open your Claude or OpenAI usage CSV and see spend spikes, cache and batch use, and model price scenarios. This page reads the file on your device. Your data never leaves it.</p>
+    <p class="sub">Open your Claude, OpenAI or OpenRouter usage CSV and see spend spikes, cache and batch use, and model price scenarios. This page reads the file on your device. Your data never leaves it.</p>
     <div class="cta-row">
       <a class="btn primary" href="#start" data-start>Check my CSV for free</a>
       <a class="btn" href="#demo" data-demo>Try the demo</a>
@@ -213,6 +213,7 @@ table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:up
       <div class="tabs" role="tablist" aria-label="Provider">
         <button class="tab" role="tab" type="button" id="tabA" aria-selected="true" aria-controls="howA">Claude</button>
         <button class="tab" role="tab" type="button" id="tabO" aria-selected="false" aria-controls="howO">OpenAI</button>
+        <button class="tab" role="tab" type="button" id="tabR" aria-selected="false" aria-controls="howR">OpenRouter</button>
       </div>
       <div class="how" id="howA" role="tabpanel" aria-labelledby="tabA">
         <ol><li>Sign in to the <a href="https://platform.claude.com" target="_blank" rel="noopener">Claude Console</a> and open the usage or cost page (<a href="/how-to-export-claude-api-usage-csv/">step by step</a>).</li>
@@ -223,6 +224,11 @@ table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:up
         <ol><li>Open the <a href="https://platform.openai.com/usage" target="_blank" rel="noopener">Usage page</a> of the OpenAI platform.</li>
         <li>Choose the previous full month. Dates are in UTC.</li><li>Export the data as CSV.</li></ol>
         <p>OpenAI explains roles, filters and export in <a href="https://help.openai.com/en/articles/10478918-reviewing-api-usage-and-costs" target="_blank" rel="noopener">Reviewing API usage and costs</a>.</p>
+      </div>
+      <div class="how" id="howR" role="tabpanel" aria-labelledby="tabR" hidden>
+        <ol><li>Open the <a href="https://openrouter.ai/activity" target="_blank" rel="noopener">Activity page</a> on OpenRouter.</li>
+        <li>Choose the previous full month.</li><li>In the options menu at the top right choose Export, then CSV.</li></ol>
+        <p>OpenRouter describes the export in <a href="https://openrouter.ai/docs/guides/administration/activity-export" target="_blank" rel="noopener">Activity Export</a>. <a href="/how-to-export-openrouter-activity-csv/">Step by step</a></p>
       </div>
       <p class="need"><b>What the file needs.</b> A cost column, or token counts with a model name. Dates enable the spike check. Cache and batch columns enable those checks. <a href="/csv-formats/">Supported formats</a></p>
     </details>
@@ -273,7 +279,7 @@ table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:up
     <p><b>How it works.</b> The page reads your file with JavaScript on this device. Its Content Security Policy blocks all network requests from the page, so the file and the results cannot be sent anywhere. It stores nothing and has no analytics. The source is available for inspection on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</p>
     <p><b>What the numbers mean.</b> Reported cost comes from the amounts in your file. Estimated cost is calculated from token counts and list prices, only for models in our price list. Checks that need data your file does not have are marked as not available rather than counted as zero. <a href="/csv-formats/#method">How we calculate</a></p>
     <p>Prices checked <span id="checked"></span> from the <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing" target="_blank" rel="noopener">OpenAI</a> price pages. Not affiliated with Anthropic or OpenAI.</p>
-    <p>Guides: <a href="/why-did-my-ai-api-bill-go-up/">Why did my API bill go up?</a> · <a href="/how-to-export-claude-api-usage-csv/">Export Claude usage</a> · <a href="/how-to-export-openai-api-usage-csv/">Export OpenAI usage</a> · <a href="/what-your-api-usage-csv-can-tell-you/">Reading your usage CSV</a> · <a href="/csv-formats/">Supported CSV formats</a> · <a href="/claude-opus-4-1-vs-opus-5-5/">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/">Caching and Batch API</a></p>
+    <p>Guides: <a href="/why-did-my-ai-api-bill-go-up/">Why did my API bill go up?</a> · <a href="/how-to-export-claude-api-usage-csv/">Export Claude usage</a> · <a href="/how-to-export-openai-api-usage-csv/">Export OpenAI usage</a> · <a href="/how-to-export-openrouter-activity-csv/">Export OpenRouter usage</a> · <a href="/what-your-api-usage-csv-can-tell-you/">Reading your usage CSV</a> · <a href="/csv-formats/">Supported CSV formats</a> · <a href="/claude-opus-4-1-vs-opus-5-5/">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/">Caching and Batch API</a></p>
     <p>Contact: <a href="mailto:hello@aispenddoctor.com">hello@aispenddoctor.com</a> · <a href="/pricing/">Pricing</a> · <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a> · <a href="/refunds/">Refunds</a></p>
     <p>© 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
   </footer>
