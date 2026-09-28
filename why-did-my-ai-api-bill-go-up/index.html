@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Why did my OpenAI or Claude API bill go up? 9 common causes</title>
+<meta name="description" content="The usual reasons an OpenAI or Claude API bill jumps: retries, longer prompts, cache misses, new models, reasoning tokens, faster tiers and more, with how to spot each in your usage CSV.">
+<link rel="canonical" href="https://aispenddoctor.com/why-did-my-ai-api-bill-go-up/">
+<meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/why-did-my-ai-api-bill-go-up/">
+<meta property="og:title" content="Why did my OpenAI or Claude API bill go up? 9 common causes"><meta property="og:description" content="The usual reasons an OpenAI or Claude API bill jumps: retries, longer prompts, cache misses, new models, reasoning tokens, faster tiers and more, with how to spot each in your usage CSV.">
+<meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>:root{
+  --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
+  --accent:#0b7185; --accent-ink:#ffffff;
+  --bad:#b3401f; --bad-soft:#fbe7e1; --warn:#8a5a00; --warn-soft:#f8eed4; --good:#1d6b45; --good-soft:#e1f1e8;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --body:"IBM Plex Sans","Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
+  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
+  --good:#6fd39e; --good-soft:#12301f;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
+  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
+  --good:#6fd39e; --good-soft:#12301f;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-inline:16px;padding-block:40px 72px}
+.wrap{max-width:760px;margin:0 auto;display:grid;gap:28px}
+.hero{display:grid;gap:12px;text-align:left}
+h1{font:800 clamp(34px,6.5vw,58px)/1.02 var(--display);margin:0;letter-spacing:-.015em;text-wrap:balance}
+.sub{margin:0;font-size:18px;color:var(--muted);max-width:52ch}
+.brand{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.private{list-style:none;margin:0;padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:15px;color:var(--muted);background:var(--good-soft);border-radius:10px}
+.private b{color:var(--good);font-weight:600}
+.private li{color:var(--ink);font-weight:500}
+.private li::before{content:"\2713";color:var(--good);font-weight:700;margin-right:7px}
+details#where summary{cursor:pointer;font-weight:600;font-size:15px}
+.where{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:10px;font-size:14px}
+.where ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.where a{color:var(--accent);font-weight:600}
+@media (max-width:560px){.where{grid-template-columns:1fr}}
+.share{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.share button.main{font:600 15px var(--body);border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;cursor:pointer}
+.share button.main:hover{border-color:var(--accent)}
+.trust{display:flex}
+.trust b{color:var(--ink);font-weight:600}
+.trust a{color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:18px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:600 14px var(--body);padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab small{font:500 11px var(--mono);opacity:.75;margin-left:4px}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font:600 14px var(--mono);color:var(--ink)}
+ol.steps li div{padding-top:4px}
+ol.steps a{color:var(--accent);font-weight:600}
+kbd{font:500 13px var(--mono);background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.drop{border:2px dashed var(--accent);border-radius:12px;padding:26px 16px;text-align:center;display:grid;gap:6px;cursor:pointer;background:var(--sunk);transition:background .15s}
+.drop:hover,.drop.over,.drop:focus-visible{background:var(--surface);outline:none}
+.drop strong{font:700 18px var(--display)}
+.drop span{font-size:14px;color:var(--muted)}
+.status{font-size:14px;color:var(--muted);margin:0}
+#status:empty{display:none}
+.status.err{color:var(--bad)}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:600 14px var(--body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+button:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* result */
+.verdict{border-radius:14px;padding:22px;display:grid;gap:8px;border:1px solid var(--line)}
+.verdict.bad{background:var(--bad-soft);border-color:transparent}
+.verdict.warn{background:var(--warn-soft);border-color:transparent}
+.verdict.good{background:var(--good-soft);border-color:transparent}
+.verdict .label{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.verdict.bad .label{color:var(--bad)} .verdict.warn .label{color:var(--warn)} .verdict.good .label{color:var(--good)}
+.verdict h2{font:800 clamp(26px,4.6vw,40px)/1.08 var(--display);margin:0;text-wrap:balance}
+.verdict p{margin:0;color:var(--ink)}
+.verdict .per{font:500 15px var(--mono);color:var(--muted)}
+.example-tag{justify-self:start;display:inline-block;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--sunk);color:var(--muted)}
+h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.finds{display:grid;gap:10px}
+.find{display:grid;grid-template-columns:5px 1fr auto;gap:0 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.find .bar{background:var(--bad)} .find.check .bar{background:var(--warn)}
+.find .t{padding:13px 0;display:grid;gap:3px;min-width:0}
+.find .t b{font-weight:600}
+.find .t span{font-size:14px;color:var(--muted)}
+.find .m{padding:13px 16px 13px 0;text-align:right;font:600 18px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.find .m small{display:block;font:400 12px var(--mono);color:var(--muted)}
+.find:not(.check) .m{color:var(--bad)}
+@media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
+.chart svg{width:100%;height:auto;display:block}
+.plans{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:stretch}
+@media (max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start}
+.plan .pname{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.plan.pro .pname{color:var(--bg);opacity:.8}
+.plan .pprice{font:800 36px/1 var(--display)}
+.plan .pprice small{font:500 15px var(--body);opacity:.75}
+.plan ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:15px}
+.plan .pbtn{justify-self:start;font:600 15px var(--body);border-radius:10px;padding:10px 16px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
+.plan .pnote{font-size:13px;opacity:.75}
+.premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
+.premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
+.premium p{margin:0;opacity:.88;max-width:56ch}
+.premium .price{font:600 15px var(--mono)}
+.premium button{font:600 15px var(--body);border-radius:10px;border:0;background:var(--bg);color:var(--ink);padding:11px 18px;cursor:pointer;justify-self:start}
+.premium .addr{font:500 15px var(--mono);background:rgba(127,127,127,.2);padding:8px 10px;border-radius:6px;user-select:all;word-break:break-all}
+.again{display:flex;gap:16px;flex-wrap:wrap}
+.foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
+.foot p{margin:0}
+details summary{cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+article{display:grid;gap:18px}
+article h2{font:800 26px/1.15 var(--display);margin:18px 0 0}
+article p,article li{max-width:66ch}
+table{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td.n{font:500 15px var(--mono);font-variant-numeric:tabular-nums}
+.cta{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;padding:12px 18px;border-radius:10px}
+.lead{font-size:19px}
+a{color:var(--accent)}
+.back{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+table{display:block;overflow-x:auto}.note{background:var(--warn-soft);border-radius:10px;padding:12px 14px}.src{font-size:14px;color:var(--muted)}code{font:500 14px var(--mono);background:var(--sunk);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why did my OpenAI API bill suddenly increase?", "acceptedAnswer": {"@type": "Answer", "text": "The most common causes are retries or agent loops (one spike day), longer prompts or answers (a gradual rise), a pricier model or faster tier, and lost prompt cache hits. The usage CSV shows which by day, model and token type."}}, {"@type": "Question", "name": "Why did my Claude API costs go up after upgrading the model?", "acceptedAnswer": {"@type": "Answer", "text": "Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, so token counts can rise even when traffic stays the same."}}, {"@type": "Question", "name": "How can I see what caused an API cost spike?", "acceptedAnswer": {"@type": "Answer", "text": "Export the usage or cost CSV, find the day with the spike, see which model and token type grew, then check request counts and logs for that day."}}]}</script>
+</head><body><div class="wrap">
+<a class="back brand" href="/">AI Spend Doctor</a>
+<article>
+<h1>Why did my OpenAI or Claude API bill go up?</h1>
+<p class="lead">Short answer: most jumps come from sending more tokens than before (longer prompts, retries, agents that loop), from paying a higher rate for the same tokens (a pricier model, a faster tier, lost cache hits), or from new usage nobody announced. Your usage CSV shows which one it is.</p>
+<h2>More tokens than before</h2>
+<ol>
+<li><b>Retries and loops.</b> A failing call retried in a loop, or an agent that keeps calling tools, shows up as one day far above the rest. Look for a single spike and check request counts and logs for that date.</li>
+<li><b>Prompts that grew.</b> Conversation history, retrieved documents or tool definitions added to every request raise input tokens across all days, not just one. Compare input tokens per request month over month.</li>
+<li><b>Longer answers.</b> Output tokens usually cost several times more than input. On OpenAI, output prices include reasoning tokens, so a model that thinks longer costs more even when the visible answer is short (<a href="https://developers.openai.com/api/docs/pricing">OpenAI pricing</a>).</li>
+<li><b>New usage.</b> A new feature, a new customer or a batch job that nobody mentioned. It shows as a step up that stays, often on one model or API key.</li>
+</ol>
+<h2>A higher rate for the same tokens</h2>
+<ol start="5">
+<li><b>Cache misses.</b> Cached input costs a fraction of normal input. If a system prompt changes on every request, or the cache expires between calls, the same tokens get billed at the full rate. A falling cache share in the usage export is the sign.</li>
+<li><b>A different model.</b> A config change can move traffic to a pricier model. A model name that was not in last month's file is the sign.</li>
+<li><b>A newer tokenizer.</b> Anthropic notes that Claude 4.7 and later models produce about 30% more tokens for the same text (<a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic pricing</a>). After a model upgrade, token counts can rise even when traffic does not.</li>
+<li><b>A faster service tier.</b> OpenAI's fast mode (formerly priority) costs about twice the standard rate on current models. Check the service tier column.</li>
+<li><b>Long context and regional processing.</b> Some OpenAI models charge more above 272K input tokens, and US-only inference on recent Claude models costs 1.1 times the standard rate.</li>
+</ol>
+<h2>How to find which one it is</h2>
+<ol>
+<li>Export last month's usage and cost CSV from the <a href="/how-to-export-claude-api-usage-csv/">Claude Console</a> or the <a href="/how-to-export-openai-api-usage-csv/">OpenAI dashboard</a>.</li>
+<li>Look at spend per day: one spike points to retries or a job, a step up that stays points to new usage or a model change.</li>
+<li>Look at spend per model: a new or pricier model points to a config change.</li>
+<li>Look at cache and batch share if the file has those columns.</li>
+</ol>
+<p>The <a href="/">free checkup</a> does these steps in your browser and never uploads the file. When a check needs a column your export does not have, it says so instead of guessing.</p>
+<p><a class="cta" href="/">Check your own CSV for free</a></p>
+<h2>Questions</h2><h3>Why did my OpenAI API bill suddenly increase?</h3><p>The most common causes are retries or agent loops (one spike day), longer prompts or answers (a gradual rise), a pricier model or faster tier, and lost prompt cache hits. The usage CSV shows which by day, model and token type.</p><h3>Why did my Claude API costs go up after upgrading the model?</h3><p>Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, so token counts can rise even when traffic stays the same.</p><h3>How can I see what caused an API cost spike?</h3><p>Export the usage or cost CSV, find the day with the spike, see which model and token type grew, then check request counts and logs for that day.</p>
+<p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
+</article></div></body></html>
