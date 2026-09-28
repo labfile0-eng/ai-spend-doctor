@@ -129,7 +129,7 @@ table{display:block;overflow-x:auto}.note{background:var(--warn-soft);border-rad
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>Supported CSV formats and how we calculate</h1>
-<p class="lead">The free checkup reads usage and cost exports from Claude and OpenAI, plus any CSV with similar columns. This page lists the columns it understands, what each check needs, and how every number is calculated.</p>
+<p class="lead">The free checkup reads usage and cost exports from Claude, OpenAI and OpenRouter, plus any CSV with similar columns. This page lists the columns it understands, what each check needs, and how every number is calculated.</p>
 <p class="note"><b>Tested so far on synthetic files only.</b> The shapes below follow the official Anthropic Usage and Cost API and the OpenAI Usage and Costs API. Neither provider publishes a column list for the CSV you download from the dashboard, and we have not yet checked a real anonymized dashboard export. If your file is not read correctly, write to <a href="mailto:hello@aispenddoctor.com">hello@aispenddoctor.com</a> with the header row only, never the data.</p>
 
 <h2>What the file needs</h2>
@@ -155,6 +155,9 @@ table{display:block;overflow-x:auto}.note{background:var(--warn-soft);border-rad
 <h3>OpenAI costs</h3>
 <p><code>start_time, line_item, amount.value, amount.currency</code></p>
 <p><code>amount.value</code> is in US dollars. The model and token type come from <code>line_item</code>, for example <code>gpt-6-sol, cached input</code>.</p>
+<h3>OpenRouter activity export</h3>
+<p><code>generation_id, created_at, cost_total, byok_usage_inference, tokens_prompt, tokens_completion, model_permaslug, provider_name</code></p>
+<p>One row per request. <code>cost_total</code> is in OpenRouter credits (US dollars) and is used as the reported cost. <code>created_at</code> is read as a UTC date. Spend on your own provider keys (<code>byok_usage_inference</code>) is shown separately and not added to the total. Model slugs such as <code>anthropic/claude-4.5-sonnet-20250929</code> are matched to our price list; models outside it still count in the total. <a href="/how-to-export-openrouter-activity-csv/">How to export</a></p>
 <h3>Any other CSV</h3>
 <p>Columns such as <code>date</code>, <code>model</code> and <code>cost_usd</code> work. A column named only <code>amount</code> or <code>cost</code> is read as US dollars and the result says it was assumed, with a switch to cents. Comma, semicolon and tab separators, quoted values, a byte order mark and Windows line endings are handled.</p>
 <h3>Rows we do not count</h3>
