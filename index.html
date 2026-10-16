@@ -17,255 +17,33 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="AI Spend Doctor: check your Claude and OpenAI API costs">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0d12'/%3E%3Cpath d='M6 17h5l3-7 4 13 3-6h5' fill='none' stroke='%23c8ff00' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
-<style>
-:root{
-  --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
-  --accent:#0b7185; --accent-ink:#ffffff;
-  --bad:#b3401f; --bad-soft:#fbe7e1; --warn:#8a5a00; --warn-soft:#f8eed4; --good:#1d6b45; --good-soft:#e1f1e8;
-  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --body:"IBM Plex Sans","Segoe UI",Roboto,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
-  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
-  --good:#6fd39e; --good-soft:#12301f;}}
-:root[data-theme="dark"]{
-  color-scheme:dark; --bg:#0d151a; --surface:#152028; --sunk:#0a1115; --ink:#dfe8ee; --muted:#95a5af; --line:#2a3944;
-  --accent:#52c2d7; --accent-ink:#05222a; --bad:#ff8f73; --bad-soft:#3a1a12; --warn:#e8c25a; --warn-soft:#342a0c;
-  --good:#6fd39e; --good-soft:#12301f;}
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-inline:16px;padding-block:40px 72px}
-.wrap{max-width:760px;margin:0 auto;display:grid;gap:28px}
-.hero{display:grid;gap:12px;text-align:left}
-h1{font:800 clamp(34px,6.5vw,58px)/1.02 var(--display);margin:0;letter-spacing:-.015em;text-wrap:balance}
-.sub{margin:0;font-size:18px;color:var(--muted);max-width:52ch}
-.brand{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-.private{list-style:none;margin:0;padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:15px;color:var(--muted);background:var(--good-soft);border-radius:10px}
-.private b{color:var(--good);font-weight:600}
-.private li{color:var(--ink);font-weight:500}
-.private li::before{content:"\2713";color:var(--good);font-weight:700;margin-right:7px}
-details#where summary{cursor:pointer;font-weight:600;font-size:15px}
-.where{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:10px;font-size:14px}
-.where ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
-.where a{color:var(--accent);font-weight:600}
-@media (max-width:560px){.where{grid-template-columns:1fr}}
-.share{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
-.share button.main{font:600 15px var(--body);border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;cursor:pointer}
-.share button.main:hover{border-color:var(--accent)}
-.trust{display:flex}
-.trust b{color:var(--ink);font-weight:600}
-.trust a{color:var(--accent)}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:18px}
-.tabs{display:flex;gap:6px;flex-wrap:wrap}
-.tab{font:600 14px var(--body);padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
-.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.tab small{font:500 11px var(--mono);opacity:.75;margin-left:4px}
-ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
-ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
-ol.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font:600 14px var(--mono);color:var(--ink)}
-ol.steps li div{padding-top:4px}
-ol.steps a{color:var(--accent);font-weight:600}
-kbd{font:500 13px var(--mono);background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
-.drop{border:2px dashed var(--accent);border-radius:12px;padding:26px 16px;text-align:center;display:grid;gap:6px;cursor:pointer;background:var(--sunk);transition:background .15s}
-.drop:hover,.drop.over,.drop:focus-visible{background:var(--surface);outline:none}
-.drop strong{font:700 18px var(--display)}
-.drop span{font-size:14px;color:var(--muted)}
-.status{font-size:14px;color:var(--muted);margin:0}
-#status:empty{display:none}
-.status.err{color:var(--bad)}
-.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:600 14px var(--body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-button:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-/* result */
-.verdict{border-radius:14px;padding:22px;display:grid;gap:8px;border:1px solid var(--line)}
-.verdict.bad{background:var(--bad-soft);border-color:transparent}
-.verdict.warn{background:var(--warn-soft);border-color:transparent}
-.verdict.good{background:var(--good-soft);border-color:transparent}
-.verdict .label{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.verdict.bad .label{color:var(--bad)} .verdict.warn .label{color:var(--warn)} .verdict.good .label{color:var(--good)}
-.verdict h2{font:800 clamp(26px,4.6vw,40px)/1.08 var(--display);margin:0;text-wrap:balance}
-.verdict p{margin:0;color:var(--ink)}
-.verdict .per{font:500 15px var(--mono);color:var(--muted)}
-.example-tag{justify-self:start;display:inline-block;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--sunk);color:var(--muted)}
-h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
-.finds{display:grid;gap:10px}
-.find{display:grid;grid-template-columns:5px 1fr auto;gap:0 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.find .bar{background:var(--bad)} .find.check .bar{background:var(--warn)}
-.find .t{padding:13px 0;display:grid;gap:3px;min-width:0}
-.find .t b{font-weight:600}
-.find .t span{font-size:14px;color:var(--muted)}
-.find .m{padding:13px 16px 13px 0;text-align:right;font:600 18px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-.find .m small{display:block;font:400 12px var(--mono);color:var(--muted)}
-.find:not(.check) .m{color:var(--bad)}
-@media (max-width:560px){.find{grid-template-columns:5px 1fr}.find .m{grid-column:2;text-align:left;padding:0 0 13px}}
-.chart{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 8px}
-.chart svg{width:100%;height:auto;display:block}
-.plans{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:stretch}
-@media (max-width:640px){.plans{grid-template-columns:1fr}}
-.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:12px;align-content:start}
-.plan .pname{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-.plan.pro .pname{color:var(--bg);opacity:.8}
-.plan .pprice{font:800 36px/1 var(--display)}
-.plan .pprice small{font:500 15px var(--body);opacity:.75}
-.plan ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:15px}
-.plan .pbtn{justify-self:start;font:600 15px var(--body);border-radius:10px;padding:10px 16px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
-.plan .pnote{font-size:13px;opacity:.75}
-.premium{background:var(--ink);color:var(--bg);border-radius:14px;padding:22px;display:grid;gap:12px}
-.premium h2{font:800 24px/1.15 var(--display);margin:0;color:var(--bg)}
-.premium p{margin:0;opacity:.88;max-width:56ch}
-.premium .price{font:600 15px var(--mono)}
-.premium button{font:600 15px var(--body);border-radius:10px;border:0;background:var(--bg);color:var(--ink);padding:11px 18px;cursor:pointer;justify-self:start}
-.premium .addr{font:500 15px var(--mono);background:rgba(127,127,127,.2);padding:8px 10px;border-radius:6px;user-select:all;word-break:break-all}
-.again{display:flex;gap:16px;flex-wrap:wrap}
-.foot{font-size:13px;color:var(--muted);display:grid;gap:6px}
-.foot p{margin:0}
-details summary{cursor:pointer}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-
-.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
-.btn{display:inline-block;font:600 15px var(--body);border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 18px;cursor:pointer;text-decoration:none}
-.btn:hover{border-color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.drop:focus-visible{outline:3px solid var(--accent)!important;outline-offset:2px}
-.btn:focus-visible,a:focus-visible,.linkbtn:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.scope{margin:0;font-size:14px;color:var(--muted);max-width:60ch}
-.how{font-size:14px;margin-top:10px}.how ol{margin:0;padding-left:20px;display:grid;gap:4px}.how p{margin:8px 0 0;color:var(--muted)}
-.how a,.need a,.status a,.feedback a,.foot a,.coverage a,.units a{color:var(--accent);font-weight:600}
-.need{font-size:14px;margin:12px 0 0}
-#where .tabs{margin-top:10px}
-#result{display:grid;gap:18px}
-.group{display:grid;gap:10px}
-.verdict.neutral{background:var(--surface)}
-.verdict.neutral .label{color:var(--muted)}
-.demo-tag{justify-self:start;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:var(--ink);color:var(--bg)}
-.units{font-size:14px;background:var(--warn-soft);border-radius:10px;padding:10px 14px}
-.coverage{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:14px}
-.coverage summary{font-weight:600;font-size:15px}
-.coverage ul{margin:10px 0;padding-left:18px;display:grid;gap:4px}
-table.checks{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}
-table.checks th,table.checks td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-table.checks th{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.chip{font:600 11px var(--mono);padding:2px 8px;border-radius:99px;white-space:nowrap}
-.chip.checked{background:var(--good-soft);color:var(--good)}
-.chip.partially_checked{background:var(--warn-soft);color:var(--warn)}
-.chip.not_available{background:var(--sunk);color:var(--muted)}
-.find.scen .bar{background:var(--accent)} .find.scen .m{color:var(--ink)}
-.find .next{color:var(--ink)!important}
-.find .next b{font-weight:600}
-.method{margin:0;font-size:13px;color:var(--muted)}
-.actions{display:flex;flex-wrap:wrap;gap:10px}
-.copybox{display:grid;gap:8px;font-size:14px}
-.copybox p{margin:0;color:var(--muted)}
-.copybox textarea{width:100%;font:13px/1.5 var(--mono);background:var(--sunk);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
-.copybox .btn{justify-self:start}
-.feedback{margin:0;font-size:14px;color:var(--muted)}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.soon{font:600 10px var(--mono);letter-spacing:.08em;background:var(--bg);color:var(--ink);padding:2px 7px;border-radius:99px;margin-left:6px;opacity:1}
-.premium .wbtn{font:600 15px var(--body);border-radius:10px;background:var(--bg);color:var(--ink);padding:11px 18px;justify-self:start;text-decoration:none}
-.premium .early{font-size:14px}
-.foot a{font-weight:500}
-@media (max-width:560px){table.checks td:nth-child(3){font-size:12px}}
-.proof{background:var(--good-soft);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
-.proof h2{font:700 18px/1.3 var(--display);margin:0;color:var(--ink);text-wrap:balance}
-.proof ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:15px}
-.proof li{padding-left:24px;position:relative;max-width:68ch}
-.proof li::before{content:"\2713";position:absolute;left:0;color:var(--good);font-weight:700}
-.proof b{color:var(--good);font-weight:600}
-.proof code{font:500 13px var(--mono);background:var(--surface);padding:1px 5px;border-radius:5px;white-space:nowrap}
-.proof a{color:var(--accent);font-weight:600}
-
-/* v2 look: calm product typography */
-:root{
-  --bg:#ffffff; --surface:#ffffff; --sunk:#f5f6f8; --ink:#0b0d12; --muted:#5d6472; --line:#e6e8ec;
-  --accent:#0b0d12; --accent-ink:#ffffff; --link:#0b0d12;
-  --good:#157347; --good-soft:#f3faf6;
-  --display:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --body:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#03080a; --surface:#0a0f12; --sunk:#070c0e; --ink:#fcfcfe; --muted:#9ea3a9; --line:#1c2327;
-  --accent:#c8ff00; --accent-ink:#03080a; --link:#c8ff00; --good:#7ee2a8; --good-soft:#0a1611;}}
-:root[data-theme="dark"]{
-  --bg:#03080a; --surface:#0a0f12; --sunk:#070c0e; --ink:#fcfcfe; --muted:#9ea3a9; --line:#1c2327;
-  --accent:#c8ff00; --accent-ink:#03080a; --link:#c8ff00; --good:#7ee2a8; --good-soft:#0a1611;}
-body{font:15px/1.6 var(--body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding-block:0 72px}
-h1{font:700 clamp(36px,6vw,58px)/1.12 var(--display);letter-spacing:-.025em;word-spacing:.04em}
-.hero .brand{display:none}
-h2{letter-spacing:-.02em}
-.verdict h2,.premium h2,.proof h2,.drop strong,.plan .pprice{font-weight:700}
-.sub{font-size:17px;line-height:1.6}
-a{text-underline-offset:3px}
-
-/* top bar */
-.topnav{position:sticky;top:0;z-index:20;margin:0 -16px 48px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--bg);background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.topnav-in{max-width:1080px;margin:0 auto;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo{display:flex;align-items:center;gap:9px;font:700 15px var(--body);letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
-.logo svg{width:24px;height:24px;flex:none}
-.topnav nav{display:flex;align-items:center;gap:22px;font:500 14px var(--body)}
-.topnav nav a{color:var(--muted);text-decoration:none}
-.topnav nav a:hover{color:var(--ink)}
-.topnav nav a.navcta{background:var(--accent);color:var(--accent-ink);padding:7px 13px;border-radius:6px;font-weight:600}
-.topnav nav a.navcta:hover{opacity:.9;color:var(--accent-ink)}
-@media (max-width:640px){.topnav nav a:not(.navcta){display:none}}
-
-/* hero */
-.hero{text-align:center;justify-items:center;gap:16px}
-.hero .sub,.hero .scope{margin-inline:auto}
-.brand{font:500 13px var(--body);letter-spacing:0;text-transform:none;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:4px 12px}
-.cta-row{justify-content:center}
-.btn{font:600 14px var(--body);border-radius:6px;padding:10px 18px}
-.btn:hover{border-color:var(--ink)}
-.btn.primary:hover{opacity:.9;border-color:var(--accent)}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;margin:18px 0 6px}
-.stats div{display:grid;gap:2px;justify-items:center}
-.stats b{font:700 30px/1.1 var(--display);letter-spacing:-.03em;color:var(--ink)}
-.stats span{font-size:12px;color:var(--muted)}
-@media (max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}}
-
-/* cards */
-.proof{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;text-align:left;width:100%}
-.proof h2{font-size:17px}
-.proof code{background:var(--sunk)}
-.card,.plan,.chart,.coverage,.find,.verdict{border-radius:12px}
-.card{border-color:var(--line)}
-.drop{border:1.5px dashed var(--line);background:var(--sunk);border-radius:10px}
-.drop:hover,.drop.over{border-color:var(--accent);background:var(--surface)}
-.tab{font:500 13px var(--body)}
-.how a,.need a,.status a,.feedback a,.foot a,.coverage a,.units a,.proof a,ol.steps a,.where a,.linkbtn,.back{color:var(--link)}
-article a{color:var(--link)}
-.back.brand{display:none}
-body{margin:0}
-[id]{scroll-margin-top:80px}
-</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23384454'/%3E%3Cpath d='M6 17h5l3-7 4 13 3-6h5' fill='none' stroke='%23e4edf7' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/base.css">
+<link rel="stylesheet" href="/assets/glacial.css">
 </head>
-<body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header>
-<div class="wrap">
-  <section class="hero">
-    <div class="brand">AI Spend Doctor</div>
-    <h1>Check your AI API bill without uploading it.</h1>
-    <p class="sub">Open your Claude, OpenAI or OpenRouter usage CSV and see spend spikes, cache and batch use, and model price scenarios. This page reads the file on your device. Your data never leaves it.</p>
-    <div class="cta-row">
-      <a class="btn primary" href="#start" data-start>Check my CSV for free</a>
-      <a class="btn" href="#demo" data-demo>Try the demo</a>
-    </div>
-    <p class="scope">For API usage and cost exports in US dollars. ChatGPT and Claude chat subscriptions are billed separately and are not covered.</p>
-<div class="stats" aria-label="Key facts"><div><b>0</b><span>network requests</span></div><div><b>3</b><span>providers supported</span></div><div><b>30 s</b><span>to a result</span></div><div><b>$0</b><span>no signup</span></div></div>
-    <section class="proof" aria-labelledby="proofTitle">
-      <h2 id="proofTitle">Your billing data stays with you. You can check that yourself.</h2>
-      <ul>
-        <li><b>Nothing is sent.</b> The page's security policy forbids it from making any network request (<code>connect-src 'none'</code>), and your browser enforces that, not us.</li>
-        <li><b>Works offline.</b> Load the page, turn off your internet, then open your file. The check still runs.</li>
-        <li><b>Nothing to hand over.</b> No account, no API key, no analytics, nothing stored after you close the tab.</li>
-        <li><b>Source available.</b> Read every line on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</li>
-      </ul>
-    </section>
-  </section>
-
+<body class="home-page" id="top"><a class="skip-link" href="#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header>
+<section class="expedition" aria-labelledby="hero-title">
+  <div class="landscape" id="landscape" aria-hidden="true"><img class="scene-fallback" src="/assets/ice-core.svg" alt=""><canvas id="ice-scene"></canvas></div>
+  <div class="hero-wash" aria-hidden="true"></div>
+  <div class="hero-topline"><span>INDEPENDENT AI COST DIAGNOSTICS</span><span class="live-indicator">PRIVATE BY DESIGN</span></div>
+  <div class="hero-copy">
+    <p class="eyebrow">A CLEARER VIEW OF YOUR API BILL</p>
+    <h1 id="hero-title">AI spend.<br><span>Crystal clear.</span></h1>
+    <p class="hero-description">Understand what’s beneath your AI bill.<br>Find spend spikes, explore model costs,<br>and keep every byte to yourself.</p>
+    <div class="hero-actions"><a class="btn primary" href="#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a><a class="demo-link" href="#demo" data-demo>Explore a demo <span aria-hidden="true">→</span></a></div>
+    <p class="hero-note">FREE TO USE · NO ACCOUNT · NO API KEY</p>
+  </div>
+  <div class="scene-caption" aria-hidden="true"><span class="crosshair">+</span><span>YOUR DATA.<br>UNDER YOUR CONTROL.</span><span class="caption-line"></span></div>
+  <div class="hero-bottom"><a href="#overview" class="scroll-cue"><span class="scroll-symbol" aria-hidden="true">↓</span><span>SCROLL TO<br>SEE BENEATH THE SURFACE</span></a><span class="hero-coordinate">01 / CLARITY STARTS HERE</span><button class="motion-control" type="button" id="motion-toggle" aria-pressed="false">Pause motion <span aria-hidden="true">Ⅱ</span></button></div>
+</section>
+<div class="provider-strip"><span class="strip-label">ONE CLEAR VIEW.<br>THREE PROVIDERS.</span><div class="provider-names"><span>Claude<span class="provider-symbol" aria-hidden="true">✳</span></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor"/><path d="m6 8 6-3 6 3v8l-6 3-6-3zm0 0 12 8M6 16l12-8M12 5v14" fill="none" stroke="currentColor"/></svg>OpenAI</span><span>OpenRouter<span class="provider-symbol" aria-hidden="true">↗</span></span></div><span class="strip-end">CSV IN. CLARITY OUT.</span></div>
+<main class="wrap home-wrap">
+<section class="overview section-reveal" id="overview" aria-labelledby="overview-title"><div><p class="eyebrow">01 / BENEATH THE SURFACE</p><h2 id="overview-title">Find the signal.<br><span>Lose the noise.</span></h2><p class="overview-intro">Your API bill tells a story.<br>We help you read it.</p></div><div class="diagnostics"><p class="section-intro">Open your usage CSV to explore what changed, what’s driving spend, and what deserves a closer look.</p><div class="diagnostic-row"><span>01</span><div><h3>Spot the unexpected.</h3><p>See daily spend spikes and the models behind them.</p></div><span aria-hidden="true">↗</span></div><div class="diagnostic-row"><span>02</span><div><h3>Understand the details.</h3><p>Check cache and batch use when your export includes them.</p></div><span aria-hidden="true">↗</span></div><div class="diagnostic-row"><span>03</span><div><h3>Explore what could change.</h3><p>Compare model price scenarios, with assumptions in plain sight.</p></div><span aria-hidden="true">↗</span></div></div></section>
+<section class="checkup-section section-reveal" aria-labelledby="checkup-title"><div class="section-heading"><div><p class="eyebrow">02 / YOUR PRIVATE CHECKUP</p><h2 id="checkup-title">Your checkup.<br><span>Your device.</span></h2></div><p>One CSV. A clearer picture.<br>No uploads. No signup. No API key.</p></div>
   <section class="card" id="start" aria-label="Check your usage file">
     <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose your usage CSV file" aria-describedby="dropHint">
       <strong>Open your usage CSV</strong>
@@ -324,7 +102,15 @@ body{margin:0}
     <p class="feedback">Was this useful? <a href="mailto:hello@aispenddoctor.com?subject=Feedback%20on%20AI%20Spend%20Doctor">Tell us what was useful or confusing.</a> Please do not attach your file.</p>
   </section>
 
-  <section class="plans" aria-label="Plans">
+</section><div class="privacy-section"><p class="eyebrow">03 / NOTHING TO HAND OVER</p>    <section class="proof section-reveal" aria-labelledby="proofTitle">
+      <h2 id="proofTitle">What happens on your device<br>stays on your device.</h2>
+      <ul>
+        <li><b>Nothing is sent.</b> The page's security policy forbids it from making any network request (<code>connect-src 'none'</code>), and your browser enforces that, not us.</li>
+        <li><b>Works offline.</b> Load the page, turn off your internet, then open your file. The check still runs.</li>
+        <li><b>Nothing to hand over.</b> No account, no API key, no analytics, nothing stored after you close the tab.</li>
+        <li><b>Source available.</b> Read every line on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</li>
+      </ul>
+    </section></div><div class="pricing-section section-reveal"><div class="section-heading"><div><p class="eyebrow">04 / A LITTLE CLARITY GOES A LONG WAY</p><h2>Start with clarity.</h2></div><p>A free checkup today.<br>A daily watch on the horizon.</p></div>  <section class="plans" aria-label="Plans">
     <div class="plan">
       <div class="pname">Checkup</div>
       <div class="pprice">Free</div>
@@ -340,17 +126,19 @@ body{margin:0}
     </div>
   </section>
 
-  <footer class="foot">
+</div>  <footer class="foot"><a class="footer-wordmark" href="/">AI SPEND DOCTOR<span>+</span></a><div class="footer-notes">
     <p><b>How it works.</b> The page reads your file with JavaScript on this device. Its Content Security Policy blocks all network requests from the page, so the file and the results cannot be sent anywhere. It stores nothing and has no analytics. The source is available for inspection on <a href="https://github.com/labfile0-eng/ai-spend-doctor" target="_blank" rel="noopener">GitHub</a>.</p>
     <p><b>What the numbers mean.</b> Reported cost comes from the amounts in your file. Estimated cost is calculated from token counts and list prices, only for models in our price list. Checks that need data your file does not have are marked as not available rather than counted as zero. <a href="/csv-formats/#method">How we calculate</a></p>
     <p>Prices checked <span id="checked"></span> from the <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing" target="_blank" rel="noopener">OpenAI</a> price pages. Not affiliated with Anthropic or OpenAI.</p>
     <p>Guides: <a href="/why-did-my-ai-api-bill-go-up/">Why did my API bill go up?</a> · <a href="/how-to-export-claude-api-usage-csv/">Export Claude usage</a> · <a href="/how-to-export-openai-api-usage-csv/">Export OpenAI usage</a> · <a href="/how-to-export-openrouter-activity-csv/">Export OpenRouter usage</a> · <a href="/what-your-api-usage-csv-can-tell-you/">Reading your usage CSV</a> · <a href="/csv-formats/">Supported CSV formats</a> · <a href="/claude-opus-4-1-vs-opus-5-5/">Opus 4.1 vs Opus 5.5</a> · <a href="/claude-sonnet-4-vs-sonnet-5-price/">Sonnet 4 vs Sonnet 5</a> · <a href="/claude-prompt-caching-and-batch-api-savings/">Caching and Batch API</a></p>
     <p>Contact: <a href="mailto:hello@aispenddoctor.com">hello@aispenddoctor.com</a> · <a href="/pricing/">Pricing</a> · <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a> · <a href="/refunds/">Refunds</a></p>
     <p>© 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
+</div><div class="footer-bottom"><span>INDEPENDENT. PRIVATE. CRYSTAL CLEAR.</span><a href="#top">BACK TO TOP ↑</a></div>
   </footer>
-</div>
-
-<script src="engine.js"></script>
-<script src="app.js"></script>
+</main>
+<script src="/engine.js"></script>
+<script src="/app.js"></script>
+<script src="/assets/experience.js"></script>
+<script type="module" src="/assets/ice-scene.js"></script>
 </body>
 </html>
