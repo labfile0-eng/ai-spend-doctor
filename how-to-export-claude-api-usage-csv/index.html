@@ -6,8 +6,6 @@
 <meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/how-to-export-claude-api-usage-csv/">
 <meta property="og:title" content="How to export Claude API usage and cost as CSV"><meta property="og:description" content="Where to find the Usage and Cost pages in the Claude Console, which role you need, and how to download a CSV of your Claude API spend.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>:root{
   --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
   --accent:#0b7185; --accent-ink:#ffffff;
@@ -189,7 +187,12 @@ body{margin:0}
 [id]{scroll-margin-top:80px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Where do I export Claude API costs?", "acceptedAnswer": {"@type": "Answer", "text": "In the Claude Console, on the Cost page (platform.claude.com/cost) or the Usage page (platform.claude.com/usage). Pick the month and press the export button to download a CSV."}}, {"@type": "Question", "name": "Which role do I need to see Claude API costs?", "acceptedAnswer": {"@type": "Answer", "text": "Anthropic says usage and cost reporting is visible to the Developer, Billing and Admin roles."}}, {"@type": "Question", "name": "Is the Claude Cost API in dollars or cents?", "acceptedAnswer": {"@type": "Answer", "text": "The Usage and Cost API cost report returns amounts in cents as decimal strings. Divide by 100 to get dollars."}}]}</script>
-</head><body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header><div class="wrap">
+<link rel="stylesheet" href="/assets/glacial.css">
+</head><body class="document-page" id="top"><a class="skip-link" href="/#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>How to export Claude API usage and cost as CSV</h1>
@@ -204,10 +207,10 @@ body{margin:0}
 </ol>
 <p>Anthropic describes both pages, the filters and the export in <a href="https://support.claude.com/en/articles/9534590-cost-and-usage-reporting-in-the-claude-console">Cost and usage reporting in the Claude Console</a>.</p>
 <h2>Cost or Usage: which file to take</h2>
-<table><thead><tr><th>File</th><th>What it contains</th><th>Best for</th></tr></thead><tbody>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable reference table"><table><thead><tr><th>File</th><th>What it contains</th><th>Best for</th></tr></thead><tbody>
 <tr><td>Cost</td><td>Dollar amounts per model and day</td><td>What you actually paid, daily spikes</td></tr>
 <tr><td>Usage</td><td>Uncached input, cache reads, cache writes and output tokens</td><td>Cache share and how your tokens are made up</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p>If you can, take both. The cost file answers "how much", the usage file answers "why".</p>
 <h2>If you do not see the pages</h2>
 <p>Usage and cost reporting is visible to the Developer, Billing and Admin roles. If your account has a different role, ask the organization admin to export the file or to change your role.</p>
@@ -218,4 +221,5 @@ body{margin:0}
 <p><a class="cta" href="/">Check your own CSV for free</a></p>
 <h2>Questions</h2><h3>Where do I export Claude API costs?</h3><p>In the Claude Console, on the Cost page (platform.claude.com/cost) or the Usage page (platform.claude.com/usage). Pick the month and press the export button to download a CSV.</p><h3>Which role do I need to see Claude API costs?</h3><p>Anthropic says usage and cost reporting is visible to the Developer, Billing and Admin roles.</p><h3>Is the Claude Cost API in dollars or cents?</h3><p>The Usage and Cost API cost report returns amounts in cents as decimal strings. Divide by 100 to get dollars.</p>
 <p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
-</article></div></body></html>
+</article></div><script src="/assets/experience.js"></script>
+</body></html>
