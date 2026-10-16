@@ -6,8 +6,6 @@
 <meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/why-did-my-ai-api-bill-go-up/">
 <meta property="og:title" content="Why did my OpenAI or Claude API bill go up? 9 common causes"><meta property="og:description" content="The usual reasons an OpenAI or Claude API bill jumps: retries, longer prompts, cache misses, new models, reasoning tokens, faster tiers and more, with how to spot each in your usage CSV.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>:root{
   --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
   --accent:#0b7185; --accent-ink:#ffffff;
@@ -189,7 +187,12 @@ body{margin:0}
 [id]{scroll-margin-top:80px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why did my OpenAI API bill suddenly increase?", "acceptedAnswer": {"@type": "Answer", "text": "The most common causes are retries or agent loops (one spike day), longer prompts or answers (a gradual rise), a pricier model or faster tier, and lost prompt cache hits. The usage CSV shows which by day, model and token type."}}, {"@type": "Question", "name": "Why did my Claude API costs go up after upgrading the model?", "acceptedAnswer": {"@type": "Answer", "text": "Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, so token counts can rise even when traffic stays the same."}}, {"@type": "Question", "name": "How can I see what caused an API cost spike?", "acceptedAnswer": {"@type": "Answer", "text": "Export the usage or cost CSV, find the day with the spike, see which model and token type grew, then check request counts and logs for that day."}}]}</script>
-</head><body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header><div class="wrap">
+<link rel="stylesheet" href="/assets/glacial.css">
+</head><body class="document-page" id="top"><a class="skip-link" href="/#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>Why did my OpenAI or Claude API bill go up?</h1>
@@ -220,4 +223,5 @@ body{margin:0}
 <p><a class="cta" href="/">Check your own CSV for free</a></p>
 <h2>Questions</h2><h3>Why did my OpenAI API bill suddenly increase?</h3><p>The most common causes are retries or agent loops (one spike day), longer prompts or answers (a gradual rise), a pricier model or faster tier, and lost prompt cache hits. The usage CSV shows which by day, model and token type.</p><h3>Why did my Claude API costs go up after upgrading the model?</h3><p>Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, so token counts can rise even when traffic stays the same.</p><h3>How can I see what caused an API cost spike?</h3><p>Export the usage or cost CSV, find the day with the spike, see which model and token type grew, then check request counts and logs for that day.</p>
 <p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
-</article></div></body></html>
+</article></div><script src="/assets/experience.js"></script>
+</body></html>
