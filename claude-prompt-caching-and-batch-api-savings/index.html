@@ -6,8 +6,6 @@
 <meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/claude-prompt-caching-and-batch-api-savings/">
 <meta property="og:title" content="Claude prompt caching and Batch API: what they cost and when they help"><meta property="og:description" content="Cache reads on current Claude models cost 2.5% to 10% of the normal input price, cache writes cost more. Batch API requests cost half. How to tell whether your bill uses them.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>:root{
   --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
   --accent:#0b7185; --accent-ink:#ffffff;
@@ -189,17 +187,22 @@ body{margin:0}
 [id]{scroll-margin-top:80px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much does prompt caching save on Claude?", "acceptedAnswer": {"@type": "Answer", "text": "A cache read costs 2.5% to 10% of the normal input price depending on the model, while cache writes cost 1.25 times (5-minute) or 2 times (1-hour) normal input. The saving depends on how much of each request repeats and how often the cache is hit."}}, {"@type": "Question", "name": "How much cheaper is the Claude Batch API?", "acceptedAnswer": {"@type": "Answer", "text": "Batch requests cost 50% of the normal price, in exchange for asynchronous processing within 24 hours."}}, {"@type": "Question", "name": "How do I know if I use caching or batch?", "acceptedAnswer": {"@type": "Answer", "text": "Open your usage CSV in the free checkup at aispenddoctor.com. It reports cache share and batch share when the file contains that data, and marks them as not available when it does not."}}]}</script>
-</head><body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header><div class="wrap">
+<link rel="stylesheet" href="/assets/glacial.css">
+</head><body class="document-page" id="top"><a class="skip-link" href="/#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>Claude prompt caching and Batch API: what they cost and when they help</h1>
 <p class="lead">Short answer: reading input from the prompt cache costs between 2.5% and 10% of the normal input price, depending on the model. Writing to the cache costs 1.25 times normal input for a 5-minute cache and 2 times for a 1-hour cache. Requests through the Batch API cost half the normal price.</p>
-<table><thead><tr><th>Model</th><th>Input</th><th>Cache read</th><th>Read vs input</th><th>Cache write 5m / 1h</th></tr></thead><tbody>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable reference table"><table><thead><tr><th>Model</th><th>Input</th><th>Cache read</th><th>Read vs input</th><th>Cache write 5m / 1h</th></tr></thead><tbody>
 <tr><td>Claude Fable 5.1</td><td class="n">$10</td><td class="n">$0.25</td><td class="n">2.5%</td><td class="n">$12.50 / $20</td></tr>
 <tr><td>Claude Opus 5.5</td><td class="n">$4</td><td class="n">$0.20</td><td class="n">5%</td><td class="n">$5 / $8</td></tr>
 <tr><td>Claude Sonnet 5</td><td class="n">$2</td><td class="n">$0.20</td><td class="n">10%</td><td class="n">$2.50 / $4</td></tr>
 <tr><td>Claude Haiku 4.5</td><td class="n">$1</td><td class="n">$0.10</td><td class="n">10%</td><td class="n">$1.25 / $2</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p class="src">USD per million tokens, standard tier, global routing.</p>
 <h2>Prompt caching</h2>
 <p>If many requests start with the same long prefix, such as instructions, tool definitions or shared documents, that prefix can be cached. For example, a 20,000-token prefix sent 10,000 times a day on Opus 5.5 is 200 million input tokens: about $800 a day at the normal input price, and about $40 a day if every request after the first reads it from cache, plus the cost of writing the cache. Real hit rates are lower when the prefix changes or the cache expires, so check your own share.</p>
@@ -210,4 +213,5 @@ body{margin:0}
 <p><a class="cta" href="/">Check your own CSV for free</a></p>
 <h2>Questions</h2><h3>How much does prompt caching save on Claude?</h3><p>A cache read costs 2.5% to 10% of the normal input price depending on the model, while cache writes cost 1.25 times (5-minute) or 2 times (1-hour) normal input. The saving depends on how much of each request repeats and how often the cache is hit.</p><h3>How much cheaper is the Claude Batch API?</h3><p>Batch requests cost 50% of the normal price, in exchange for asynchronous processing within 24 hours.</p><h3>How do I know if I use caching or batch?</h3><p>Open your usage CSV in the free checkup at aispenddoctor.com. It reports cache share and batch share when the file contains that data, and marks them as not available when it does not.</p>
 <p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
-</article></div></body></html>
+</article></div><script src="/assets/experience.js"></script>
+</body></html>
