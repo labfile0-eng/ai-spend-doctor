@@ -6,8 +6,6 @@
 <meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/claude-sonnet-4-vs-sonnet-5-price/">
 <meta property="og:title" content="Claude Sonnet 4 vs Sonnet 5 price: cheaper per token, closer per task"><meta property="og:description" content="Claude Sonnet 4.x costs $3 input and $15 output per million tokens, Sonnet 5 costs $2 and $10. With the newer tokenizer the difference for the same work is about 13% at list prices.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>:root{
   --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
   --accent:#0b7185; --accent-ink:#ffffff;
@@ -189,15 +187,20 @@ body{margin:0}
 [id]{scroll-margin-top:80px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much cheaper is Claude Sonnet 5 than Sonnet 4?", "acceptedAnswer": {"@type": "Answer", "text": "Per token, a third cheaper: $2 versus $3 per million input tokens and $10 versus $15 per million output tokens. Sonnet 5 uses a newer tokenizer that produces about 30% more tokens for the same text, so for the same work the list-price difference is about 13%."}}, {"@type": "Question", "name": "Should I switch from Sonnet 4 to Sonnet 5?", "acceptedAnswer": {"@type": "Answer", "text": "Decide on your own evaluation: compare quality and token counts on a sample of real prompts. The price difference per task is smaller than the per-token prices suggest."}}]}</script>
-</head><body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header><div class="wrap">
+<link rel="stylesheet" href="/assets/glacial.css">
+</head><body class="document-page" id="top"><a class="skip-link" href="/#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>Claude Sonnet 4 vs Sonnet 5 price: cheaper per token, closer per task</h1>
 <p class="lead">Short answer: Claude Sonnet 4, 4.5 and 4.6 cost $3 per million input tokens and $15 per million output tokens. Claude Sonnet 5 costs $2 and $10, a third less per token. Sonnet 5 uses a newer tokenizer that produces about 30% more tokens for the same text, so for the same work the list-price difference is about 13%, not 33%.</p>
-<table><thead><tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Cache write 5m / 1h</th><th>Tokenizer</th></tr></thead><tbody>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable reference table"><table><thead><tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Cache write 5m / 1h</th><th>Tokenizer</th></tr></thead><tbody>
 <tr><td>Claude Sonnet 4 / 4.5 / 4.6</td><td class="n">$3</td><td class="n">$15</td><td class="n">$0.30</td><td class="n">$3.75 / $6</td><td>previous</td></tr>
 <tr><td>Claude Sonnet 5</td><td class="n">$2</td><td class="n">$10</td><td class="n">$0.20</td><td class="n">$2.50 / $4</td><td>newer</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p class="src">USD per million tokens, standard tier, global routing.</p>
 <p class="note"><b>Price per token is not price per task.</b> Anthropic notes that Claude 4.7 and later models use a newer tokenizer that produces about 30% more tokens for the same text, depending on the content (<a href="https://platform.claude.com/docs/en/about-claude/pricing">pricing page</a>). Output length and quality on your own tasks also change the result, so treat the numbers below as a scenario and test on your own prompts.</p>
 <h2>A worked scenario</h2>
@@ -209,4 +212,5 @@ body{margin:0}
 <p><a class="cta" href="/">Check your own CSV for free</a></p>
 <h2>Questions</h2><h3>How much cheaper is Claude Sonnet 5 than Sonnet 4?</h3><p>Per token, a third cheaper: $2 versus $3 per million input tokens and $10 versus $15 per million output tokens. Sonnet 5 uses a newer tokenizer that produces about 30% more tokens for the same text, so for the same work the list-price difference is about 13%.</p><h3>Should I switch from Sonnet 4 to Sonnet 5?</h3><p>Decide on your own evaluation: compare quality and token counts on a sample of real prompts. The price difference per task is smaller than the per-token prices suggest.</p>
 <p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
-</article></div></body></html>
+</article></div><script src="/assets/experience.js"></script>
+</body></html>
