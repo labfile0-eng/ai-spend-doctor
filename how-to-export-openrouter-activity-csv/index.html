@@ -6,8 +6,6 @@
 <meta property="og:type" content="article"><meta property="og:url" content="https://aispenddoctor.com/how-to-export-openrouter-activity-csv/">
 <meta property="og:title" content="How to export OpenRouter usage as CSV and check your spend"><meta property="og:description" content="Where to export your OpenRouter activity as CSV, what the columns mean, how BYOK spend shows up, and how to check the file for spend spikes without uploading it.">
 <meta property="og:image" content="https://aispenddoctor.com/og.png"><meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>:root{
   --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
   --accent:#0b7185; --accent-ink:#ffffff;
@@ -189,7 +187,12 @@ body{margin:0}
 [id]{scroll-margin-top:80px}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I export OpenRouter usage?", "acceptedAnswer": {"@type": "Answer", "text": "Open openrouter.ai/activity, choose the period, open the options menu at the top right and choose Export, then CSV."}}, {"@type": "Question", "name": "Is OpenRouter cost_total in dollars?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It is in OpenRouter credits, which are US dollars. BYOK inference billed by your own provider key is in a separate column."}}, {"@type": "Question", "name": "Can I analyze my OpenRouter CSV privately?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The free checkup at aispenddoctor.com reads the CSV in your browser; its security policy blocks all network requests, so the file never leaves your device."}}]}</script>
-</head><body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header><div class="wrap">
+<link rel="stylesheet" href="/assets/glacial.css">
+</head><body class="document-page" id="top"><a class="skip-link" href="/#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>How to export OpenRouter usage as CSV and check your spend</h1>
@@ -202,14 +205,14 @@ body{margin:0}
 </ol>
 <p>OpenRouter describes the export in <a href="https://openrouter.ai/docs/guides/administration/activity-export">Activity Export</a>.</p>
 <h2>What the columns mean</h2>
-<table><thead><tr><th>Column</th><th>Meaning</th></tr></thead><tbody>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable reference table"><table><thead><tr><th>Column</th><th>Meaning</th></tr></thead><tbody>
 <tr><td><code>created_at</code></td><td>When the request was made</td></tr>
 <tr><td><code>model_permaslug</code></td><td>The exact model version, for example <code>anthropic/claude-4.5-sonnet-20250929</code></td></tr>
 <tr><td><code>cost_total</code></td><td>What the request cost in OpenRouter credits (US dollars)</td></tr>
 <tr><td><code>tokens_prompt</code>, <code>tokens_completion</code></td><td>Input and output tokens; OpenRouter counts reasoning tokens inside completion for billing</td></tr>
 <tr><td><code>byok_usage_inference</code></td><td>Inference that ran on your own provider key (BYOK) and is billed by that provider</td></tr>
 <tr><td><code>provider_name</code></td><td>Which provider served the request</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p>Column names come from the export format as seen in public tools that read it; OpenRouter may add columns over time.</p>
 <h2>Two things to watch for</h2>
 <ul>
@@ -221,4 +224,5 @@ body{margin:0}
 <p><a class="cta" href="/">Check your own CSV for free</a></p>
 <h2>Questions</h2><h3>How do I export OpenRouter usage?</h3><p>Open openrouter.ai/activity, choose the period, open the options menu at the top right and choose Export, then CSV.</p><h3>Is OpenRouter cost_total in dollars?</h3><p>Yes. It is in OpenRouter credits, which are US dollars. BYOK inference billed by your own provider key is in a separate column.</p><h3>Can I analyze my OpenRouter CSV privately?</h3><p>Yes. The free checkup at aispenddoctor.com reads the CSV in your browser; its security policy blocks all network requests, so the file never leaves your device.</p>
 <p class="src">List prices checked 27 September 2026 on the official <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic</a> and <a href="https://developers.openai.com/api/docs/pricing">OpenAI</a> price pages. Prices change; check the source before making decisions. Not affiliated with Anthropic or OpenAI. © 2026 Valeriy Danilov. AI Spend Doctor by AgentBridge Labs.</p>
-</article></div></body></html>
+</article></div><script src="/assets/experience.js"></script>
+</body></html>

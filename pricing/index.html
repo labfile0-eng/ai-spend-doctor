@@ -2,8 +2,6 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pricing | AI Spend Doctor</title>
 <link rel="canonical" href="https://aispenddoctor.com/pricing/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>:root{
   --bg:#eef2f4; --surface:#ffffff; --sunk:#e4eaee; --ink:#12202a; --muted:#56666f; --line:#cdd7dd;
   --accent:#0b7185; --accent-ink:#ffffff;
@@ -184,17 +182,22 @@ article a{color:var(--link)}
 body{margin:0}
 [id]{scroll-margin-top:80px}
 </style>
-</head><body><header class="topnav"><div class="topnav-in"><a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M6 17h5l3-7 4 13 3-6h5" fill="none" style="stroke:var(--bg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Spend Doctor</a><nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="https://github.com/labfile0-eng/ai-spend-doctor" rel="noopener">GitHub</a><a class="navcta" href="/#start">Check my CSV</a></nav></div></header><div class="wrap">
+<link rel="stylesheet" href="/assets/glacial.css">
+</head><body class="document-page" id="top"><a class="skip-link" href="/#start">Skip to CSV checkup</a>
+<header class="topnav"><div class="topnav-in">
+<a class="logo" href="/" aria-label="AI Spend Doctor home"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 17h7l4-10 5 18 4-8h4"/></svg></span><span>AI SPEND<br>DOCTOR<span class="logo-plus">+</span></span></a>
+<nav aria-label="Main"><a href="/csv-formats/">Formats</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a class="navcta" href="/#start" data-start>Check my CSV <span aria-hidden="true">↗</span></a></nav>
+</div></header><div class="wrap">
 <a class="back brand" href="/">AI Spend Doctor</a>
 <article>
 <h1>Pricing</h1>
 <p style="color:var(--muted)">Last updated: 27 September 2026</p>
 
 <p class="lead">AI Spend Doctor checks your Claude and OpenAI API spend and shows where the bill loses money.</p>
-<table><thead><tr><th>Plan</th><th>Price</th><th>What you get</th></tr></thead><tbody>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable reference table"><table><thead><tr><th>Plan</th><th>Price</th><th>What you get</th></tr></thead><tbody>
 <tr><td><b>Checkup</b></td><td class="n">Free</td><td>A check of your usage or cost CSV: daily spend spikes, cache and batch use, and price scenarios for older model versions, with what could and could not be checked. The file stays on your device, no signup.</td></tr>
 <tr><td><b>Daily Watch</b><br><small>Coming soon</small></td><td class="n">$29 / month, planned</td><td>A check of your Claude and OpenAI spend every day, a same-day email alert when spend jumps or a pricier model appears, and an always-current price database. Runs in your own GitHub account, so your data and API key stay with you. Starts with a 14-day free trial.</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p><b>Daily Watch is not available for purchase yet.</b> To hear when it opens, write to <a href="mailto:hello@aispenddoctor.com?subject=Daily%20Watch%20early%20access">hello@aispenddoctor.com</a>. The billing terms below will apply once it does.</p>
 <h2>Billing</h2>
 <p>Daily Watch is billed monthly in advance in US dollars, plus any applicable taxes. Payments are processed by Paddle.com, our Merchant of Record. Cancel at any time; you keep access until the end of the paid period.</p>
@@ -205,4 +208,5 @@ body{margin:0}
 <p><a href="mailto:hello@aispenddoctor.com">hello@aispenddoctor.com</a></p>
 
 <p style="font-size:14px;color:var(--muted)"><a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a> · <a href="/refunds/">Refunds</a> · <a href="/pricing/">Pricing</a> · <a href="/">Home</a></p>
-</article></div></body></html>
+</article></div><script src="/assets/experience.js"></script>
+</body></html>
